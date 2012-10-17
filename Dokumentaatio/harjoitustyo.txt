@@ -1,0 +1,23 @@
+Aihe: Harjoituspäiväkirja
+Web-ohjelma/Spring
+Rekisteröityminen
+
+
+Harjoittelija: 
+- Harjoittelija voi lisätä harjoituksiaan nettiin ja lisätä niihin sisällön
+- Yhteenvetosivu jolta käyttäjä näkee esim. päivän/viikon/kuukauden/vuoden harjotteluista esim. viikon treenimäärän ja tehojen keskiarvon
+- Voi selata vanhoja harjoituksia
+
+Harjoitus sisältää ainakin: 
+- Päivämäärän
+- Tehon
+- Sisällön
+- Joko puntti/laji/muu
+- Paikka (kotisali/leiri jne.)
+
+
+Myöhemmin lisättävää:
+
+Valmentaja accountit: 
+- Valmentaja accountit joilla voi seurata omien valmennettavien harjoittelua
+- Kommentoida harjoituksia
