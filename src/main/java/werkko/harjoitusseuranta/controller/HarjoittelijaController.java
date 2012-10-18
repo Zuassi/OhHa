@@ -6,6 +6,7 @@ package werkko.harjoitusseuranta.controller;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
+import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 
 /**
@@ -45,11 +47,13 @@ public class HarjoittelijaController {
             return "rekisterointi";
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
+            model.addAttribute("message", "Nimi on jo käytössä");
             return "rekisterointi";
         }
 
         String md5salasana = md5.encodePassword(harjoittelija.getSalasana(), null);
         harjoittelija.setSalasana(md5salasana);
+        harjoittelija.setNimi(StringEscapeUtils.escapeHtml4(harjoittelija.getNimi()));
         harjoittelijaService.create(harjoittelija);
         model.addAttribute("harjoittelija", harjoittelija);
 
@@ -76,13 +80,14 @@ public class HarjoittelijaController {
     }
 
     @RequestMapping(value = "harjoittelija/{harjoittelijaId}", method = RequestMethod.GET)
-    public String getHarjoittelija(Model model, HttpSession session, @PathVariable("harjoittelijaId") Long id) {
+    public String getHarjoittelija(Model model, HttpSession session, @PathVariable("harjoittelijaId") Long id,
+            @ModelAttribute("harjoitus") Harjoitus harjoitus) {
         if (session.getAttribute("harjoittelijaId") != null
                 && session.getAttribute("harjoittelijaId").equals(id)) {
             model.addAttribute("harjoittelija", harjoittelijaService.read(id));
             return "harjoittelija";
         }
-        model.addAttribute("message","Hups. Jotain meni pieleen.");
+        model.addAttribute("message", "Hups. Jotain meni pieleen.");
         return "index";
     }
 }

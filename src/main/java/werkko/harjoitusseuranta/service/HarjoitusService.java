@@ -1,0 +1,21 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package werkko.harjoitusseuranta.service;
+
+import java.util.List;
+import werkko.harjoitusseuranta.domain.Harjoitus;
+
+/**
+ *
+ * @author Lalli
+ */
+public interface HarjoitusService {
+    Harjoitus create(Harjoitus harjoitus);
+    Harjoitus read(Long id);
+    List<Harjoitus> list();
+    void delete(Long id);
+    
+    
+}
