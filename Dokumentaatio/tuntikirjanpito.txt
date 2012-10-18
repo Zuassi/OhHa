@@ -1,0 +1,2 @@
+18.10.2012 noin 1h - .xml conffaukset kuntoon
+18.10.2012 noin 5h - Harjoitus ja harjoittelija domainien ja validointien luonti sekä service, repository ja controlleripohjat. Kirjautuminen ja uloskirjautuminen.
