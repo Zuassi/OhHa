@@ -16,5 +16,6 @@ public interface HarjoittelijaService {
     Harjoittelija read(Long id);
     List<Harjoittelija> list();
     void delete(Long id);
+    Harjoittelija findByNimi(String nimi);
     
 }

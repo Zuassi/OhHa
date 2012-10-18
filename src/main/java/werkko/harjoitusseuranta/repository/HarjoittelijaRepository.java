@@ -12,5 +12,6 @@ import werkko.harjoitusseuranta.domain.Harjoittelija;
  * @author Lalli
  */
 public interface HarjoittelijaRepository extends JpaRepository<Harjoittelija,Long> {
+   Harjoittelija findByNimi(String nimi);
     
 }

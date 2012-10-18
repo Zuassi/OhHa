@@ -9,11 +9,14 @@
         <title>Rekisteröinti</title>
     </head>
     <body>
+        <h1>Rekisteröidy</h1>
          <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
           
-            <form:input path="nimi" /><form:errors path="nimi" /><br/>
-            <form:input path="salasana" /><form:errors path="salasana"/><br/>
+           Nimi: <form:input path="nimi" /><form:errors path="nimi" /><br/>
+           Salasana: <form:input path="salasana" /><form:errors path="salasana"/><br/>
             <input type="submit">
         </form:form>
+            
+           
     </body>
 </html>

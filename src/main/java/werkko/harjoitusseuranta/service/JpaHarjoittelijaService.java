@@ -34,5 +34,9 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
     public void delete(Long id) {
       harjoittelijaRepository.delete(id);
     }
+
+    public Harjoittelija findByNimi(String nimi) {
+        return harjoittelijaRepository.findByNimi(nimi);
+    }
     
 }
