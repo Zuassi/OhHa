@@ -41,7 +41,7 @@ public class HarjoittelijaController {
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
-            BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
 
             return "rekisterointi";
@@ -56,8 +56,9 @@ public class HarjoittelijaController {
         harjoittelija.setNimi(StringEscapeUtils.escapeHtml4(harjoittelija.getNimi()));
         harjoittelijaService.create(harjoittelija);
         model.addAttribute("harjoittelija", harjoittelija);
+        session.setAttribute("harjoittelijaId", harjoittelija.getId());
 
-        return "harjoittelija";
+        return "redirect:harjoittelija/" + harjoittelija.getId();
 
     }
 
@@ -84,7 +85,7 @@ public class HarjoittelijaController {
             @ModelAttribute("harjoitus") Harjoitus harjoitus) {
         if (session.getAttribute("harjoittelijaId") != null
                 && session.getAttribute("harjoittelijaId").equals(id)) {
-            model.addAttribute("harjoittelija", harjoittelijaService.read(id));
+            model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
             return "harjoittelija";
         }
         model.addAttribute("message", "Hups. Jotain meni pieleen.");

@@ -13,6 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,40 +33,42 @@ public class Harjoitus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "d.M.y H.m")
     @Column(name = "alkamisaika")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date alkamisaika;
-    
     @Column(name = "kesto")
-    @NotBlank
-    private int kesto;
-    
+   
+   @NotNull
+    private Integer kesto;
     @Column(name = "teho")
-    @NotBlank
-    @Length(min = 1, max = 5)
-    private int teho;
-    
+    @NotNull
+    @Max(5)
+    @Min(1)
+    private Integer teho;
     @NotBlank
     @Column(name = "paikka")
     private String paikka;
-    
     @Column(name = "tyyppi")
     @NotBlank
     private String tyyppi;
-    
     @Column(name = "sisalto")
     @NotBlank
     private String sisalto;
-    
-    @NotBlank
     @Column(name = "harjoittelijaId")
     private Long harjoittelijanID;
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getKesto() {
+        return kesto;
+    }
+
+    public void setKesto(Integer kesto) {
+        this.kesto = kesto;
     }
 
     public void setId(Long id) {
@@ -73,24 +79,16 @@ public class Harjoitus implements Serializable {
         return alkamisaika;
     }
 
-    public void setAlkamisaika(Date alkamisaika) {
-        this.alkamisaika = alkamisaika;
-    }
-
-    public int getKesto() {
-        return kesto;
-    }
-
-    public void setKesto(int kesto) {
-        this.kesto = kesto;
-    }
-
-    public int getTeho() {
+    public Integer getTeho() {
         return teho;
     }
 
-    public void setTeho(int teho) {
+    public void setTeho(Integer teho) {
         this.teho = teho;
+    }
+
+    public void setAlkamisaika(Date alkamisaika) {
+        this.alkamisaika = alkamisaika;
     }
 
     public String getPaikka() {
