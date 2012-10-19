@@ -20,7 +20,8 @@ public class JpaHarjoitusService implements HarjoitusService {
     @Autowired
     private HarjoitusRepository harjoitusRepository;
 
-    public Harjoitus create(Harjoitus harjoitus) {
+    public Harjoitus create(Harjoitus harjoitus,Long harjoittelijaId) {
+        harjoitus.setHarjoittelijaId(harjoittelijaId);
         return harjoitusRepository.save(harjoitus);
     }
 
@@ -34,5 +35,11 @@ public class JpaHarjoitusService implements HarjoitusService {
 
     public void delete(Long id) {
         harjoitusRepository.delete(id);
+       
+    }
+
+    public List<Harjoitus> findByHarjoittelijaId(Long id) {
+        
+        return harjoitusRepository.findByHarjoittelijaId(id);
     }
 }

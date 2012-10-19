@@ -6,8 +6,10 @@ package werkko.harjoitusseuranta.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,11 +31,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "harjoitus")
-public class Harjoitus  implements Serializable {
+public class Harjoitus implements Serializable {
 
     @Column(name = "id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     @NotNull
     @DateTimeFormat(pattern = "d.M.y H.m")
@@ -41,8 +43,7 @@ public class Harjoitus  implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date alkamisaika;
     @Column(name = "kesto")
-   
-   @NotNull
+    @NotNull
     private Integer kesto;
     @Column(name = "teho")
     @NotNull
@@ -58,8 +59,8 @@ public class Harjoitus  implements Serializable {
     @Column(name = "sisalto")
     @NotBlank
     private String sisalto;
-    @ManyToOne
-    private Harjoittelija harjoittelija;
+    @Column(name="harjoittelijaId")
+    private Long harjoittelijaId;
 
     public Long getId() {
         return id;
@@ -69,14 +70,15 @@ public class Harjoitus  implements Serializable {
         return kesto;
     }
 
-    public Harjoittelija getHarjoittelija() {
-        return harjoittelija;
+    public Long getHarjoittelijaId() {
+        return harjoittelijaId;
     }
 
-    public void setHarjoittelija(Harjoittelija harjoittelija) {
-        this.harjoittelija = harjoittelija;
-    
+    public void setHarjoittelijaId(Long harjoittelijaId) {
+        this.harjoittelijaId = harjoittelijaId;
     }
+
+
 
     public void setKesto(Integer kesto) {
         this.kesto = kesto;
@@ -126,13 +128,7 @@ public class Harjoitus  implements Serializable {
         this.sisalto = sisalto;
     }
 
-
-
     public int compareTo(Harjoitus o) {
-          return this.getAlkamisaika().compareTo(o.getAlkamisaika());
+        return this.getAlkamisaika().compareTo(o.getAlkamisaika());
     }
-
-
-
-
 }

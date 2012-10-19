@@ -18,11 +18,11 @@ import werkko.harjoitusseuranta.domain.comparators.TehoComparator;
  * @author Lalli
  */
 @Component
-public class HarjoittelijaSorttaaja {
+public class HarjoitusSorttaaja {
 
-    public static Harjoittelija jarjesta(String jarjestys, Harjoittelija harjoittelija, HttpSession session) {
+    public static List<Harjoitus> jarjesta(String jarjestys, List<Harjoitus> harjoitukset, HttpSession session) {
 
-        List<Harjoitus> harjoitukset = harjoittelija.getHarjoitukset();
+      
 
         if (jarjestys == null || jarjestys.equals("pvm")) {
 
@@ -41,7 +41,7 @@ public class HarjoittelijaSorttaaja {
         }else{
             session.setAttribute("viimeisin",jarjestys);
         }
-          harjoittelija.setHarjoitukset(harjoitukset);
-        return harjoittelija;
+         
+        return harjoitukset;
     }
 }

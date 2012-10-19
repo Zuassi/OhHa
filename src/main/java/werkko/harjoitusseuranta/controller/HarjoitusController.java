@@ -4,7 +4,6 @@
  */
 package werkko.harjoitusseuranta.controller;
 
-import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
+import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.HarjoitusService;
 
@@ -36,29 +35,34 @@ public class HarjoitusController {
     @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
     public String lisaaHarjoitus(HttpSession session, Model model,
             @Valid @ModelAttribute Harjoitus harjoitus, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        Long id = (Long) session.getAttribute("harjoittelijaId");
-        model.addAttribute(harjoittelijaService.read(id)); // harjoitus.jsp tarvitsee harjoittelija attribuutin
+
+        Long harjoittelijaId = (Long) session.getAttribute("harjoittelijaId");
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("id", id);
+            model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
             return "lisaa-harjoitus";
         } else {
-            Harjoittelija harjoittelija = harjoittelijaService.read(id);
-            harjoitus.setHarjoittelija(harjoittelija);
-            harjoitusService.create(harjoitus);
-            List<Harjoitus> harjoitukset = harjoittelija.getHarjoitukset();
-            harjoitukset.add(harjoitus);
-            harjoittelijaService.save(harjoittelija);
-
-            redirectAttributes.addFlashAttribute("message", "treeni lis‰tty"); // viesti ei n‰y miss‰‰n atm
+            harjoitusService.create(harjoitus, harjoittelijaId);
+            redirectAttributes.addFlashAttribute("message", "treeni lis‰tty");
             return "redirect:/harjoittelija/";
         }
     }
 
     @RequestMapping(value = "harjoittelija/lisaa-harjoitus", method = RequestMethod.GET)
-    public String lisaaHarjoitus(@ModelAttribute("harjoitus") Harjoitus harjoitus, Model model, HttpSession session) {
-        
-        model.addAttribute("id", session.getAttribute("harjoittelijaId"));
+    public String getHarjoitusLomake(@ModelAttribute("harjoitus") Harjoitus harjoitus, Model model, HttpSession session) {
+
+        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
         return "lisaa-harjoitus";
+
+    }
+
+    @RequestMapping(value = "harjoittelija/poista-harjoitus/{id}", method = RequestMethod.GET)
+    public String poistaHarjoitus(@PathVariable("id") Long id, HttpSession session) {
+        Harjoitus harjoitus = harjoitusService.read(id);
+        if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
+            harjoitusService.delete(id);
+        }
+        return "redirect:/harjoittelija/selaa";
 
     }
 }

@@ -6,7 +6,9 @@ package werkko.harjoitusseuranta.service;
 
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
@@ -20,8 +22,12 @@ import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 public class JpaHarjoittelijaService implements HarjoittelijaService {
     @Autowired
     private HarjoittelijaRepository harjoittelijaRepository;
+    private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 
     public Harjoittelija create(Harjoittelija harjoittelija) {
+        String md5salasana = md5.encodePassword(harjoittelija.getSalasana(), null);
+        harjoittelija.setSalasana(md5salasana);
+        harjoittelija.setNimi(StringEscapeUtils.escapeHtml4(harjoittelija.getNimi()));
         return harjoittelijaRepository.save(harjoittelija);
     }
 
@@ -44,6 +50,8 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
     public void save(Harjoittelija harjoittelija) {
         harjoittelijaRepository.save(harjoittelija);
     }
+
+
 
 
  

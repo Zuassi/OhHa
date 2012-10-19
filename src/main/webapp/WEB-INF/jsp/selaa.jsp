@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+     <a href="${pageContext.request.contextPath}/harjoittelija">Takaisin harjoittelijasivulle</a>
         <table border="1">
             <tr>
                 <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa/pvm">Alkamisaika</a></th>
@@ -22,8 +22,10 @@
                 <th>Treenipaikka</th>
                 <th>Tyyppi</th>
                 <th>Sisältö</th>
+                <th>Muokkaa</th>
+                <th>Poista</th>
 
-                <c:forEach var="harjoitus" items="${harjoittelija.harjoitukset}">
+                <c:forEach var="harjoitus" items="${harjoitukset}">
 
                 <tr>
                     <td>${harjoitus.alkamisaika}</td>
@@ -32,9 +34,12 @@
                     <td>${harjoitus.paikka}</td>
                     <td>${harjoitus.tyyppi}</td>
                     <td><a href="#">Näytä</a></td>
+                    <td><a href="#">Muokkaa</a></td>
+                    <td><a href="${pageContext.request.contextPath}/harjoittelija/poista-harjoitus/${harjoitus.id}">Poista</a></td>
                 </tr>
             </c:forEach>
         </tr>
     </table>
+                <p>${size}</p>
 </body>
 </html>

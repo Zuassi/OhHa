@@ -12,10 +12,10 @@ import werkko.harjoitusseuranta.domain.Harjoitus;
  * @author Lalli
  */
 public interface HarjoitusService {
-    Harjoitus create(Harjoitus harjoitus);
+    Harjoitus create(Harjoitus harjoitus, Long harjoittelijaId);
     Harjoitus read(Long id);
     List<Harjoitus> list();
     void delete(Long id);
-    
+   public List<Harjoitus> findByHarjoittelijaId(Long id);
     
 }
