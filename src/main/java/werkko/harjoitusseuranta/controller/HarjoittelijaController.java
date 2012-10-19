@@ -4,6 +4,7 @@
  */
 package werkko.harjoitusseuranta.controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -32,6 +33,14 @@ public class HarjoittelijaController {
     @Autowired
     private HarjoittelijaService harjoittelijaService;
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+    
+    @PostConstruct
+    private void init(){
+        Harjoittelija harjoittelija = new Harjoittelija();
+        harjoittelija.setNimi("asdasd");
+        harjoittelija.setSalasana(md5.encodePassword("asdasd",null));
+        harjoittelijaService.create(harjoittelija);
+    }
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
     public String rekisterointiLomake(@ModelAttribute("harjoittelija") Harjoittelija harjoittelija) {
@@ -58,7 +67,7 @@ public class HarjoittelijaController {
         model.addAttribute("harjoittelija", harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());
 
-        return "redirect:harjoittelija/" + harjoittelija.getId();
+        return "redirect:harjoittelija";
 
     }
 
@@ -73,22 +82,21 @@ public class HarjoittelijaController {
             if (harjoittelija.getSalasana().equals(md5salasana)) {
                 session.setAttribute("harjoittelijaId", harjoittelija.getId());
                 redirectAttributes.addAttribute("harjoittelijaId", harjoittelija.getId());
-                return "redirect:harjoittelija/{harjoittelijaId}";
+                return "redirect:harjoittelija";
             }
         }
         model.addAttribute("message", "V‰‰r‰ salasana tai k‰ytt‰j‰nimi");
         return "index";
     }
 
-    @RequestMapping(value = "harjoittelija/{harjoittelijaId}", method = RequestMethod.GET)
-    public String getHarjoittelija(Model model, HttpSession session, @PathVariable("harjoittelijaId") Long id,
-            @ModelAttribute("harjoitus") Harjoitus harjoitus) {
-        if (session.getAttribute("harjoittelijaId") != null
-                && session.getAttribute("harjoittelijaId").equals(id)) {
-            model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
-            return "harjoittelija";
+    @RequestMapping(value = "harjoittelija", method = RequestMethod.GET)
+    public String getHarjoittelija(Model model, HttpSession session) {
+        if(session.getAttribute("harjoittelijaId")==null){
+            return "redirect:/logout";
         }
-        model.addAttribute("message", "Hups. Jotain meni pieleen.");
-        return "index";
+        model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
+        return "harjoittelija";
+
+
     }
 }

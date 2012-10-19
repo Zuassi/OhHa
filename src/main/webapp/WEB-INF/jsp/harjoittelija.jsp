@@ -13,17 +13,9 @@
     </head>
     <body>
         <h1>${harjoittelija.nimi}</h1>
-
-        <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/${harjoittelija.id}/harjoitus" method="POST" >
-            Alkamisaika (pv.kk.v hh.mm): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/><br/>
-            Kesto (minuuttia): <form:input path="kesto" /><form:errors path="kesto"/><br/>
-            Teho (1-5): <form:input path="teho" /><form:errors path="teho" /><br/>
-            Paikka:  <form:input path="paikka" /><form:errors path="paikka"/><br/>
-            Tyyppi: <form:input path="tyyppi" /><form:errors path="tyyppi"/><br/>
-            Sisältö: <form:input path="sisalto" /><form:errors path="sisalto"/><br/>
-            <input type="submit">
-        </form:form>
-            <p>${message}</p><br/>
+        <a href ="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus">Lisää harjoitus</a><br/>
+        <a href ="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a>
+        <p>${message}</p><br/>
 
         <a href="${pageContext.request.contextPath}/logout">Kirjaudu ulos</a>
 

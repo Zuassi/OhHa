@@ -23,14 +23,15 @@ public class EtusivuController {
      @RequestMapping(value = "/")
      public String etusivu(HttpSession session){
          //tarkastetaan että sessionissa oleva id on olemassa tietokannassa 
-         //jos database on satuttu uusimaan
+         //jos database on satuttu uusimaan, ongelma lähinnä softaa koodatessa kun database tyhjenee vähänväliä
          if(session.getAttribute("harjoittelijaId") != null && harjoittelijaService.read((Long)session.getAttribute("harjoittelijaId"))==null){
              return "redirect:logout";
          }
          
          if(session.getAttribute("harjoittelijaId")!=null){
-             return "redirect:harjoittelija/"+session.getAttribute("harjoittelijaId");
+             return "redirect:harjoittelija";
          }
+         
          return "index";
      }
      

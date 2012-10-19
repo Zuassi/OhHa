@@ -6,6 +6,7 @@ package werkko.harjoitusseuranta.service;
 
 import java.util.List;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
+import werkko.harjoitusseuranta.domain.Harjoitus;
 
 /**
  *
@@ -17,5 +18,11 @@ public interface HarjoittelijaService {
     List<Harjoittelija> list();
     void delete(Long id);
     Harjoittelija findByNimi(String nimi);
+
+    public void save(Harjoittelija harjoittelija);
+
+
+
+    
     
 }

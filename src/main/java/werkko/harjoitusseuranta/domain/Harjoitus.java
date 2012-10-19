@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Max;
@@ -27,7 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name = "harjoitus")
-public class Harjoitus implements Serializable {
+public class Harjoitus  implements Serializable {
 
     @Column(name = "id")
     @Id
@@ -56,8 +58,8 @@ public class Harjoitus implements Serializable {
     @Column(name = "sisalto")
     @NotBlank
     private String sisalto;
-    @Column(name = "harjoittelijaId")
-    private Long harjoittelijanID;
+    @ManyToOne
+    private Harjoittelija harjoittelija;
 
     public Long getId() {
         return id;
@@ -65,6 +67,15 @@ public class Harjoitus implements Serializable {
 
     public Integer getKesto() {
         return kesto;
+    }
+
+    public Harjoittelija getHarjoittelija() {
+        return harjoittelija;
+    }
+
+    public void setHarjoittelija(Harjoittelija harjoittelija) {
+        this.harjoittelija = harjoittelija;
+    
     }
 
     public void setKesto(Integer kesto) {
@@ -115,11 +126,13 @@ public class Harjoitus implements Serializable {
         this.sisalto = sisalto;
     }
 
-    public Long getHarjoittelijanID() {
-        return harjoittelijanID;
+
+
+    public int compareTo(Harjoitus o) {
+          return this.getAlkamisaika().compareTo(o.getAlkamisaika());
     }
 
-    public void setHarjoittelijanID(Long harjoittelijanID) {
-        this.harjoittelijanID = harjoittelijanID;
-    }
+
+
+
 }

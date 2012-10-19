@@ -4,10 +4,12 @@
  */
 package werkko.harjoitusseuranta.service;
 
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
+import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 
 /**
@@ -38,5 +40,11 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
     public Harjoittelija findByNimi(String nimi) {
         return harjoittelijaRepository.findByNimi(nimi);
     }
-    
+
+    public void save(Harjoittelija harjoittelija) {
+        harjoittelijaRepository.save(harjoittelija);
+    }
+
+
+ 
 }

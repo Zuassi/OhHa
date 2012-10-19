@@ -24,6 +24,7 @@ Harjoittelijan toiminnot:
 
 ---------------------------------------------------------------
 Domain oliot:
+
 	Harjoittelija:
 		- Nimi
 		- Salasana

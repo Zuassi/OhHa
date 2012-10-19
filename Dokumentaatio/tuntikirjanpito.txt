@@ -1,2 +1,3 @@
 18.10.2012 noin 1h - .xml conffaukset kuntoon
 18.10.2012 noin 5h - Harjoitus ja harjoittelija domainien ja validointien luonti sekä service, repository ja controlleripohjat. Kirjautuminen ja uloskirjautuminen.
+19.10.2012 noin 4h - Harjoitukset tableen ja tablen sorttailu halutulla (comparatoreiden ja HarjoittelijaSorttaajan luonti) parametrillä sekä muuta koodin siistimistä

@@ -4,6 +4,7 @@
  */
 package werkko.harjoitusseuranta.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.HarjoitusService;
@@ -31,24 +33,32 @@ public class HarjoitusController {
     @Autowired
     private HarjoittelijaService harjoittelijaService;
 
-    @RequestMapping(value = "harjoittelija/{harjoittelijaId}/harjoitus", method = RequestMethod.POST)
-    public String lisaaHarjoitus(HttpSession session, @PathVariable("harjoittelijaId") Long id, Model model,
+    @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
+    public String lisaaHarjoitus(HttpSession session, Model model,
             @Valid @ModelAttribute Harjoitus harjoitus, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (!session.getAttribute("harjoittelijaId").equals(id)) {
-            model.addAttribute("message", "Hups. Jokin meni pieleen");
-            return "index";
-        }
+        Long id = (Long) session.getAttribute("harjoittelijaId");
         model.addAttribute(harjoittelijaService.read(id)); // harjoitus.jsp tarvitsee harjoittelija attribuutin
         if (bindingResult.hasErrors()) {
-          
-            return "harjoittelija";
+            model.addAttribute("id", id);
+            return "lisaa-harjoitus";
         } else {
-            harjoitus.setHarjoittelijanID(id);
+            Harjoittelija harjoittelija = harjoittelijaService.read(id);
+            harjoitus.setHarjoittelija(harjoittelija);
             harjoitusService.create(harjoitus);
+            List<Harjoitus> harjoitukset = harjoittelija.getHarjoitukset();
+            harjoitukset.add(harjoitus);
+            harjoittelijaService.save(harjoittelija);
 
             redirectAttributes.addFlashAttribute("message", "treeni lis‰tty"); // viesti ei n‰y miss‰‰n atm
-            return "redirect:/harjoittelija/"+id;
+            return "redirect:/harjoittelija/";
         }
+    }
+
+    @RequestMapping(value = "harjoittelija/lisaa-harjoitus", method = RequestMethod.GET)
+    public String lisaaHarjoitus(@ModelAttribute("harjoitus") Harjoitus harjoitus, Model model, HttpSession session) {
+        
+        model.addAttribute("id", session.getAttribute("harjoittelijaId"));
+        return "lisaa-harjoitus";
 
     }
 }
