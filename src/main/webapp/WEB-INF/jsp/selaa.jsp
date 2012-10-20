@@ -33,8 +33,8 @@
                     <td>${harjoitus.teho}</td>
                     <td>${harjoitus.paikka}</td>
                     <td>${harjoitus.tyyppi}</td>
-                    <td><a href="#">Näytä</a></td>
-                    <td><a href="#">Muokkaa</a></td>
+                    <td><a href="${pageContext.request.contextPath}/harjoittelija/harjoitus/${harjoitus.id}">Näytä</a></td>
+                    <td><a href="${pageContext.request.contextPath}/harjoittelija/harjoitus/muokkaa/${harjoitus.id}">Muokkaa</a></td>
                     <td><a href="${pageContext.request.contextPath}/harjoittelija/poista-harjoitus/${harjoitus.id}">Poista</a></td>
                 </tr>
             </c:forEach>

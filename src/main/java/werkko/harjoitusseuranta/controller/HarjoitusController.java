@@ -4,6 +4,8 @@
  */
 package werkko.harjoitusseuranta.controller;
 
+import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,31 @@ public class HarjoitusController {
             harjoitusService.delete(id);
         }
         return "redirect:/harjoittelija/selaa";
+
+    }
+
+    @RequestMapping(value = "harjoittelija/harjoitus/{id}", method = RequestMethod.GET)
+    public String naytaHarjoitus(@PathVariable("id") Long id, HttpSession session, Model model) {
+        Harjoitus harjoitus = harjoitusService.read(id);
+        if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
+            model.addAttribute("harjoitus", harjoitus);
+            return "harjoitus";
+        } else {
+            return "index";
+        }
+    }
+
+    @RequestMapping(value = "harjoittelija/harjoitus/muokkaa/{id}", method = RequestMethod.GET)
+    public String muokkaaHarjoitusta(@PathVariable("id") Long id, HttpSession session, Model model) {
+        Harjoitus harjoitus = harjoitusService.read(id);
+        if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
+            model.addAttribute("harjoitus", harjoitus);
+            model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
+            
+            return "muokkaa";
+        } else {
+            return "index";
+        }
 
     }
 }

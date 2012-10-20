@@ -3,3 +3,4 @@
 19.10.2012 noin 4h - Harjoitukset tableen ja tablen sorttailu halutulla (comparatoreiden ja HarjoittelijaSorttaajan luonti) parametrillä sekä muuta koodin siistimistä
 19.10.2012 noin 1h - Poisto ominaisuus ja pudotusvalikko "tyyppi osuuteen" 
 19.10.2012 noin 2h - Typeristä "tietokantarelaatioista" eroon. Hölmöyksien korjailua ja koodin siistimistä, asioiden siirtelyä controlleripuolelta serviceen
+20.10.2012 noin 1h - Treenien "avaaminen", muokkaus ja poisto
