@@ -4,14 +4,12 @@
  */
 package werkko.harjoitusseuranta.service;
 
-import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
-import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 
 /**

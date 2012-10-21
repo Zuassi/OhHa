@@ -13,14 +13,15 @@
         <title>JSP Page</title>
     </head>
     <body>
-     <a href="${pageContext.request.contextPath}/harjoittelija">Takaisin harjoittelijasivulle</a>
+
+        <a href="${pageContext.request.contextPath}/harjoittelija">Takaisin harjoittelijasivulle</a>
         <table border="1">
             <tr>
-                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa/pvm">Alkamisaika</a></th>
-                <th>Kesto</th>
-                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa/teho">Teho</a></th>
-                <th>Treenipaikka</th>
-                <th>Tyyppi</th>
+                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
+                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
+                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
+                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
+                <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
                 <th>Sisältö</th>
                 <th>Muokkaa</th>
                 <th>Poista</th>
@@ -39,7 +40,14 @@
                 </tr>
             </c:forEach>
         </tr>
+
+
     </table>
-                <p>${size}</p>
+                <c:if test="${sivutus}">
+    <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
+            <a href="${pageContext.request.contextPath}/harjoittelija/selaa/?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
+        </c:forEach></p>
+    </c:if>
+
 </body>
 </html>

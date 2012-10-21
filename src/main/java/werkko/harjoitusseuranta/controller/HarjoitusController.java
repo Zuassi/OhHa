@@ -4,8 +4,6 @@
  */
 package werkko.harjoitusseuranta.controller;
 
-import java.util.Date;
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ public class HarjoitusController {
     private HarjoitusService harjoitusService;
     @Autowired
     private HarjoittelijaService harjoittelijaService;
+    
+ 
+
 
     @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
     public String lisaaHarjoitus(HttpSession session, Model model,

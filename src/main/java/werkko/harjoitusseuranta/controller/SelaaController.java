@@ -7,14 +7,16 @@ package werkko.harjoitusseuranta.controller;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.domain.Harjoitus;
-import werkko.harjoitusseuranta.helper.HarjoitusSorttaaja;
 import werkko.harjoitusseuranta.service.HarjoitusService;
 
 /**
@@ -26,32 +28,36 @@ public class SelaaController {
 
     @Autowired
     private HarjoitusService harjoitusService;
-    @Autowired
-    private HarjoitusSorttaaja harjoitusSorttaaja;
 
     @RequestMapping(value = "harjoittelija/selaa", method = RequestMethod.GET)
-    public String selaa(@ModelAttribute(value = "jarjestys") String jarjestys, Model model, HttpSession session) {
+    public String selaa(@RequestParam(value = "sivuNumero", required = false) Integer sivunumero,
+            @RequestParam(value = "jarjestys", required = false) String jarjestys,
+            Model model, HttpSession session) {
         if (session.getAttribute("harjoittelijaId") == null) {
             return "index";
         }
-        Long harjoittelijaId = (Long) session.getAttribute("harjoittelijaId");
-        List<Harjoitus> harjoitukset = harjoitusService.findByHarjoittelijaId(harjoittelijaId);
-        harjoitukset = harjoitusSorttaaja.jarjesta(jarjestys, harjoitukset, session);
-        model.addAttribute("harjoitukset", harjoitukset);
+        if (sivunumero == null) {
+            sivunumero = 1;
+        }
+    
+        model.addAttribute("jarjestys", jarjestys);
+        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 3, jarjestys, session);
+
+        boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
+        model.addAttribute("sivutus", sivutus);
+        model.addAttribute("sivuNumero", sivunumero);
+        model.addAttribute("sivumaara", harjoitukset.getTotalPages());
+        model.addAttribute("harjoitukset", harjoitukset.getContent());
         return "selaa";
     }
 
-    @RequestMapping(value = "harjoittelija/selaa/teho", method = RequestMethod.GET)
-    public String jarjestaTehonMukaan(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("jarjestys", "teho");
-        return "redirect:/harjoittelija/selaa";
-
-    }
-
-    @RequestMapping(value = "harjoittelija/selaa/pvm", method = RequestMethod.GET)
-    public String jarjestaTehonPvm(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("jarjestys", "pvm");
-        return "redirect:/harjoittelija/selaa";
+    private List<Harjoitus> sivutus(List<Harjoitus> harjoitukset, Integer sivunumero) {
+        int harjoituksiaPerSivu = 25;
+        int sivumaara = harjoitukset.size() / harjoituksiaPerSivu;
+        if (harjoitukset.size() - 1 < harjoituksiaPerSivu * sivunumero + harjoituksiaPerSivu) {
+            return harjoitukset.subList(harjoituksiaPerSivu * sivunumero, harjoitukset.size());
+        }
+        return harjoitukset.subList(harjoituksiaPerSivu * sivunumero, harjoituksiaPerSivu * sivunumero + harjoituksiaPerSivu);
 
     }
 }

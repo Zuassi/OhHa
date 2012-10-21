@@ -14,7 +14,7 @@
     </head>
     <body>
         <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
-            Alkamisaika (pv.kk.v hh.mm): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/><br/>
+            Alkamisaika (pv.kk.vvvv hh.mm): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/><br/>
             Kesto (minuuttia): <form:input path="kesto" /><form:errors path="kesto"/><br/>
             Teho (1-5): <form:input path="teho" /><form:errors path="teho" /><br/>
             Paikka:  <form:input path="paikka" /><form:errors path="paikka"/><br/>
