@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import werkko.harjoitusseuranta.domain.Harjoitus;
-import werkko.harjoitusseuranta.domain.Tilasto;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.repository.HarjoitusRepository;
 
@@ -27,23 +27,22 @@ public class TilastoService {
     @Autowired
     private HarjoitusRepository repo;
 
-    public Tilasto keraaTilastot(Long harjoittelijaId) {
-        Tilasto tilasto = new Tilasto();
-        List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId(harjoittelijaId);
+    public HashMap<String, Integer> keraaTilastot(HttpSession session) {
+
+        List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"));
         HashMap<String, Integer> harjoituksetMapattuna = new HashMap<String, Integer>();
         alustaMappi(harjoituksetMapattuna);
-        lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset);
-        lisaaKokonaisTreenimaarat(tilasto, harjoituksetMapattuna);
-        lisaaTyyppikohtaisetTreenimaarat(tilasto, harjoituksetMapattuna);
+        lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, session);
 
 
 
-        return tilasto;
+        return harjoituksetMapattuna;
     }
 
-    private HashMap<String, Integer> lajitteleHarjoitukset(HashMap<String, Integer> harjoituksetMapattuna, List<Harjoitus> harjoitukset) {
+    private HashMap<String, Integer> lajitteleHarjoitukset(HashMap<String, Integer> harjoituksetMapattuna,
+            List<Harjoitus> harjoitukset, HttpSession session) {
 
-
+        boolean oma = (session.getAttribute("alkamisaika") != null);
         DateTime tanaan = new DateTime();
         tanaan.withMillis(new Date().getTime());
 
@@ -81,8 +80,15 @@ public class TilastoService {
                     harjoituksetMapattuna.put("vuosiKovat", harjoituksetMapattuna.get("vuosiKovat") + 1);
                 }
             }
-            if (harjoitus.getAlkamisaika().after(new Date()) && harjoitus.getAlkamisaika().before(new Date())) {
-                harjoituksetMapattuna.put("oma", harjoituksetMapattuna.get("oma") + 1);
+            if (oma) {
+                if (harjoitus.getAlkamisaika().after((Date)session.getAttribute("alkamisaika"))
+                        && harjoitus.getAlkamisaika().before((Date)session.getAttribute("loppumisaika"))) {
+                    harjoituksetMapattuna.put("oma", harjoituksetMapattuna.get("oma") + 1);
+                    harjoituksetMapattuna.put("oma" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("oma" + harjoitus.getTyyppi()) + 1);
+                     if (kova) {
+                    harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("vuosiKovat") + 1);
+                }
+                }
             }
 
 
@@ -107,49 +113,5 @@ public class TilastoService {
             harjoituksetMapattuna.put("oma" + tyyppi, 0);
         }
         return harjoituksetMapattuna;
-    }
-
-    private void lisaaKokonaisTreenimaarat(Tilasto tilasto, HashMap<String, Integer> harjoituksetMapattuna) {
-        tilasto.setTreenitYhteensaPaivassa(harjoituksetMapattuna.get("paiva"));
-        tilasto.setTreenitYhteensaViikossa(harjoituksetMapattuna.get("viikko"));
-        tilasto.setTreenitYhteensaKuukaudessa(harjoituksetMapattuna.get("kuukausi"));
-        tilasto.setTreenitYhteensaVuodessa(harjoituksetMapattuna.get("vuosi"));
-        tilasto.setTreenitOmallaAikavalilla(harjoituksetMapattuna.get("oma"));
-
-    }
-
-    private void lisaaTyyppikohtaisetTreenimaarat(Tilasto tilasto, HashMap<String, Integer> harjoituksetMapattuna) {
-        tilasto.setLajitPaivassa(harjoituksetMapattuna.get("paivaLajiharjoitus"));
-        tilasto.setLajitViikossa(harjoituksetMapattuna.get("viikkoLajiharjoitus"));
-        tilasto.setLajitKuukaudessa(harjoituksetMapattuna.get("kuukausiLajiharjoitus"));
-        tilasto.setLajitVuodessa(harjoituksetMapattuna.get("vuosiLajiharjoitus"));
-        tilasto.setLajitOmallaAikavalilla(harjoituksetMapattuna.get("omaLajiharjoitus"));
-
-        tilasto.setPuntitPaivassa(harjoituksetMapattuna.get("paivaPuntti"));
-        tilasto.setPuntitViikossa(harjoituksetMapattuna.get("viikkoPuntti"));
-        tilasto.setPuntitKuukaudessa(harjoituksetMapattuna.get("kuukausiPuntti"));
-        tilasto.setPuntitVuodessa(harjoituksetMapattuna.get("vuosiPuntti"));
-        tilasto.setPuntitOmallaAikavalilla(harjoituksetMapattuna.get("omaPuntti"));
-
-        tilasto.setPalauttavatPaivassa(harjoituksetMapattuna.get("paivaPalauttava"));
-        tilasto.setPalauttavatViikossa(harjoituksetMapattuna.get("viikkoPalauttava"));
-        tilasto.setPalauttavatKuukaudessa(harjoituksetMapattuna.get("kuukausiPalauttava"));
-        tilasto.setPalauttavatVuodessa(harjoituksetMapattuna.get("vuosiPalauttava"));
-        tilasto.setPalauttavatOmallaAikavalilla(harjoituksetMapattuna.get("omaPalauttava"));
-
-        tilasto.setMuutPaivassa(harjoituksetMapattuna.get("paivaMuu"));
-        tilasto.setMuutViikossa(harjoituksetMapattuna.get("viikkoMuu"));
-        tilasto.setMuutKuukaudessa(harjoituksetMapattuna.get("kuukausiMuu"));
-        tilasto.setMuutVuodessa(harjoituksetMapattuna.get("vuosiMuu"));
-        tilasto.setMuutOmallaAikavalilla(harjoituksetMapattuna.get("omaMuu"));
-
-        tilasto.setKilpailujaKuukaudessa(harjoituksetMapattuna.get("kuukausiKilpailu"));
-        tilasto.setKilpailujaKuukaudessa(harjoituksetMapattuna.get("vuosiKilpailu"));
-        tilasto.setKilpailujaKuukaudessa(harjoituksetMapattuna.get("omaKilpailu"));
-        tilasto.setKovatTreenitPaivassa(harjoituksetMapattuna.get("paivaKovat"));
-        tilasto.setKovatTreenitViikossa(harjoituksetMapattuna.get("viikkoKovat"));
-        tilasto.setKovatTreenitKuukaudessa(harjoituksetMapattuna.get("kuukausiKovat"));
-        tilasto.setKovatTreenitVuodessa(harjoituksetMapattuna.get("vuosiKovat"));
-        tilasto.setKovatTreenitVuodessa(harjoituksetMapattuna.get("omaKovat"));
     }
 }

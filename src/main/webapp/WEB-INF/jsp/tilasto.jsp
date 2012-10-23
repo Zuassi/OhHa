@@ -21,48 +21,54 @@
             Loppumisaika (pv.kk.vvvv hh.mm): <form:input path="loppumisaika" /><form:errors path="loppumisaika"/>
             <input type="submit">
         </form:form>
-
+          
         <h1>Yhteenveto</h1>
 
-        <b>Treenej‰ yhteens‰ t‰n‰‰n: </b>${tilasto.treenitYhteensaPaivassa} <br/>
-        <b>Treenej‰ yhteens‰ t‰ll‰ viikolla: </b>${tilasto.treenitYhteensaViikossa}<br/>
-        <b>Treenej‰ yhteens‰ t‰ss‰ kuussa: </b>${tilasto.treenitYhteensaKuukaudessa}<br/>
-        <b>Treenej‰ yhteens‰ t‰n‰ vuonna: </b>${tilasto.treenitYhteensaVuodessa}<br/>
+        <b>Treenej‰ yhteens‰ t‰n‰‰n: </b>${tilasto.paiva} <br/>
+        <b>Treenej‰ yhteens‰ t‰ll‰ viikolla: </b>${tilasto.viikko}<br/>
+        <b>Treenej‰ yhteens‰ t‰ss‰ kuussa: </b>${tilasto.kuukausi}<br/>
+        <b>Treenej‰ yhteens‰ t‰n‰ vuonna: </b>${tilasto.vuosi}<br/>
+        <b>Treenej‰ asetetulla aikav‰lill‰: </b>${tilasto.oma}<br/>
 
         <h1>Kovat treenit (teho 4-5)</h1><br/>
-        <b>Kovia treenej‰ t‰n‰‰n: </b>${tilasto.kovatTreenitPaivassa}<br/>
-        <b>Kovia treenej‰ t‰ll‰ viikolla </b>${tilasto.kovatTreenitViikossa}<br/>
-        <b>Kovia treenej‰ t‰ss‰ kuussa </b>${tilasto.kovatTreenitKuukaudessa}<br/>
-        <b>Kovia treenej‰ t‰n‰ vuonna </b>${tilasto.kovatTreenitVuodessa}<br/>
+        <b>Kovia treenej‰ t‰n‰‰n: </b>${tilasto.paivaKovat}<br/>
+        <b>Kovia treenej‰ t‰ll‰ viikolla </b>${tilasto.viikkoKovat}<br/>
+        <b>Kovia treenej‰ t‰ss‰ kuussa </b>${tilasto.kuukausiKovat}<br/>
+        <b>Kovia treenej‰ t‰n‰ vuonna </b>${tilasto.vuosiKovat}<br/>
+        <b>Kovia asetetulla aikav‰lill‰: </b>${tilasto.omaKovat}<br/>
 
         <h1>Lajitreenit</h1></br>
-        <b>Lajitreenej‰ t‰n‰‰n:</b>${tilasto.lajitPaivassa}<br/>
-        <b>Lajitreenej‰ t‰ll‰ viikolla:</b>${tilasto.lajitViikossa}<br/>
-        <b>Lajitreenej‰ t‰ss‰ kuussa:</b>${tilasto.lajitKuukaudessa}<br/>
-        <b>Lajitreenej‰ t‰n‰ vuonna:</b>${tilasto.lajitVuodessa}<br/>
-
+        <b>Lajitreenej‰ t‰n‰‰n:</b>${tilasto.paivaLajiharjoitus}<br/>
+        <b>Lajitreenej‰ t‰ll‰ viikolla:</b>${tilasto.viikkoLajiharjoitus}<br/>
+        <b>Lajitreenej‰ t‰ss‰ kuussa:</b>${tilasto.kuukausiLajiharjoitus}<br/>
+        <b>Lajitreenej‰ t‰n‰ vuonna:</b>${tilasto.vuosiLajiharjoitus}<br/>
+        <b>Lajitreenej‰ asetetulla aikav‰lill‰: </b>${tilasto.omaLajiharjoitus}<br/>
 
         <h1>Puntit</h1></br>
-        <b>Puntteja t‰n‰‰n:</b>${tilasto.puntitPaivassa}<br/>
-        <b>Puntteja t‰ll‰ viikolla:</b>${tilasto.puntitViikossa}<br/>
-        <b>Puntteja t‰ss‰ kuussa:</b>${tilasto.puntitKuukaudessa}<br/>
-        <b>Puntteja t‰n‰ vuonna:</b>${tilasto.puntitVuodessa}<br/>
+        <b>Puntteja t‰n‰‰n:</b>${tilasto.paivaPuntti}<br/>
+        <b>Puntteja t‰ll‰ viikolla:</b>${tilasto.viikkoPuntti}<br/>
+        <b>Puntteja t‰ss‰ kuussa:</b>${tilasto.kuukausiPuntti}<br/>
+        <b>Puntteja t‰n‰ vuonna:</b>${tilasto.vuosiPuntti}<br/>
+        <b>Puntteja asetetulla aikav‰lill‰: </b>${tilasto.omaPuntti}<br/>
 
         <h1>Palauttavat</h1><br/>
-        <b>Palauttavia t‰n‰‰n:</b>${tilasto.palauttavatPaivassa}<br/>
-        <b>Palauttavia t‰ll‰ viikolla:</b>${tilasto.palauttavatViikossa}<br/>
-        <b>Palauttavia t‰ss‰ kuussa:</b>${tilasto.palauttavatKuukaudessa}<br/>
-        <b>Palauttavia t‰n‰ vuonna:</b>${tilasto.palauttavatVuodessa}<br/>
+        <b>Palauttavia t‰n‰‰n:</b>${tilasto.paivaPalauttava}<br/>
+        <b>Palauttavia t‰ll‰ viikolla:</b>${tilasto.viikkoPalauttava}<br/>
+        <b>Palauttavia t‰ss‰ kuussa:</b>${tilasto.kuukausiPalauttava}<br/>
+        <b>Palauttavia t‰n‰ vuonna:</b>${tilasto.vuosiPalauttava}<br/>
+        <b>Palauttavia asetetulla aikav‰lill‰: </b>${tilasto.omaPalauttava}<br/>
 
         <h1>Kilpailut</h1><br/>
-        <b>Kilpailut t‰ss‰ kuussa:</b>${tilasto.kilpailujaKuukaudessa}<br/>
-        <b>Kilpailut t‰n‰ vuonna::</b>${tilasto.kilpailujaVuodessa}<br/>
+        <b>Kilpailut t‰ss‰ kuussa:</b>${tilasto.kuukausiKilpailu}<br/>
+        <b>Kilpailut t‰n‰ vuonna::</b>${tilasto.vuosiKilpailu}<br/>
+        <b>Kilpailut asetetulla aikav‰lill‰: </b>${tilasto.omaKilpailu}<br/>
 
         <h1>Muut</h1><br/>
-        <b>Muita t‰n‰‰n:</b>${tilasto.muutPaivassa}<br/>
-        <b>Muita t‰ll‰ viikolla:</b>${tilasto.muutViikossa}<br/>
-        <b>Muita t‰ss‰ kuussa:</b>${tilasto.muutKuukaudessa}<br/>
-        <b>Muita t‰n‰ vuonna:</b>${tilasto.muutVuodessa}<br/>
+        <b>Muita t‰n‰‰n:</b>${tilasto.paivaMuu}<br/>
+        <b>Muita t‰ll‰ viikolla:</b>${tilasto.viikkoMuu}<br/>
+        <b>Muita t‰ss‰ kuussa:</b>${tilasto.kuukausiMuu}<br/>
+        <b>Muita t‰n‰ vuonna:</b>${tilasto.vuosiMuu}<br/>
+        <b>Muita asetetulla aikav‰lill‰: </b>${tilasto.omaKilpailu}<br/>
 
 
     </body>
