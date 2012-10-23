@@ -39,7 +39,7 @@ public class SelaaController {
         if (sivunumero == null) {
             sivunumero = 1;
         }
-    
+
         model.addAttribute("jarjestys", jarjestys);
         Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 25, jarjestys, session);
 
@@ -50,6 +50,4 @@ public class SelaaController {
         model.addAttribute("harjoitukset", harjoitukset.getContent());
         return "selaa";
     }
-
-    
 }

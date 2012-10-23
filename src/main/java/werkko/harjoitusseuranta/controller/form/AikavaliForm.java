@@ -15,10 +15,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class AikavaliForm {
 
     @NotNull
-    @DateTimeFormat(pattern = "d.M.y H.m")
+    @DateTimeFormat(pattern = "d.M.y")
     private Date alkamisaika;
     @NotNull
-    @DateTimeFormat(pattern = "d.M.y H.m")
+    @DateTimeFormat(pattern = "d.M.y")
     private Date loppumisaika;
 
     public Date getAlkamisaika() {

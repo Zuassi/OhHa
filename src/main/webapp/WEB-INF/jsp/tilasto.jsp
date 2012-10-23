@@ -17,8 +17,8 @@
 
         <b>S‰‰d‰ oma tarkkailtava aikav‰li</b>
         <form:form commandName="AikavaliForm" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
-            Alkamisaika (pv.kk.vvvv hh.mm): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/>
-            Loppumisaika (pv.kk.vvvv hh.mm): <form:input path="loppumisaika" /><form:errors path="loppumisaika"/>
+            Alkamisaika (pv.kk.vvvv): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/>
+            Loppumisaika (pv.kk.vvvv): <form:input path="loppumisaika" /><form:errors path="loppumisaika"/>
             <input type="submit">
         </form:form>
           

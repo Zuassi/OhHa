@@ -28,22 +28,20 @@ public class HarjoittelijaController {
     @Autowired
     private HarjoittelijaService harjoittelijaService;
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         Harjoittelija harjoittelija = new Harjoittelija();
         harjoittelija.setNimi("asdasd");
         harjoittelija.setSalasana("asdasd");
         harjoittelijaService.create(harjoittelija);
     }
 
-    
     @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
     public String rekisterointiLomake(@ModelAttribute("harjoittelija") Harjoittelija harjoittelija) {
         return "rekisterointi";
     }
 
-    
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
             BindingResult bindingResult, Model model, HttpSession session) {
@@ -53,18 +51,16 @@ public class HarjoittelijaController {
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
             model.addAttribute("message", "Nimi on jo käytössä");
             return "rekisterointi";
-        }      
+        }
         harjoittelijaService.create(harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());
         return "redirect:harjoittelija";
 
     }
 
-
-
     @RequestMapping(value = "harjoittelija", method = RequestMethod.GET)
     public String getHarjoittelija(Model model, HttpSession session) {
-        if(session.getAttribute("harjoittelijaId")==null){
+        if (session.getAttribute("harjoittelijaId") == null) {
             return "index";
         }
         model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));

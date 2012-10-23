@@ -86,7 +86,7 @@ public class TilastoService {
                     harjoituksetMapattuna.put("oma", harjoituksetMapattuna.get("oma") + 1);
                     harjoituksetMapattuna.put("oma" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("oma" + harjoitus.getTyyppi()) + 1);
                      if (kova) {
-                    harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("vuosiKovat") + 1);
+                    harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("omaKovat") + 1);
                 }
                 }
             }
