@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SallitutTyypit {
-    public static final String[] sallitutTyypit = {"Lajiharjoitus","Puntti","Palauttava","Muu"};
+    public static final String[] sallitutTyypit = {"Lajiharjoitus","Puntti","Palauttava","Muu","Kilpailu"};
     
 }

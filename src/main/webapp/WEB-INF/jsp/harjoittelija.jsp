@@ -14,8 +14,10 @@
     <body>
         <h1>${harjoittelija.nimi}</h1>
         <a href ="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus">Lis‰‰ harjoitus</a><br/>
-        <a href ="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a>
+        <a href ="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><br/>
+        <a href ="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><br/>
         <p>${message}</p><br/>
+
 
         <a href="${pageContext.request.contextPath}/logout">Kirjaudu ulos</a>
 

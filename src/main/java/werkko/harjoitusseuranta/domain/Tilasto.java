@@ -10,31 +10,145 @@ package werkko.harjoitusseuranta.domain;
  */
 public class Tilasto {
 
-
+    private int treenitYhteensaPaivassa;
+    private int treenitYhteensaViikossa;
+    private int treenitYhteensaKuukaudessa;
+    private int treenitYhteensaVuodessa;
+    private int treenitOmallaAikavalilla;
     private int puntitPaivassa;
     private int puntitViikossa;
     private int puntitKuukaudessa;
     private int puntitVuodessa;
+    private int puntitOmallaAikavalilla;
     private int lajitPaivassa;
     private int lajitViikossa;
-    private int lajitKuukaudesa;
+    private int lajitKuukaudessa;
     private int lajitVuodessa;
+    private int lajitOmallaAikavalilla;
     private int palauttavatPaivassa;
     private int palauttavatViikossa;
-    private int palauttavatKuukaudesa;
+    private int palauttavatKuukaudessa;
     private int palauttavatVuodessa;
+    private int palauttavatOmallaAikavalilla;
     private int muutPaivassa;
     private int muutViikossa;
-    private int muutKuukaudesa;
+    private int muutKuukaudessa;
     private int muutVuodessa;
+    private int muutOmallaAikavalilla;
+    private int kovatTreenitPaivassa;
+    private int kovatTreenitViikossa;
+    private int kovatTreenitKuukaudessa;
+    private int kovatTreenitVuodessa;
+    private int kovatTreenitOmallaAikavalilla;
+    private int kilpailujaKuukaudessa;
+    private int kilpailujaVuodessa;
+    private int kilpailutOmallaAikavalilla;
+
+    public int getTreenitOmallaAikavalilla() {
+        return treenitOmallaAikavalilla;
+    }
+
+    public void setTreenitOmallaAikavalilla(int treenitOmallaAikavalilla) {
+        this.treenitOmallaAikavalilla = treenitOmallaAikavalilla;
+    }
+
+    public int getPuntitOmallaAikavalilla() {
+        return puntitOmallaAikavalilla;
+    }
+
+    public void setPuntitOmallaAikavalilla(int puntitOmallaAikavalilla) {
+        this.puntitOmallaAikavalilla = puntitOmallaAikavalilla;
+    }
+
+    public int getLajitOmallaAikavalilla() {
+        return lajitOmallaAikavalilla;
+    }
+
+    public void setLajitOmallaAikavalilla(int lajitOmallaAikavalilla) {
+        this.lajitOmallaAikavalilla = lajitOmallaAikavalilla;
+    }
+
+    public int getPalauttavatOmallaAikavalilla() {
+        return palauttavatOmallaAikavalilla;
+    }
+
+    public void setPalauttavatOmallaAikavalilla(int palauttavatOmallaAikavalilla) {
+        this.palauttavatOmallaAikavalilla = palauttavatOmallaAikavalilla;
+    }
+
+    public int getMuutOmallaAikavalilla() {
+        return muutOmallaAikavalilla;
+    }
+
+    public void setMuutOmallaAikavalilla(int muutOmallaAikavalilla) {
+        this.muutOmallaAikavalilla = muutOmallaAikavalilla;
+    }
+
+    public int getKovatTreenitOmallaAikavalilla() {
+        return kovatTreenitOmallaAikavalilla;
+    }
+
+    public void setKovatTreenitOmallaAikavalilla(int kovatTreenitOmallaAikavalilla) {
+        this.kovatTreenitOmallaAikavalilla = kovatTreenitOmallaAikavalilla;
+    }
+
+    public int getKilpailutOmallaAikavalilla() {
+        return kilpailutOmallaAikavalilla;
+    }
+
+    public void setKilpailutOmallaAikavalilla(int kilpailutOmallaAikavalilla) {
+        this.kilpailutOmallaAikavalilla = kilpailutOmallaAikavalilla;
+    }
+
     
-    private double paivaTreenimaaraKeskiarvo;
-    private double viikkoTreenimaaraKeskiarvo;
-    private double kuukausiTreenimaaraKeskiarvo;
-    private double tehoKeskiarvoPaivassa;
-    private double tehoKeskiarvoViikossa;
-    private double tehoKeskiarvoKuukaudessa;
-    
+    public int getKovatTreenitPaivassa() {
+        return kovatTreenitPaivassa;
+    }
+
+    public void setKovatTreenitPaivassa(int kovatTreenitPaivassa) {
+        this.kovatTreenitPaivassa = kovatTreenitPaivassa;
+    }
+
+    public int getKovatTreenitViikossa() {
+        return kovatTreenitViikossa;
+    }
+
+    public void setKovatTreenitViikossa(int kovatTreenitViikossa) {
+        this.kovatTreenitViikossa = kovatTreenitViikossa;
+    }
+
+    public int getKovatTreenitKuukaudessa() {
+        return kovatTreenitKuukaudessa;
+    }
+
+    public void setKovatTreenitKuukaudessa(int kovatTreenitKuukaudessa) {
+        this.kovatTreenitKuukaudessa = kovatTreenitKuukaudessa;
+    }
+
+    public int getKovatTreenitVuodessa() {
+        return kovatTreenitVuodessa;
+    }
+
+    public void setKovatTreenitVuodessa(int kovatTreenitVuodessa) {
+        this.kovatTreenitVuodessa = kovatTreenitVuodessa;
+    }
+
+    public int getKilpailujaKuukaudessa() {
+        return kilpailujaKuukaudessa;
+    }
+
+    public void setKilpailujaKuukaudessa(int kilpailujaKuukaudessa) {
+        this.kilpailujaKuukaudessa = kilpailujaKuukaudessa;
+    }
+
+    public int getKilpailujaVuodessa() {
+        return kilpailujaVuodessa;
+    }
+
+    public void setKilpailujaVuodessa(int kilpailujaVuodessa) {
+        this.kilpailujaVuodessa = kilpailujaVuodessa;
+    }
+
     public int getPuntitPaivassa() {
         return puntitPaivassa;
     }
@@ -83,12 +197,12 @@ public class Tilasto {
         this.lajitViikossa = lajitViikossa;
     }
 
-    public int getLajitKuukaudesa() {
-        return lajitKuukaudesa;
+    public int getLajitKuukaudessa() {
+        return lajitKuukaudessa;
     }
 
-    public void setLajitKuukaudesa(int lajitKuukaudesa) {
-        this.lajitKuukaudesa = lajitKuukaudesa;
+    public void setLajitKuukaudessa(int lajitKuukaudessa) {
+        this.lajitKuukaudessa = lajitKuukaudessa;
     }
 
     public int getLajitVuodessa() {
@@ -115,12 +229,12 @@ public class Tilasto {
         this.palauttavatViikossa = palauttavatViikossa;
     }
 
-    public int getPalauttavatKuukaudesa() {
-        return palauttavatKuukaudesa;
+    public int getPalauttavatKuukaudessa() {
+        return palauttavatKuukaudessa;
     }
 
-    public void setPalauttavatKuukaudesa(int palauttavatKuukaudesa) {
-        this.palauttavatKuukaudesa = palauttavatKuukaudesa;
+    public void setPalauttavatKuukaudessa(int palauttavatKuukaudessa) {
+        this.palauttavatKuukaudessa = palauttavatKuukaudessa;
     }
 
     public int getPalauttavatVuodessa() {
@@ -147,12 +261,12 @@ public class Tilasto {
         this.muutViikossa = muutViikossa;
     }
 
-    public int getMuutKuukaudesa() {
-        return muutKuukaudesa;
+    public int getMuutKuukaudessa() {
+        return muutKuukaudessa;
     }
 
-    public void setMuutKuukaudesa(int muutKuukaudesa) {
-        this.muutKuukaudesa = muutKuukaudesa;
+    public void setMuutKuukaudessa(int muutKuukaudessa) {
+        this.muutKuukaudessa = muutKuukaudessa;
     }
 
     public int getMuutVuodessa() {
@@ -163,55 +277,35 @@ public class Tilasto {
         this.muutVuodessa = muutVuodessa;
     }
 
-    public double getPaivaTreenimaaraKeskiarvo() {
-        return paivaTreenimaaraKeskiarvo;
+    public int getTreenitYhteensaPaivassa() {
+        return treenitYhteensaPaivassa;
     }
 
-    public void setPaivaTreenimaaraKeskiarvo(double paivaTreenimaaraKeskiarvo) {
-        this.paivaTreenimaaraKeskiarvo = paivaTreenimaaraKeskiarvo;
+    public void setTreenitYhteensaPaivassa(int treenitYhteensaPaivassa) {
+        this.treenitYhteensaPaivassa = treenitYhteensaPaivassa;
     }
 
-    public double getViikkoTreenimaaraKeskiarvo() {
-        return viikkoTreenimaaraKeskiarvo;
+    public int getTreenitYhteensaViikossa() {
+        return treenitYhteensaViikossa;
     }
 
-    public void setViikkoTreenimaaraKeskiarvo(double viikkoTreenimaaraKeskiarvo) {
-        this.viikkoTreenimaaraKeskiarvo = viikkoTreenimaaraKeskiarvo;
+    public void setTreenitYhteensaViikossa(int treenitYhteensaViikossa) {
+        this.treenitYhteensaViikossa = treenitYhteensaViikossa;
     }
 
-    public double getKuukausiTreenimaaraKeskiarvo() {
-        return kuukausiTreenimaaraKeskiarvo;
+    public int getTreenitYhteensaKuukaudessa() {
+        return treenitYhteensaKuukaudessa;
     }
 
-    public void setKuukausiTreenimaaraKeskiarvo(double kuukausiTreenimaaraKeskiarvo) {
-        this.kuukausiTreenimaaraKeskiarvo = kuukausiTreenimaaraKeskiarvo;
+    public void setTreenitYhteensaKuukaudessa(int treenitYhteensaKuukaudessa) {
+        this.treenitYhteensaKuukaudessa = treenitYhteensaKuukaudessa;
     }
 
-    public double getTehoKeskiarvoPaivassa() {
-        return tehoKeskiarvoPaivassa;
+    public int getTreenitYhteensaVuodessa() {
+        return treenitYhteensaVuodessa;
     }
 
-    public void setTehoKeskiarvoPaivassa(double tehoKeskiarvoPaivassa) {
-        this.tehoKeskiarvoPaivassa = tehoKeskiarvoPaivassa;
+    public void setTreenitYhteensaVuodessa(int treenitYhteensaVuodessa) {
+        this.treenitYhteensaVuodessa = treenitYhteensaVuodessa;
     }
-
-    public double getTehoKeskiarvoViikossa() {
-        return tehoKeskiarvoViikossa;
-    }
-
-    public void setTehoKeskiarvoViikossa(double tehoKeskiarvoViikossa) {
-        this.tehoKeskiarvoViikossa = tehoKeskiarvoViikossa;
-    }
-
-    public double getTehoKeskiarvoKuukaudessa() {
-        return tehoKeskiarvoKuukaudessa;
-    }
-
-    public void setTehoKeskiarvoKuukaudessa(double tehoKeskiarvoKuukaudessa) {
-        this.tehoKeskiarvoKuukaudessa = tehoKeskiarvoKuukaudessa;
-    }
-
-  
-    
-    
 }

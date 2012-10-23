@@ -5,4 +5,4 @@
 19.10.2012 noin 2h - Typeristä "tietokantarelaatioista" eroon. Hölmöyksien korjailua ja koodin siistimistä, asioiden siirtelyä controlleripuolelta serviceen
 20.10.2012 noin 1h - Treenien "avaaminen", muokkaus ja poisto
 20.10.2012 noin 2h - Comparatorit ja sorttaajat pois ja niiden korvaaminen JpaRepositoryn omilla toiminnoilla ja sivutus toimii!
-21.10.2012 noin 45min Tilastoluokkaa aloteltu, metodi joka palauttaa treenit arraylistissä päivän,vk,kk ja vuoden mukaan
+21.10.2012 noin 45min Tilastoserviceä aloteltu, metodi joka palauttaa treenit arraylistissä päivän,vk,kk ja vuoden mukaan

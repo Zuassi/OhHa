@@ -41,7 +41,7 @@ public class SelaaController {
         }
     
         model.addAttribute("jarjestys", jarjestys);
-        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 3, jarjestys, session);
+        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 25, jarjestys, session);
 
         boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
         model.addAttribute("sivutus", sivutus);
@@ -51,13 +51,5 @@ public class SelaaController {
         return "selaa";
     }
 
-    private List<Harjoitus> sivutus(List<Harjoitus> harjoitukset, Integer sivunumero) {
-        int harjoituksiaPerSivu = 25;
-        int sivumaara = harjoitukset.size() / harjoituksiaPerSivu;
-        if (harjoitukset.size() - 1 < harjoituksiaPerSivu * sivunumero + harjoituksiaPerSivu) {
-            return harjoitukset.subList(harjoituksiaPerSivu * sivunumero, harjoitukset.size());
-        }
-        return harjoitukset.subList(harjoituksiaPerSivu * sivunumero, harjoituksiaPerSivu * sivunumero + harjoituksiaPerSivu);
-
-    }
+    
 }
