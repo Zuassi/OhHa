@@ -5,18 +5,30 @@
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Rekisteröinti</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
-        <h1>Rekisteröidy</h1>
-         <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
-          
-           Nimi: <form:input path="nimi" /><form:errors path="nimi" />${message}<br/>
-           Salasana: <form:input path="salasana" /><form:errors path="salasana"/><br/>
-            <input type="submit">
-        </form:form>
-            
-           
+        <div id ="container">
+
+            <div id="laatikko">
+                <div id="tabit">
+                    <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> Rekisteröidy </a>
+                </div>	
+                <div id="kirjaudu_laatikko">
+                	<h2 class="otsikko">Rekisteröidy</h2>
+                    <table>
+                        <tr>
+                        <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
+                            <td> Käyttäjänimi </td><td> <form:input path="nimi" /><form:errors path="nimi" /></td></tr> <br/>
+                            <tr><td>Salasana</td>  <td><form:input path="salasana" /><form:errors path="salasana"/></td></tr><br/>
+                            <td/><td><input type="submit" id="kirjaudu_nappula" value="Kirjaudu"/></td></table>
+                        </form:form>
+
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
+
 </html>

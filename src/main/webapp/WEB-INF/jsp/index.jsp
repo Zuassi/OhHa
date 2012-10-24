@@ -4,22 +4,34 @@
     Author     : Lalli
 --%>
 
-<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <title>JSP Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
-        <h1>Login</h1>
-        <p>${message}</p>
-        <form action="${pageContext.request.contextPath}/kirjaudu" method="POST">
-            <label>Käyttäjänimi  <input type="text" name="nimi" id="nimi"/> </label><br/>
-            <label>Salasana  <input type="password" name ="salasana" id="nimi"></label><br/>
-    <input type="submit" value="Kirjaudu"/>
-</form>
-            
-             <a href="${pageContext.request.contextPath}/rekisterointi">Rekisteröinti</a>
+        <div id ="container">
+
+            <div id="laatikko">
+                <div id="tabit">
+                    <a href="${pageContext.request.contextPath}/" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> RekisterÃ¶idy </a>
+                </div>	
+                <div id="kirjaudu_laatikko">
+                    <h2 class="otsikko">Kirjaudu</h2>
+                    <table>
+                        <tr>
+                        <form action="${pageContext.request.contextPath}/kirjaudu" method="POST">
+                            <td> KÃ¤yttÃ¤jÃ¤nimi </td><td> <input type="text" name="nimi" id="nimi"/></td></tr> <br/>
+                            <tr><td>Salasana</td>  <td><input type="password" name ="salasana" id="nimi"></td></tr><br/>
+                            <td/><td><input type="submit" id="kirjaudu_nappula" value="Kirjaudu"/></td></table>
+                    </form>
+
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
+
 </html>

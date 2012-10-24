@@ -5,14 +5,14 @@
                             http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
     <!-- web-app versiolla 2.4 RESOURCE_LOCAL transaktiot toimivat 
-        glassfish-palvelimella, versiolla 2.5 ei. -->
+    glassfish-palvelimella, versiolla 2.5 ei. -->
     <display-name>Harjoitusseuranta</display-name>
 
 
 
     <!-- Front controller -->
     
-        <servlet>
+    <servlet>
         <servlet-name>front-controller</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
@@ -27,8 +27,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
-    
-    
+
 
     <session-config>
         <session-timeout>30</session-timeout>

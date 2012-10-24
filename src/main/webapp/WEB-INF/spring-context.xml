@@ -25,21 +25,12 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <context:component-scan base-package="werkko" />
+    <context:component-scan base-package="werkko" /> 
+<mvc:resources mapping="/resources/**" location="/resources/" /> 
 
     <mvc:annotation-driven />
 
     <context:annotation-config />
-
-    <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="postgres://mncswgreoklqui:HCrVsgeBIA50X4qqCQLpHUvUYW@ec2-54-243-38-139.compute-1.amazonaws.com:5432/dc8m9td2iudfjd"/>
-    </bean>
-    <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
-        <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
-        <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
-    </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="persistenceUnit" />
@@ -61,4 +52,25 @@
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <jpa:repositories base-package="werkko.harjoitusseuranta.repository" />
+    
+    
+    <beans profile="production">
+        <bean class="java.net.URI" id="dbUrl">
+            <constructor-arg value="postgres://mncswgreoklqui:HCrVsgeBIA50X4qqCQLpHUvUYW@ec2-54-243-38-139.compute-1.amazonaws.com:5432/dc8m9td2iudfjd"/>
+        </bean>
+        <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
+            <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+            <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+        </bean>
+    </beans>
+    
+    <beans profile="dev,default">
+        <!-- ympäristöön liittyvä konfiguraatiotiedosto -->
+        
+
+        <!-- muistiin ladattava tietokanta -->
+        <jdbc:embedded-database id="dataSource" type="H2"/> 
+    </beans>
 </beans>

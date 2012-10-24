@@ -1,0 +1,67 @@
+
+*{
+	margin:0px;
+}
+body{
+	background-image: url('hexabump.png')
+}
+#laatikko{
+
+	margin-top: 200px;
+	float: left;
+	width:450px;
+	height: 550px;
+}
+
+h2{
+	margin: 0px;
+}
+
+#container{
+
+	width: 390px;
+	margin: auto;
+}
+
+.otsikko{
+	padding-top: 20px;
+	padding-left: 50px;
+}
+a{
+	text-decoration: none;
+	color: #000;
+}
+
+
+#tabit a{
+	margin-bottom: -3px; 
+	margin-left: 0px;
+	font-size: 20px;
+	padding: 5px;
+	display: inline-block;
+	background-color:#fdfdfd;
+	
+
+}
+#tabit a.eka_linkki{
+	border-left:3px solid #000;
+	border-top: 3px solid #000;
+	border-radius: 10px 0 0 0 ;
+}
+#tabit a.vika_linkki{
+	border-right: 3px solid #000;
+	border-top: 3px solid #000;
+	border-radius: 0 10px 0 0 ;
+}
+#kirjaudu_nappula{
+	float:right;
+}
+#kirjaudu_laatikko{
+	border: 3px solid;
+	border-radius:0px 10px 0 ;
+	padding-left: 30px;
+	height: 200px;
+	margin:0px;
+	background-color:#fdfdfd;
+
+}
