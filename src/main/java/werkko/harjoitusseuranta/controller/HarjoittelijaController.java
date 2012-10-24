@@ -31,10 +31,10 @@ public class HarjoittelijaController {
 
     @PostConstruct
     private void init() {
-        Harjoittelija harjoittelija = new Harjoittelija();
-        harjoittelija.setNimi("asdasd");
-        harjoittelija.setSalasana("asdasd");
-        harjoittelijaService.create(harjoittelija);
+//        Harjoittelija harjoittelija = new Harjoittelija();
+//        harjoittelija.setNimi("asdasd");
+//        harjoittelija.setSalasana("asdasd");
+//        harjoittelijaService.create(harjoittelija);
     }
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
