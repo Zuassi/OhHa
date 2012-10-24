@@ -35,6 +35,7 @@ public class TilastoService {
         lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, session);
 
 
+
         return harjoituksetMapattuna;
     }
 
