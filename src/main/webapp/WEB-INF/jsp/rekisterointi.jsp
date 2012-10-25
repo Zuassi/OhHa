@@ -9,25 +9,26 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
-        <div id ="container">
+        <div id ="login_container">
 
-            <div id="laatikko">
-                <div id="tabit">
-                    <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> Rekisteröidy </a>
-                </div>	
-                <div id="kirjaudu_laatikko">
-                	<h2 class="otsikko">Rekisteröidy</h2>
-                    <table>
-                        <tr>
+   <div id="logo">Harjoitusseuranta</div>
+            <div id="tabit">
+                <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> Rekisteröidy </a>
+            </div>	
+            <div id="kirjaudu_laatikko">
+                <h2 class="otsikko">Rekisteröidy</h2>
+                <table>
+                    <tr>
+                    <p>${message}</p>
                         <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
-                            <td> Käyttäjänimi </td><td> <form:input path="nimi" /><form:errors path="nimi" /></td></tr> <br/>
-                            <tr><td>Salasana</td>  <td><form:input path="salasana" /><form:errors path="salasana"/></td></tr><br/>
-                            <td/><td><input type="submit" id="kirjaudu_nappula" value="Kirjaudu"/></td></table>
+                            <td> Käyttäjänimi </td><td> <form:input path="nimi" class="input"/><form:errors path="nimi" /></td></tr> <br/>
+                        <tr><td>Salasana</td>  <td><form:input path="salasana" class="input" /><form:errors path="salasana"/></td></tr><br/>
+                        <td/><td><input type="submit" class="input" id="kirjaudu_nappula" value="Rekisteröidy"/></td></table>
                         </form:form>
 
-                    </table>
-                </div>
+                </table>
             </div>
+
         </div>
     </body>
 

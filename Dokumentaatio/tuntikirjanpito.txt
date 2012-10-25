@@ -9,3 +9,4 @@
 23.10.2012 noin 3h - Tilasto toimii nyt hienosti myös selaimen puolella ja lisäsin mahdollisuuden rajata oman aikavälin tilastoon. Poistin myös turhan tilastoluokan joka hankaloitti koodaamista
 24.10.2012 noin 2h - "tappelua" herokun kanssa, ensin että ohjelma ylipäätään toimii, sitten herokun databasen käyttöönotto
 24.10.2012 noin 2h - Ulkoasun koodaaminen alotettu, mvc:resources lisääminen/selvittely miksei css file toiminut
+25.10.2012 noin 2h - Ulkoasun koodailua

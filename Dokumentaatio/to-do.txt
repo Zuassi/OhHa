@@ -1,0 +1,4 @@
+- spring security
+- valmentaja sydeemi
+- jonkun näkönen lepopäivä/sairaspäivä toteutus
+- ulkoasu ja sen parantelu

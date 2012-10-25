@@ -4,22 +4,35 @@
     Author     : Lalli
 --%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <title>Harjoittelija</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
-        <h1>${harjoittelija.nimi}</h1>
-        <a href ="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus">Lisää harjoitus</a><br/>
-        <a href ="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><br/>
-        <a href ="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><br/>
-        <p>${message}</p><br/>
+        <div id ="sisalto_container">
 
+              <div id="logo">Harjoitusseuranta</div>
+                <div id="tabit">
+                    <!--
+                --><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="eka_linkki">LisÃ¤Ã¤ harjoitus</a><!--
+                --><a href="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><!--
+                --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
+                --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
+                </div>	
+                <div id="sisalto_laatikko">
+                	
+                    
+                    <h1>${harjoittelija.nimi}</h1>
+        
+                   
 
-        <a href="${pageContext.request.contextPath}/logout">Kirjaudu ulos</a>
-
+                   
+                </div>
+      
+        </div>
     </body>
+
 </html>
