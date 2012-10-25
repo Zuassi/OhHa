@@ -25,7 +25,7 @@
                     <input type="submit">
                 </form:form>
             </div>
-            <table>
+            <table id="tilasto_table">
                 <tr>
                     <td>
                         <div class="tilasto_laatikko">

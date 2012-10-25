@@ -26,7 +26,7 @@
             <div id="sisalto_laatikko">
 
 
-                <table border="1">
+                <table id="selaa_table">
                     <tr>
                         <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
                         <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
@@ -37,9 +37,11 @@
                         <th>Muokkaa</th>
                         <th>Poista</th>
 
+
+
                         <c:forEach var="harjoitus" items="${harjoitukset}">
 
-                        <tr>
+                        <tr class="rivi">
                             <td>${harjoitus.alkamisaika}</td>
                             <td>${harjoitus.kesto}min</td>
                             <td>${harjoitus.teho}</td>
@@ -52,12 +54,14 @@
                     </c:forEach>
                     </tr>
 
-
                 </table>
 
 
-
-
+            <c:if test="${sivutus}">
+    <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
+            <a href="${pageContext.request.contextPath}/harjoittelija/selaa/?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
+        </c:forEach></p>
+            </c:if>
             </div>
 
         </div>

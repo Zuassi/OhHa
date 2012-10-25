@@ -37,7 +37,7 @@ public class EtusivuController {
 
         // harjoittelija id ei ole null = ollaan jo sis‰ll‰ joten ohjataan omalle sivulle
         if (session.getAttribute("harjoittelijaId") != null) {
-            return "redirect:harjoittelija";
+            return "redirect:harjoittelija/lisaa-harjoitus";
         }
 
         return "index";
@@ -64,7 +64,7 @@ public class EtusivuController {
             if (harjoittelija.getSalasana().equals(md5salasana)) {
                 session.setAttribute("harjoittelijaId", harjoittelija.getId());
                 redirectAttributes.addAttribute("harjoittelijaId", harjoittelija.getId());
-                return "redirect:harjoittelija";
+                return "redirect:harjoittelija/lisaa-harjoitus";
             }
         }
         model.addAttribute("message", "V‰‰r‰ salasana tai k‰ytt‰j‰nimi");

@@ -25,7 +25,7 @@
             </div>	
             <div id="sisalto_laatikko">
 
-                <table>
+                <table id="tilasto_table">
 
                     <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
                         <tr>

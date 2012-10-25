@@ -23,9 +23,9 @@
                 --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
                 --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
             </div>	
-            <div id="kirjaudu_laatikko">
+            <div id="sisalto_laatikko">
 
-                <table>
+                <table id="tilasto_table">
 
                     <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
                         <tr>

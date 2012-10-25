@@ -10,10 +10,15 @@
     font-weight:100;
 }
 #logo {
+    margin-bottom: 30px;
     font-family: "BLANCH-CAPS";
     text-align: center;
     font-size: 105px;
     color: #dfdfdf;
+}
+.keskitettava{
+
+    padding-left: 300px;
 }
 
 body{
@@ -101,9 +106,9 @@ h2{
 }
 
 .tilasto_laatikko{
-
+    padding: 40px;
     height: 180px;
-
+    
 
 }
 #aikavali_saato{
@@ -112,3 +117,27 @@ h2{
 
 }
 
+
+
+
+
+#selaa_table a{
+   
+    color: #000;
+}
+#selaa_table td{
+    padding: 20px;
+}
+
+#selaa_table tr:nth-child(odd){
+    
+     background-color: #dfdfdf;
+ }
+ #selaa_table tr:hover{
+    background-color: #dfd;
+}
+
+#tilasto_table tr:nth-child(odd){
+    
+     background-color: #dfdfdf;
+ }
