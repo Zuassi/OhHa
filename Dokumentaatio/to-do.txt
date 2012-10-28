@@ -1,4 +1,4 @@
 - spring security
-- valmentaja sydeemi
-- jonkun näkönen lepopäivä/sairaspäivä toteutus
+- Seurantakoodi nimen perusteella jotta niitä voi hallita
+
 - ulkoasu ja sen parantelu

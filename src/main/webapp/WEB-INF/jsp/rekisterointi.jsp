@@ -12,9 +12,10 @@
         <div id ="sisalto_container">
 
             <div id="logo">Harjoitusseuranta</div>
-            <div id="tabit">
-                <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> Rekisteröidy </a>
-            </div>	
+            <div id="tabit"> 
+                <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><!--
+                --><a href="${pageContext.request.contextPath}/rekisterointi"> Rekisteröidy </a><!--
+                --><a href="${pageContext.request.contextPath}/seuranta" class="vika_linkki"> Seuranta</a> </div>	
             <div id="sisalto_laatikko">
                 <div class="keskitettava">
                     <h2 class="otsikko">Rekisteröidy</h2>
@@ -23,7 +24,7 @@
                         <p>${message}</p>
                         <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
                             <td> Käyttäjänimi </td><td> <form:input path="nimi" class="input"/><form:errors path="nimi" /></td></tr> <br/>
-                            <tr><td>Salasana</td>  <td><form:input path="salasana" class="input" /><form:errors path="salasana"/></td></tr><br/>
+                            <tr><td>Salasana</td>  <td><form:password path="salasana" class="input" /><form:errors path="salasana"/></td></tr><br/>
                             <td/><td><input type="submit" class="input" id="kirjaudu_nappula" value="Rekisteröidy"/></td></table>
                             </form:form>
 

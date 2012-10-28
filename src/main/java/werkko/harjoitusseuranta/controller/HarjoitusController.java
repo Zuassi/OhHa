@@ -47,7 +47,7 @@ public class HarjoitusController {
         } else {
             harjoitusService.create(harjoitus, harjoittelijaId);
             redirectAttributes.addFlashAttribute("message", "treeni lisätty");
-            return "redirect:/harjoittelija/";
+            return "redirect:/harjoittelija/selaa";
         }
     }
 

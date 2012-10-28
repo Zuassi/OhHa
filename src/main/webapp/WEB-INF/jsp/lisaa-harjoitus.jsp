@@ -16,13 +16,14 @@
         <div id ="sisalto_container">
             <div id="logo">Harjoitusseuranta</div>
 
-            <div id="tabit">
-                <!--
+             <div id="tabit">
+                    <!--
                 --><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="eka_linkki">Lis‰‰ harjoitus</a><!--
                 --><a href="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><!--
                 --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
+                --><a href="${pageContext.request.contextPath}/harjoittelija/asetukset">Asetukset</a><!--                                                                                  
                 --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
-            </div>	
+                </div>		
             <div id="sisalto_laatikko">
 
                 <table id="tilasto_table">

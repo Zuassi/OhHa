@@ -17,13 +17,14 @@
             <div id="logo">Harjoitusseuranta</div>
 
             <div id="tabit">
-                <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><a href="${pageContext.request.contextPath}/rekisterointi" class="vika_linkki"> Rekisteröidy </a>
-            </div>	
-          
+                <a href="${pageContext.request.contextPath}" class="eka_linkki"> Kirjaudu</a><!--
+                --><a href="${pageContext.request.contextPath}/rekisterointi"> Rekisteröidy </a><!--
+                --><a href="${pageContext.request.contextPath}/seuranta" class="vika_linkki"> Seuranta</a>   </div>	
+
             <div id="sisalto_laatikko">
-                  <div class="keskitettava">
-                   <h2 class="otsikko">Kirjaudu</h2>
-                   <p>${message}</p>
+                <div class="keskitettava">
+                    <h2 class="otsikko">Kirjaudu</h2>
+                    <p>${message}</p>
                     <table>
                         <tr>
                         <form action="${pageContext.request.contextPath}/kirjaudu" method="POST">

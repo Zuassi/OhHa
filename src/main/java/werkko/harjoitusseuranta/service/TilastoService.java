@@ -13,8 +13,10 @@ import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
+import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 import werkko.harjoitusseuranta.repository.HarjoitusRepository;
 
 /**
@@ -26,16 +28,24 @@ public class TilastoService {
 
     @Autowired
     private HarjoitusRepository repo;
+    
+    @Autowired
+    private HarjoittelijaRepository harjoittelijaRepo;
+    
+        public void findTilastoByHarjoittelijaSeurantaAvain(String seurantaAvain, HttpSession session){
+        Harjoittelija harjoittelija = harjoittelijaRepo.findBySeurantaAvain(seurantaAvain);
+ 
+        keraaTilastot(session,harjoittelija);
+        
+    }
 
-    public HashMap<String, Integer> keraaTilastot(HttpSession session) {
-
-        List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"));
+    public HashMap<String, Integer> keraaTilastot(HttpSession session, Harjoittelija harjoittelija) {
+      
+      
+        List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId(harjoittelija.getId());
         HashMap<String, Integer> harjoituksetMapattuna = new HashMap<String, Integer>();
         alustaMappi(harjoituksetMapattuna);
         lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, session);
-
-
-
         return harjoituksetMapattuna;
     }
 
