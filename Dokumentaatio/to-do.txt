@@ -1,4 +1,4 @@
 - spring security
 - Seurantakoodi nimen perusteella jotta niitä voi hallita
-
+(seurantakoodi omaks olioks ja kantaan niin onnaa)
 - ulkoasu ja sen parantelu
