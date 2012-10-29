@@ -5,6 +5,7 @@
 package werkko.harjoitusseuranta.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
+import werkko.harjoitusseuranta.service.SeurantaavainService;
 import werkko.harjoitusseuranta.service.TilastoService;
 
 /**
@@ -33,6 +35,8 @@ public class TilastoController {
     private TilastoService tilastoService;
     @Autowired
     private HarjoittelijaService harjoittelijaService;
+    @Autowired
+    private SeurantaavainService seurantaService;
 
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
     public String getTilastot(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, Model model, HttpSession session) {
@@ -66,14 +70,18 @@ public class TilastoController {
     }
 
     @RequestMapping(value = "seuranta", method = RequestMethod.POST)
-    public String etsiSeurattava(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, HttpSession session, Model model, @RequestParam("avain") String seurantaAvain) {
-        Harjoittelija harjoittelija = harjoittelijaService.findBySeurantaAvain(seurantaAvain);
-        if (harjoittelija != null) {
-            model.addAttribute("tilasto", tilastoService.keraaTilastot(session, harjoittelija));
+    public String etsiSeurattava(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm,
+            HttpSession session, Model model, @RequestParam("avain") String seurantaAvain) {
+        if (seurantaService.findByAvain(seurantaAvain) != null) {
+
+            HashMap<String, Integer> seurannatMapattuna = tilastoService.findTilastoByHarjoittelijaSeurantaAvain(seurantaAvain, session);
+
+            model.addAttribute("tilasto", seurannatMapattuna);
             model.addAttribute("seurantaAsetettu", true);
         }else{
-            model.addAttribute("message","Tuntematon seuranta-avain");
+            model.addAttribute("message","Tuntematon seurantakoodi");
         }
+
         return "seuranta";
     }
 }

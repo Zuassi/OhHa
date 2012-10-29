@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +44,7 @@
                         <c:forEach var="harjoitus" items="${harjoitukset}">
 
                         <tr class="rivi">
-                            <td>${harjoitus.alkamisaika}</td>
+                            <td><fmt:formatDate type="both" value="${harjoitus.alkamisaika}"/></td>
                             <td>${harjoitus.kesto}min</td>
                             <td>${harjoitus.teho}</td>
                             <td>${harjoitus.paikka}</td>

@@ -23,7 +23,7 @@ public interface HarjoittelijaService {
     public void save(Harjoittelija harjoittelija);
 
     public String vaihdaSalasana(HttpSession session,String vanhaSalasana, String uusiSalasana, String uusiSalasana2);
-    public Harjoittelija findBySeurantaAvain(String seurantaAvain);
+
 
 
 

@@ -12,3 +12,5 @@
 25.10.2012 noin 2h - Ulkoasun koodailua
 25.10.2012 noin 30min - Ulkoasua, erityisesti "selaa" osion tablen muotoilua
 28.10.2012 noin 2h - Salasananvaihto, ja seurantakoodi (UUID) jonka avulla voi tarkkailla toisen käyttäjän tilastoja 
+29.10.2012 noin 2h - Seurantakoodi on nyt oma olionsa joita yksi harjoittelija voi omistaa useamman, voi siis antaa koodeja useammalle henkilölle ja 
+yhä poistaa niitä halutessaan.

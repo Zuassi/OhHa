@@ -34,18 +34,7 @@ public class Harjoittelija implements Serializable {
     @Column(name = "salasana")
     @NotBlank
     @Length(min = 5, max = 100)
-    
     private String salasana; //md5
-    private String seurantaAvain;
-
-    public String getSeurantaAvain() {
-        return seurantaAvain;
-    }
-
-    public void setSeurantaAvain(String seurantaAvain) {
-        this.seurantaAvain = seurantaAvain;
-    }
-
     public Long getId() {
         return id;
     }

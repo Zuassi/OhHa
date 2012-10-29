@@ -14,6 +14,5 @@ import werkko.harjoitusseuranta.domain.Harjoittelija;
 public interface HarjoittelijaRepository extends JpaRepository<Harjoittelija,Long> {
    Harjoittelija findByNimi(String nimi);
 
-    public Harjoittelija findBySeurantaAvain(String seurantaAvain);
     
 }

@@ -38,7 +38,7 @@
                 </center>
                     <c:if test="${seurantaAsetettu}">
 
-
+       
              
                 <table id="tilasto_table">
                     <tr>

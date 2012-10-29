@@ -50,8 +50,6 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
     public void save(Harjoittelija harjoittelija) {
         harjoittelijaRepository.save(harjoittelija);
     }
-    
-
 
     public String vaihdaSalasana(HttpSession session, String vanhaSalasana, String uusiSalasana, String uusiSalasana2) {
         String kryptattuVanhaSalasana = md5.encodePassword(vanhaSalasana, null);
@@ -65,14 +63,10 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
         } else if (uusiSalasana.length() > 100) {
             return "Salasana on liian pitkä";
         } else {
-            String kryptattuUusiSalasana = md5.encodePassword(uusiSalasana,null);
+            String kryptattuUusiSalasana = md5.encodePassword(uusiSalasana, null);
             harjoittelija.setSalasana(kryptattuUusiSalasana);
             harjoittelijaRepository.save(harjoittelija);
             return "Salasana vaihdettu";
         }
-    }
-
-    public Harjoittelija findBySeurantaAvain(String seurantaAvain) {
-       return harjoittelijaRepository.findBySeurantaAvain(seurantaAvain);
     }
 }

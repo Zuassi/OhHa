@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
+import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 import werkko.harjoitusseuranta.repository.HarjoitusRepository;
+import werkko.harjoitusseuranta.repository.SeurantaavainRepository;
 
 /**
  *
@@ -28,20 +30,22 @@ public class TilastoService {
 
     @Autowired
     private HarjoitusRepository repo;
-    
     @Autowired
     private HarjoittelijaRepository harjoittelijaRepo;
-    
-        public void findTilastoByHarjoittelijaSeurantaAvain(String seurantaAvain, HttpSession session){
-        Harjoittelija harjoittelija = harjoittelijaRepo.findBySeurantaAvain(seurantaAvain);
- 
-        keraaTilastot(session,harjoittelija);
-        
+    @Autowired
+    private SeurantaavainService avainRepo;
+
+    public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(String avain, HttpSession session) {
+        Seurantaavain seurantaavain = avainRepo.findByAvain(avain);
+        Harjoittelija harjoittelija = harjoittelijaRepo.findOne(seurantaavain.getHarjoittelijaId());
+
+        return keraaTilastot(session, harjoittelija);
+
     }
 
     public HashMap<String, Integer> keraaTilastot(HttpSession session, Harjoittelija harjoittelija) {
-      
-      
+
+
         List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId(harjoittelija.getId());
         HashMap<String, Integer> harjoituksetMapattuna = new HashMap<String, Integer>();
         alustaMappi(harjoituksetMapattuna);
@@ -91,13 +95,13 @@ public class TilastoService {
                 }
             }
             if (oma) {
-                if (harjoitus.getAlkamisaika().after((Date)session.getAttribute("alkamisaika"))
-                        && harjoitus.getAlkamisaika().before((Date)session.getAttribute("loppumisaika"))) {
+                if (harjoitus.getAlkamisaika().after((Date) session.getAttribute("alkamisaika"))
+                        && harjoitus.getAlkamisaika().before((Date) session.getAttribute("loppumisaika"))) {
                     harjoituksetMapattuna.put("oma", harjoituksetMapattuna.get("oma") + 1);
                     harjoituksetMapattuna.put("oma" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("oma" + harjoitus.getTyyppi()) + 1);
-                     if (kova) {
-                    harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("omaKovat") + 1);
-                }
+                    if (kova) {
+                        harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("omaKovat") + 1);
+                    }
                 }
             }
 
