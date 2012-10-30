@@ -5,7 +5,7 @@
 
 @font-face {
     font-family:"BLANCH-CAPS";
-    src: url('BLANCH-CAPS.otf');
+    src: url('BLANCH_CAPS.otf');
     font-style:normal;
     font-weight:100;
 }
@@ -35,7 +35,9 @@ body{
 h2{
     margin: 0px;
 }
-
+#seuranta{
+    margin-left: -280px;
+}
 #sisalto_container{
     width: 890px;
     margin: auto;
@@ -140,4 +142,7 @@ h2{
 #tilasto_table tr:nth-child(odd){
 
     background-color: #dfdfdf;
+}
+section.hidden{
+    display:none;
 }

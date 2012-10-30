@@ -21,7 +21,7 @@
                     <h2 class="otsikko">Rekisteröidy</h2>
                     <table>
                         <tr>
-                        <p>${message}</p>
+                        <p>${register_message}</p>
                         <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
                             <td> Käyttäjänimi </td><td> <form:input path="nimi" class="input"/><form:errors path="nimi" /></td></tr> <br/>
                             <tr><td>Salasana</td>  <td><form:password path="salasana" class="input" /><form:errors path="salasana"/></td></tr><br/>

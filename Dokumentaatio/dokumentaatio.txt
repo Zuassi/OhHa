@@ -34,6 +34,9 @@ Domain oliot:
 		- Harjoituksen tyyppi (laji/puntti/muu)
 		- Sisältö
 		- Harjoitteen tekijän ID
+	Seuranta-avaimet: 
+		- Harjoittelija voi luoda useita nimettyjä seuranta-avaimia ja poistaa niitä.
+		  Seuranta-avaimen avulla voi tarkkailla halutun henkilön tilastoja
 
 
 ---------------------------------------------------------------
@@ -43,7 +46,4 @@ Myöhemmin lisättävää kun pääohjelma on valmis:
 - Nätimpi ulkoasu
 - JSON/Ajax
 
-Valmentaja accountit: 
-- Valmentaja accountit joilla voi seurata omien valmennettavien harjoittelua
-- Kommentoida harjoituksia (huomautus kommentoinnista sähköpostiin?)
-- Lähettää yksityisviestejä
+

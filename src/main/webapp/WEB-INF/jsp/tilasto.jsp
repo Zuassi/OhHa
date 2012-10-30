@@ -25,6 +25,7 @@
                     Loppumisaika (pv.kk.vvvv): <form:input path="loppumisaika" /><form:errors path="loppumisaika"/>
                     <input type="submit">
                 </form:form>
+                    <p>${seuranta_error}</p>
             </div>
             <table id="tilasto_table">
                 <tr>

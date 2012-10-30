@@ -6,6 +6,7 @@ package werkko.harjoitusseuranta.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,34 +55,32 @@ public class TilastoController {
 
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.POST)
     public String setOmaAikavali(@Valid @ModelAttribute("AikavaliForm") AikavaliForm form, BindingResult bindingResult,
-            HttpSession session) {
+            HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("seurantaAsetettu", true);
+        redirectAttributes.addFlashAttribute("page", 2);
         if (bindingResult.hasErrors()) {
-            return "tilasto";
+
+            redirectAttributes.addFlashAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
+
+            return "redirect:" + request.getHeader("Referer");
         }
         session.setAttribute("alkamisaika", form.getAlkamisaika());
         session.setAttribute("loppumisaika", form.getLoppumisaika());
 
-        return "redirect:/harjoittelija/tilasto";
-    }
-
-    @RequestMapping(value = "seuranta", method = RequestMethod.GET)
-    public String seuranta(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm) {
-        return "seuranta";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @RequestMapping(value = "seuranta", method = RequestMethod.POST)
     public String etsiSeurattava(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm,
-            HttpSession session, Model model, @RequestParam("avain") String seurantaAvain) {
+            HttpSession session, RedirectAttributes redirectAttributes,
+            @RequestParam("avain") String seurantaAvain, HttpServletRequest request) {
         if (seurantaService.findByAvain(seurantaAvain) != null) {
+            session.setAttribute("avain", seurantaAvain);
 
-            HashMap<String, Integer> seurannatMapattuna = tilastoService.findTilastoByHarjoittelijaSeurantaAvain(seurantaAvain, session);
-
-            model.addAttribute("tilasto", seurannatMapattuna);
-            model.addAttribute("seurantaAsetettu", true);
-        }else{
-            model.addAttribute("message","Tuntematon seurantakoodi");
+        } else {
+            redirectAttributes.addFlashAttribute("seuranta_message", "Tuntematon seurantakoodi");
         }
-
-        return "seuranta";
+        redirectAttributes.addFlashAttribute("page", 2);
+        return "redirect:/";
     }
 }

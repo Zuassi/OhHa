@@ -38,10 +38,10 @@ public class HarjoittelijaController {
 
     @PostConstruct
     private void init() {
-//        Harjoittelija harjoittelija = new Harjoittelija();
-//        harjoittelija.setNimi("asdasd");
-//        harjoittelija.setSalasana("asdasd");
-//        harjoittelijaService.create(harjoittelija);
+        Harjoittelija harjoittelija = new Harjoittelija();
+        harjoittelija.setNimi("asdasd");
+        harjoittelija.setSalasana("asdasd");
+        harjoittelijaService.create(harjoittelija);
     }
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
@@ -51,13 +51,13 @@ public class HarjoittelijaController {
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
-            BindingResult bindingResult, Model model, HttpSession session) {
+            BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "rekisterointi";
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
-            model.addAttribute("message", "Nimi on jo käytössä");
-            return "rekisterointi";
+            redirectAttributes.addFlashAttribute("register_message", "Nimi on jo käytössä");
+            return "redirect:/rekisterointi";
         }
         harjoittelijaService.create(harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());

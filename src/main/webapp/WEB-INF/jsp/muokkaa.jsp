@@ -41,7 +41,7 @@
                             <td>Tyyppi:</td><td><form:select path="tyyppi" items="${sallitutTyypit}"/></td>
                             <form:errors path="tyyppi" />  
                         </tr><tr>
-                            <td>Sisältö:</td> <td><form:input path="sisalto" /></td><form:errors path="sisalto"/>
+                            <td>Sisältö:</td> <td><form:textarea path="sisalto" /></td><form:errors path="sisalto"/>
                         </tr><tr>
                             <td></td><td><input class="input" type="submit" value="Muokkaa"></td></tr>
                     </table>
