@@ -14,22 +14,25 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
+        <div id="tabit">
+
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="tab">Lis‰‰ harjoitus</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/selaa" class="tab" >Selaa harjoituksia</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/tilasto" class="tab">Tilastot</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/asetukset" class="tab">Asetukset</a></li>                                                                                
+                <li><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki" class="tab">Kirjaudu ulos</a></li>
+            </ul>
+        </div>
         <div id ="sisalto_container">
             <div id="logo">Harjoitusseuranta</div>
 
-                <div id="tabit">
-                    <!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="eka_linkki">Lis‰‰ harjoitus</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/asetukset">Asetukset</a><!--                                                                                  
-                --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
-                </div>		
+
             <div id="sisalto_laatikko">
 
 
                 <table id="selaa_table">
-                    <tr>
+                    <tr class="varitettava"">
                         <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
                         <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
                         <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
@@ -59,11 +62,11 @@
                 </table>
 
 
-            <c:if test="${sivutus}">
-    <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
-            <a href="${pageContext.request.contextPath}/harjoittelija/selaa/?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
-        </c:forEach></p>
-            </c:if>
+                <c:if test="${sivutus}">
+                    <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
+                            <a href="${pageContext.request.contextPath}/harjoittelija/selaa/?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
+                        </c:forEach></p>
+                    </c:if>
             </div>
 
         </div>

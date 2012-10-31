@@ -5,27 +5,32 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
+        <div id="tabit">
+
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="tab">Lis‰‰ harjoitus</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/selaa" class="tab" >Selaa harjoituksia</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/tilasto" class="tab">Tilastot</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/asetukset" class="tab">Asetukset</a></li>                                                                                
+                <li><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki" class="tab">Kirjaudu ulos</a></li>
+            </ul>
+        </div>
         <div id ="sisalto_container">
             <div id="logo">Harjoitusseuranta</div>
 
-                  <div id="tabit">
-                    <!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="eka_linkki">Lis‰‰ harjoitus</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/asetukset">Asetukset</a><!--                                                                                  
-                --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
-                </div>	 
+
             <div id="sisalto_laatikko">
 
                 <div id="aikavali_saato"</div>
                 <h2>S‰‰d‰ oma tarkkailtava aikav‰li</h2><br/>
-                <form:form commandName="AikavaliForm" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
-                    Alkamisaika (pv.kk.vvvv): <form:input path="alkamisaika" /><form:errors path="alkamisaika"/>
-                    Loppumisaika (pv.kk.vvvv): <form:input path="loppumisaika" /><form:errors path="loppumisaika"/>
-                    <input type="submit">
-                </form:form>
-                    <p>${seuranta_error}</p>
+                <table>
+                    <form:form commandName="AikavaliForm" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
+                        <tr><td>Alkamisaika (pv.kk.vvvv):</td><td><form:input path="alkamisaika" /></td></tr>
+                        <tr><td>Loppumisaika (pv.kk.vvvv):</td><td><form:input path="loppumisaika" /></td></tr>
+                        <tr><td/><td><input type="submit" class="input_nappula"></td></tr>
+                            </form:form>
+                </table>
+                <p>${seuranta_error}</p>
             </div>
             <table id="tilasto_table">
                 <tr>
@@ -102,12 +107,15 @@
                             <b>Muita t‰n‰ vuonna:</b>${tilasto.vuosiMuu}<br/>
                             <b>Muita asetetulla aikav‰lill‰: </b>${tilasto.omaKilpailu}<br/>
                         </div>
+
+
                     </td><td></td>
                 </tr>
 
 
 
             </table>
+            <br/>
         </div>
 
     </div>

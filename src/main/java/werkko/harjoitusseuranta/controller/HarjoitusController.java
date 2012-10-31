@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
@@ -31,9 +32,6 @@ public class HarjoitusController {
     private HarjoitusService harjoitusService;
     @Autowired
     private HarjoittelijaService harjoittelijaService;
-    
- 
-
 
     @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
     public String lisaaHarjoitus(HttpSession session, Model model,
@@ -52,7 +50,7 @@ public class HarjoitusController {
     }
 
     @RequestMapping(value = "harjoittelija/lisaa-harjoitus", method = RequestMethod.GET)
-    public String getHarjoitusLomake(@ModelAttribute("harjoitus") Harjoitus harjoitus, Model model, HttpSession session) {
+    public String getHarjoitusLomake(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, @ModelAttribute("harjoitus") Harjoitus harjoitus, Model model, HttpSession session) {
 
         model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
         return "lisaa-harjoitus";
@@ -85,12 +83,21 @@ public class HarjoitusController {
         Harjoitus harjoitus = harjoitusService.read(id);
         if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
             model.addAttribute("harjoitus", harjoitus);
-            model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
-            
+            model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
+
             return "muokkaa";
         } else {
             return "index";
         }
 
+    }
+    
+    @RequestMapping(value="ukko")
+    public String ukko(HttpSession session){
+        if(session.getAttribute("ukko")==null){
+            return "index";
+        }else{
+            return "redirect:http://google.fi";
+        }
     }
 }

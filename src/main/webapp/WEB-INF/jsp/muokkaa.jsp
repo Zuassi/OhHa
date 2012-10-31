@@ -13,17 +13,20 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
     </head>
     <body>
+              <div id="tabit">
+
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="tab">Lisää harjoitus</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/selaa" class="tab" >Selaa harjoituksia</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/tilasto" class="tab">Tilastot</a></li>
+                <li><a href="${pageContext.request.contextPath}/harjoittelija/asetukset" class="tab">Asetukset</a></li>                                                                                
+                <li><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki" class="tab">Kirjaudu ulos</a></li>
+            </ul>
+        </div>
         <div id ="sisalto_container">
             <div id="logo">Harjoitusseuranta</div>
 
-               <div id="tabit">
-                    <!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="eka_linkki">Lisää harjoitus</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/selaa">Selaa harjoituksia</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/tilasto">Tilastot</a><!--
-                --><a href="${pageContext.request.contextPath}/harjoittelija/asetukset">Asetukset</a><!--                                                                                  
-                --><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki">Kirjaudu ulos</a>
-                </div>	
+              
             <div id="sisalto_laatikko">
 
                 <table id="tilasto_table">
@@ -43,12 +46,12 @@
                         </tr><tr>
                             <td>Sisältö:</td> <td><form:textarea path="sisalto" /></td><form:errors path="sisalto"/>
                         </tr><tr>
-                            <td></td><td><input class="input" type="submit" value="Muokkaa"></td></tr>
+                            <td></td><td><input class="input_nappula" type="submit" value="Muokkaa"></td></tr>
                     </table>
                     <form:hidden path="id"  value="${harjoitus.id}" />
                 </form:form>
 
-
+                <br/>
 
                 </table>
             </div>

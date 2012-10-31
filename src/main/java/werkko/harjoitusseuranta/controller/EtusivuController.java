@@ -36,6 +36,7 @@ public class EtusivuController {
     @RequestMapping(value = "/")
     public String etusivu(HttpSession session, @ModelAttribute("harjoittelija") Harjoittelija harjoittelija,
             Model model, @ModelAttribute("AikavaliForm") AikavaliForm aikavaliForm) {
+        try{
         //tarkastetaan ett‰ sessionissa oleva id on olemassa tietokannassa 
         //jos database on satuttu uusimaan, ongelma l‰hinn‰ softaa koodatessa kun database tyhjenee v‰h‰nv‰li‰
         if (session.getAttribute("harjoittelijaId") != null && harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")) == null) {
@@ -44,7 +45,7 @@ public class EtusivuController {
 
         // harjoittelija id ei ole null = ollaan jo sis‰ll‰ joten ohjataan omalle sivulle
         if (session.getAttribute("harjoittelijaId") != null) {
-            return "redirect:harjoittelija/lisaa-harjoitus";
+            return "redirect:home";
         }
         if (!model.containsAttribute("page")) {
             model.addAttribute("page", 0);
@@ -52,11 +53,17 @@ public class EtusivuController {
         if (session.getAttribute("avain") != null) {
             String seurantaAvain = (String) session.getAttribute("avain");
             HashMap<String, Integer> seurannatMapattuna = tilastoService.findTilastoByHarjoittelijaSeurantaAvain(seurantaAvain, session);
+            if(seurannatMapattuna==null){
+                return "logout";
+            }
             model.addAttribute("tilasto", seurannatMapattuna);
             model.addAttribute("seurantaAsetettu", true);
             
         }
         return "index";
+        }catch(Exception e){
+            return "index";
+        }
     }
 
     //tuhotaan sessioni
@@ -80,7 +87,7 @@ public class EtusivuController {
             if (harjoittelija.getSalasana().equals(md5salasana)) {
                 session.setAttribute("harjoittelijaId", harjoittelija.getId());
                 redirectAttributes.addAttribute("harjoittelijaId", harjoittelija.getId());
-                return "redirect:harjoittelija/lisaa-harjoitus";
+                return "redirect:/home";
             }
         }
         redirectAttributes.addFlashAttribute("login_message", "V‰‰r‰ salasana tai k‰ytt‰j‰nimi");

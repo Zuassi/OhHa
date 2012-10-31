@@ -1,7 +1,27 @@
 
 *{
+    font-family: Cambria, serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: normal;
+    letter-spacing: normal;
+    line-height: 1.4em;
     margin:0px;
+
 }
+html { 
+    background: url(background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height:100%;
+}
+body{
+    height:100%;
+}
+
 
 @font-face {
     font-family:"BLANCH-CAPS";
@@ -9,21 +29,32 @@
     font-style:normal;
     font-weight:100;
 }
+
+
+
+#page_container{
+    min-width:1300px;
+    width: 100%;
+    height:100%;
+}
+
 #logo {
+    width:1841px;
     margin-bottom: 30px;
     font-family: "BLANCH-CAPS";
     text-align: center;
     font-size: 105px;
-    color: #dfdfdf;
+    color: black;
 }
+
 .keskitettava{
 
-    padding-left: 300px;
+    padding-left: 230px;
+    padding-bottom: 20px;
 }
 
-body{
-    background-image: url('hexabump.png')
-}
+
+
 #login_laatikko{
 
 
@@ -33,60 +64,83 @@ body{
 }
 
 h2{
+    font-family:"BLANCH-CAPS";
+    font-size: 45px;
+    color: black;
     margin: 0px;
 }
 #seuranta{
-    margin-left: -280px;
+    margin-left: -180px;
 }
+
 #sisalto_container{
-    width: 890px;
-    margin: auto;
-}
-#login_container{
 
-    width: 390px;
-    margin: auto;
+    width: auto;
+    margin:auto;
 }
-.input{
-    border: 2px solid;
-    background-color: #fff;
+
+#sisalto_laatikko{
+    min-width:900px;
+    max-width: 900px;
+    margin-left: 400px;
+    padding-top: 25px;
+    border: 1px solid;
+    border-radius:10px;
+    padding-left: 10px;
+    height: auto;
+    min-height: 400px;
+    max-height:750px;
+    overflow:auto;
+    background-color:rgba(150,150,150,0.4);
+
+}
+
+
+.input_nappula{
+    border: 1px solid;
+    background-color: #F0F8F8;
     border-radius: 5px 5px 5px 5px;
-
+    float:right;
 }
+.ei_float_input_nappula{
+    float:left;
+}
+
 .otsikko{
     padding-top: 20px;
-    padding-left: 50px;
+    padding-left: 150px;
 }
 
+#tabit{
+
+    position:fixed;
+    margin-right: 50px;
+    float:left;
+    width: 300px;
+    height:100%;
+    min-height: 902px;
+
+    background-color: rgba(230,230,230,0.2);
+}
 
 #tabit a{
 
+    font-size: 45px;
+    font-family:"BLANCH-CAPS";
     text-decoration: none;
-    color: #000;
-    border-top: 3px solid;
-    margin-bottom: -3px; 
-    margin-left: 0px;
-    font-size: 20px;
-    padding: 5px;
-    display: inline-block;
-    background-color:#fdfdfd;
+    color:black;
+}
+#tabit a:hover{
 
+    color:white;
+}
+
+.tab{
 
 }
-#tabit a.eka_linkki{
-    border-left:3px solid #000;
-    border-top: 3px solid #000;
-    border-radius: 10px 0 0 0 ;
-}
-#tabit a.vika_linkki{
-    border-right: 3px solid #000;
-    border-top: 3px solid #000;
-    border-radius: 0 10px 0 0 ;
-}
-#kirjaudu_nappula{
-    float:right;
-}
+
 #kirjaudu_laatikko{
+
     padding-top: 25px;
     border: 3px solid;
     border-radius:0px 10px 0 ;
@@ -96,53 +150,77 @@ h2{
     min-height: 200px;
     background-color:#fdfdfd;
 }
-#sisalto_laatikko{
-    padding-top: 25px;
-    border: 3px solid;
-    border-radius:0px 10px 0 ;
-    padding-left: 10px;
-    height: auto;
-    min-height: 200px;
-    background-color:#fdfdfd;
-    margin-bottom: 5px;
-}
-
-.tilasto_laatikko{
-    padding: 40px;
-    height: 180px;
 
 
-}
 #aikavali_saato{
+    border-radius: 10px;
+    background-color:#DEFCD0;
     margin: 5px;
+    margin-right: 15px;
     padding: 5px;
+    width: 720px;
 
 }
+#selaa_table{
 
-
-
-
-
+    margin: 10px;
+}
 #selaa_table a{
 
     color: #000;
 }
 #selaa_table td{
+
     padding: 20px;
 }
 
 #selaa_table tr:nth-child(odd){
-
+    background-color: #fdfdfd;
+}
+#selaa_table tr:nth-child(even){
     background-color: #dfdfdf;
 }
 #selaa_table tr:hover{
-    background-color: #dfd;
+    background-color: #BAE0A8;
+}
+option{
+    background-color:#F0F8F8;
 }
 
-#tilasto_table tr:nth-child(odd){
-
-    background-color: #dfdfdf;
-}
 section.hidden{
     display:none;
+}
+
+#tilasto_table tr:nth-child(even){
+
+    background-color: #DEFCD0;
+}
+#tilasto_table tr:nth-child(odd){
+    background-color:#F0F8F8;
+}
+
+#tilasto_table td{
+    border-radius: 10px;
+}
+.tilasto_laatikko{
+    padding: 40px;
+    height: 180px;
+    margin: 10px;
+}
+
+
+article{
+
+    margin:15px;
+    padding: 15px;
+    margin-top: 50px;
+    background-color: #F0F8F8;
+    border-radius: 10px;
+}
+article:nth-child(even){
+    background-color: #DEFCD0;
+}
+
+.keskitettava_message{
+    padding-left: 90px;
 }

@@ -1,6 +1,12 @@
+
+
+
 function init(number) {
     displayArticle(number);
 }
+
+
+
 
 function displayArticle(index) {
     var sections = document.getElementsByTagName("section");
@@ -13,3 +19,13 @@ function displayArticle(index) {
         }
     }
 }
+
+function tarkastaArvo(){
+    var arvo = document.getElementById("avaimet");
+
+    var kentta = document.getElementById("kopioitava");
+    var splitattu = arvo[arvo.selectedIndex].innerHTML.split(" ")
+    kentta.innerHTML=splitattu[2];
+}
+
+

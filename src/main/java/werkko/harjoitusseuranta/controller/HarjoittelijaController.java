@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
+import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
+import werkko.harjoitusseuranta.service.TilastoService;
 
 /**
  *
@@ -35,18 +38,14 @@ public class HarjoittelijaController {
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
     @Autowired
     private SeurantaavainService avainService;
-
+    @Autowired 
+    private TilastoService tilastoService;
     @PostConstruct
     private void init() {
         Harjoittelija harjoittelija = new Harjoittelija();
         harjoittelija.setNimi("asdasd");
         harjoittelija.setSalasana("asdasd");
         harjoittelijaService.create(harjoittelija);
-    }
-
-    @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
-    public String rekisterointiLomake(@ModelAttribute("harjoittelija") Harjoittelija harjoittelija) {
-        return "rekisterointi";
     }
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
@@ -57,21 +56,34 @@ public class HarjoittelijaController {
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
             redirectAttributes.addFlashAttribute("register_message", "Nimi on jo käytössä");
-            return "redirect:/rekisterointi";
+            redirectAttributes.addFlashAttribute("page", 1);
+            return "redirect:/";
         }
         harjoittelijaService.create(harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());
-        return "redirect:harjoittelija";
+        return "redirect:home";
 
+    }
+
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String home(Model model, @ModelAttribute Harjoitus harjoitus,
+    @ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, HttpSession session) {
+        if (!model.containsAttribute("page")) {
+            model.addAttribute("page", 0);
+        }
+        model.addAttribute("tilasto",tilastoService.keraaTilastot(session, 
+                harjoittelijaService.read((Long)session.getAttribute("harjoittelijaId"))));
+        return "home";
     }
 
     @RequestMapping(value = "harjoittelija", method = RequestMethod.GET)
     public String getHarjoittelija(Model model, HttpSession session) {
-        if (session.getAttribute("harjoittelijaId") == null) {
+        try {
+            model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
+            return "harjoittelija";
+        } catch (Exception e) {
             return "index";
         }
-        model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
-        return "harjoittelija";
     }
 
     @RequestMapping(value = "harjoittelija/asetukset", method = RequestMethod.GET)
@@ -103,8 +115,8 @@ public class HarjoittelijaController {
         if (session.getAttribute("harjoittelijaId") == null) {
             return "index";
         }
-        if (nimi.length()<1) {
-            redirectAttributes.addFlashAttribute("avain_message","Anna avaimen omistajan nimi");
+        if (nimi.length() < 1) {
+            redirectAttributes.addFlashAttribute("avain_message", "Anna avaimen omistajan nimi");
             return "redirect:/harjoittelija/asetukset";
         }
         Seurantaavain avain = new Seurantaavain();
