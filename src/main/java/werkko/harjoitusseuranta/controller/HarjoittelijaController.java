@@ -62,6 +62,9 @@ public class HarjoittelijaController {
         if (!model.containsAttribute("page")) {
             model.addAttribute("page", 0);
         }
+        if(session.getAttribute("harjoittelijaId")==null){
+            return "redirect:/";
+        }
         model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
         model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
                 harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
@@ -143,8 +146,8 @@ public class HarjoittelijaController {
     public void sivutus(Model model, Integer sivunumero, String jarjestys, HttpSession session) {
         if (sivunumero == null) {
             sivunumero = 1;
-        }else{
-            model.addAttribute("page",1);
+        } else {
+            model.addAttribute("page", 1);
         }
 
         model.addAttribute("jarjestys", jarjestys);
