@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/code.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
@@ -26,10 +27,10 @@
             </ul>
         </div>
         <div id="wrapper">
-           
+
             <div id ="sisalto_container">
 
-                 <div id="logo">Harjoitusseuranta</div>
+                <div id="logo">Harjoitusseuranta</div>
 
 
                 <div id="sisalto_laatikko">
@@ -188,7 +189,7 @@
         </div>
 
 
-   
+
     </body>
 
 </html>

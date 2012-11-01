@@ -1,4 +1,6 @@
 $(document).ready(function() {
+     
+
     $(document).on('submit', '#harjoitus', function() {
         $.post("harjoittelija/harjoitus", $("#harjoitus").serialize(),function(data){
           
@@ -41,8 +43,10 @@ function init(number) {
 
 
 function displayArticle(index) {
+   
+   
     var sections = document.getElementsByTagName("section");
-
+    
     for(var i = 0; i < sections.length; i++) {
         if (index == i) {
             sections[i].className='';
@@ -50,6 +54,12 @@ function displayArticle(index) {
             sections[i].className='hidden';
         }
     }
+    $("#tabit").css("height","100%");
+    if($("#tabit").css('height') < $("html").css('height')) {
+        
+        $("#tabit").css("height",$(document).height());
+    }
+    
 }
 
 function tarkastaArvo(){
