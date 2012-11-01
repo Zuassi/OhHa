@@ -11,6 +11,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="${pageContext.request.contextPath}/resources/code.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
@@ -19,6 +21,8 @@
         <div id="tabit">
 
             <ul>
+                <div id="valikko">HARJOITUSSEURANTA</div>
+
                 <li><a href="#" onclick="displayArticle(0);" class ="tab">Lisää harjoitus</a></li>
                 <li><a href="#" onclick="displayArticle(1);" class="tab" >Selaa harjoituksia</a></li>
                 <li><a href="#" onclick="displayArticle(2);" class="tab">Tilastot</a></li>
@@ -33,35 +37,43 @@
 
             <div id="sisalto_laatikko">
                 <section class="hidden">
-                    <table id="tilasto_table">
+
+                    <div id="sisalto">
 
                         <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
-                            <tr>
-                                <td>Alkamisaika (pv.kk.vvvv hh.mm):</td> <td><form:input path="alkamisaika" /></td><td><form:errors path="alkamisaika"/></td>
-                            </tr><tr>
-                                <td> Kesto (minuuttia):</td> <td><form:input path="kesto" /></td><td><form:errors path="kesto"/></td>
-                            </tr><tr>
-                                <td>Teho (1-5):</td> <td><form:input path="teho" /></td><td><form:errors path="teho" /></td>
-                            </tr><tr>
-                                <td>Paikka:</td><td><form:input path="paikka" /></td><td><form:errors path="paikka"/></td>
-                            </tr><tr>
-                                <td>Tyyppi:</td><td><form:select class="varitettava" path="tyyppi" items="${sallitutTyypit}"/></td>
-                                <td><form:errors path="tyyppi" /></td>
-                            </tr><tr>
-                                <td>Sisältö:</td> <td><form:textarea path="sisalto" /></td><td><form:errors path="sisalto"/></td>
-                            </tr><tr>
-                                <td></td><td><input type="submit" class="input_nappula"></td></tr>
-                        </table>
-                    </form:form>
+                            <table id="harjoitus_table">
+                                <tr>
+                                    <td>Alkamisaika (pv.kk.vvvv hh.mm):</td> <td><form:input path="alkamisaika" /></td><td><form:errors path="alkamisaika"/></td>
+                                </tr><tr>
+                                    <td> Kesto (minuuttia):</td> <td><form:input path="kesto" /></td><td><form:errors path="kesto"/></td>
+                                </tr><tr>
+                                    <td>Teho (1-5):</td> <td><form:input path="teho" /></td><td><form:errors path="teho" /></td>
+                                </tr><tr>
+                                    <td>Paikka:</td><td><form:input path="paikka" /></td><td><form:errors path="paikka"/></td>
+                                </tr><tr>
+                                    <td>Tyyppi:</td><td><form:select class="varitettava" path="tyyppi" items="${sallitutTyypit}"/></td>
+                                    <td><form:errors path="tyyppi" /></td>
+                                </tr><tr>
+                                    <td>Sisältö:</td> <td><form:textarea path="sisalto" /></td><td><form:errors path="sisalto"/></td>
+                                </tr><tr>
+                                    <td></td><td><input type="submit" class="input_nappula"></td></tr>
+                                <p>${lisatty}</p>
+                            </table>
+                        </form:form>
+                    </div>
+
+
                 </section>
                 <section class="hidden">
+
+
                     <table id="selaa_table">
                         <tr class="varitettava"">
-                            <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
-                            <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
-                            <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
-                            <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
-                            <th><a href="${pageContext.request.contextPath}/harjoittelija/selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
+                            <th><a href="${pageContext.request.contextPath}/home?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
+                            <th><a href="${pageContext.request.contextPath}/home?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
+                            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
+                            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
+                            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
                             <th>Sisältö</th>
                             <th>Muokkaa</th>
                             <th>Poista</th>
@@ -88,22 +100,23 @@
 
                     <c:if test="${sivutus}">
                         <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
-                                <a href="${pageContext.request.contextPath}/harjoittelija/selaa/?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
+                                <a href="${pageContext.request.contextPath}/home?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
                             </c:forEach></p>
                         </c:if>
+
                 </section>
                 <section class="hidden">
-                   
-                <div id="aikavali_saato"</div>
-                <h2>Säädä oma tarkkailtava aikaväli</h2><br/>
-                <table>
-                    <form:form commandName="AikavaliForm" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
-                        <tr><td>Alkamisaika (pv.kk.vvvv):</td><td><form:input path="alkamisaika" /></td></tr>
-                        <tr><td>Loppumisaika (pv.kk.vvvv):</td><td><form:input path="loppumisaika" /></td></tr>
-                        <tr><td/><td><input type="submit" class="input_nappula"></td></tr>
-                            </form:form>
-                </table>
-                <p>${seuranta_error}</p>
+
+                    <div id="aikavali_saato"</div>
+                    <h2>Säädä oma tarkkailtava aikaväli</h2><br/>
+                    <table>
+                        <form:form commandName="AikavaliForm" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
+                            <tr><td>Alkamisaika (pv.kk.vvvv):</td><td><form:input path="alkamisaika" /></td></tr>
+                            <tr><td>Loppumisaika (pv.kk.vvvv):</td><td><form:input path="loppumisaika" /></td></tr>
+                            <tr><td/><td><input type="submit" class="input_nappula"></td></tr>
+                                </form:form>
+                    </table>
+                    <p>${seuranta_error}</p>
             </div>
             <table id="tilasto_table">
                 <tr>
@@ -190,63 +203,90 @@
             </table>
             <br/>
 
-                </section>
-                <section class="hidden">
-                    <article>
-                        <h2>Seuranta-Avaimet: </h2><br/>
-                        <form method="POST" action="${pageContext.request.contextPath}/harjoittelija/asetukset/poista_avain">
-                            <select size="8" name="avainId" id="avaimet" multiple="yes" onChange="tarkastaArvo();"> 
-                                <c:forEach var="avain" items="${avaimet}">
-                                    <option value="${avain.id}">${avain}</option>
-                                </c:forEach>
-                            </select>
+        </section>
+        <section class="hidden">
+            <article>
+                <h2>Seuranta-Avaimet: </h2><br/>
+                <form method="POST" id="seuranta-avaimet" action="${pageContext.request.contextPath}/harjoittelija/asetukset/poista_avain">
+                    <select size="8" name="avainId" id="avaimet" multiple="yes" onChange="tarkastaArvo();"> 
+                        <c:forEach var="avain" items="${avaimet}">
+                            <option value="${avain.id}">${avain}</option>
+                        </c:forEach>
+                    </select>
 
-                            <p id="kopioitava"></p>
-                            <br/>
-                            <input type="submit" class="input_nappula ei_float_input_nappula" value="Poista">
-                            <br/>
-                        </form>
+                    <p id="kopioitava"></p>
+                    <br/>
+                    <input type="submit" class="input_nappula ei_float_input_nappula" value="Poista">
+                    <br/>
+                </form>
 
-                    </article>
-                    <article>
-                        <h2>Luo uusi avain:</h2><br/>
+            </article>
+            <article>
+                <h2>Luo uusi avain:</h2><br/>
 
-                        <table>
+                <table>
 
-                            <form method="POST" action="${pageContext.request.contextPath}/harjoittelija/asetukset/luo_avain">
-                                <tr><td> Kenelle:</td> <td><input type="text" name="nimi"></td></tr>
-
-
-                                <tr><td/><td><input type="submit" class="input_nappula" value="Luo avain"></td></tr>
-                                <p>${avain_message}</p>
-                            </form>
-                        </table>
-
-                    </article>
-                    <article>
-
-                        <h2>Salasana: </h2><br/>
-                        <form method="POST" action="${pageContext.request.contextPath}/harjoittelija/asetukset/salasana">
-                            <table>
-                                <tr><td>Vanha salasana:</td><td><input type="password" name="vanha_salasana"></td></tr>
-                                <tr><td>Uusi salanana:</td> <td><input type="password" name="uusi_salasana"></td></tr>
-                                <tr><td>Uusi salasana:</td><td><input type="password" name="uusi_salasana2"></td></tr>
-                                <tr><td></td><td><input class="input_nappula" type ="submit" value="Vaihda salasana"></td></tr>
-                            </table>
-                            ${message}
-                            <br/>
-                    </article>
-                </section>
+                    <form method="POST" id="luoAvain" action="${pageContext.request.contextPath}/harjoittelija/asetukset/luo_avain">
+                        <tr><td> Kenelle:</td> <td><input type="text" name="nimi"></td></tr>
 
 
+                        <tr><td/><td><input type="submit" class="input_nappula" value="Luo avain"></td></tr>
+                        <p>${avain_message}</p>
+                    </form>
+                </table>
+
+            </article>
+            <article>
+
+                <h2>Salasana: </h2><br/>
+                <form method="POST" action="${pageContext.request.contextPath}/harjoittelija/asetukset/salasana">
+                    <table>
+                        <tr><td>Vanha salasana:</td><td><input type="password" name="vanha_salasana"></td></tr>
+                        <tr><td>Uusi salanana:</td> <td><input type="password" name="uusi_salasana"></td></tr>
+                        <tr><td>Uusi salasana:</td><td><input type="password" name="uusi_salasana2"></td></tr>
+                        <tr><td></td><td><input class="input_nappula" type ="submit" value="Vaihda salasana"></td></tr>
+                    </table>
+                    ${message}
+                    <br/>
+            </article>
+        </section>
+        <section class="hidden">
+            <table id="tilasto_table">
+
+                <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
+                    <tr>
+                        <td>Alkamisaika (pv.kk.vvvv hh.mm):</td> <td><form:input path="alkamisaika" /></td><form:errors path="alkamisaika"/>
+                    </tr><tr>
+                        <td> Kesto (minuuttia):</td> <td><form:input path="kesto" /></td><form:errors path="kesto"/>
+                    </tr><tr>
+                        <td>Teho (1-5):</td> <td><form:input path="teho" /></td><form:errors path="teho" />
+                    </tr><tr>
+                        <td>Paikka:</td><td><form:input path="paikka" /></td><form:errors path="paikka"/>
+                    </tr><tr>
+                        <td>Tyyppi:</td><td><form:select path="tyyppi" items="${sallitutTyypit}"/></td>
+                        <form:errors path="tyyppi" />  
+                    </tr><tr>
+                        <td>Sisältö:</td> <td><form:textarea path="sisalto" /></td><form:errors path="sisalto"/>
+                    </tr><tr>
+                        <td></td><td><input class="input_nappula" type="submit" value="Muokkaa"></td></tr>
+                </table>
+                <form:hidden path="id"  value="${harjoitus.id}" />
+            </form:form>
+
+            <br/>
 
 
-            </div>
-
-        </div>
+        </section>
 
 
 
-    </body>
+
+    </div>
+
+</div>
+
+
+
+</body>
 
 </html>

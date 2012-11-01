@@ -37,19 +37,7 @@ public class TilastoController {
     @Autowired
     private SeurantaavainService seurantaService;
 
-    @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
-    public String getTilastot(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, Model model, HttpSession session) {
-        Date alkamisaika;
-        Date loppumisaika;
-        if (session.getAttribute("harjoittelijaId") != null) {
-            Harjoittelija harjoittelija = harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"));
-            model.addAttribute("tilasto", tilastoService.keraaTilastot(session, harjoittelija));
-            return "tilasto";
-        } else {
-            return "index";
-        }
-
-    }
+ 
 
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.POST)
     public String setOmaAikavali(@Valid @ModelAttribute("AikavaliForm") AikavaliForm form, BindingResult bindingResult,

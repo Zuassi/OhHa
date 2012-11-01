@@ -6,9 +6,11 @@ package werkko.harjoitusseuranta.controller;
 
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,9 @@ import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
+import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
+import werkko.harjoitusseuranta.service.HarjoitusService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
 import werkko.harjoitusseuranta.service.TilastoService;
 
@@ -38,14 +42,38 @@ public class HarjoittelijaController {
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
     @Autowired
     private SeurantaavainService avainService;
-    @Autowired 
+    @Autowired
     private TilastoService tilastoService;
+    @Autowired
+    private HarjoitusService harjoitusService;
+
     @PostConstruct
     private void init() {
         Harjoittelija harjoittelija = new Harjoittelija();
         harjoittelija.setNimi("asdasd");
         harjoittelija.setSalasana("asdasd");
         harjoittelijaService.create(harjoittelija);
+    }
+
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String home(Model model, @RequestParam(value = "sivuNumero", required = false) Integer sivunumero,
+            @RequestParam(value = "jarjestys", required = false) String jarjestys, @ModelAttribute Harjoitus harjoitus,
+            @ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!model.containsAttribute("page")) {
+            model.addAttribute("page", 0);
+        }
+        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+        model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+                harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
+        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
+        if (session.getAttribute("harjoittelijaId") == null) {
+            redirectAttributes.addAttribute("login_message", "Istunto vanhentunut");
+            return "redirect:/";
+        }
+        sivutus(model, sivunumero, jarjestys, session);
+
+
+        return "home";
     }
 
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
@@ -65,71 +93,67 @@ public class HarjoittelijaController {
 
     }
 
-    @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String home(Model model, @ModelAttribute Harjoitus harjoitus,
-    @ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, HttpSession session) {
-        if (!model.containsAttribute("page")) {
-            model.addAttribute("page", 0);
-        }
-        model.addAttribute("tilasto",tilastoService.keraaTilastot(session, 
-                harjoittelijaService.read((Long)session.getAttribute("harjoittelijaId"))));
-        return "home";
-    }
-
-    @RequestMapping(value = "harjoittelija", method = RequestMethod.GET)
-    public String getHarjoittelija(Model model, HttpSession session) {
-        try {
-            model.addAttribute("harjoittelija", harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")));
-            return "harjoittelija";
-        } catch (Exception e) {
-            return "index";
-        }
-    }
-
-    @RequestMapping(value = "harjoittelija/asetukset", method = RequestMethod.GET)
-    public String getAsetukset(String message, Model model, HttpSession session) {
-        if (session.getAttribute("harjoittelijaId") == null) {
-            return "index";
-        }
-        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
-        Harjoittelija harjoittelija = harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"));
-        return "asetukset";
-    }
-
     @RequestMapping(value = "harjoittelija/asetukset/salasana", method = RequestMethod.POST)
     public String vaihdaSalasana(HttpSession session,
             @RequestParam("vanha_salasana") String vanhaSalasana,
             @RequestParam("uusi_salasana") String uusiSalasana,
             @RequestParam("uusi_salasana2") String uusiSalasana2,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, HttpServletRequest request) {
         if (session.getAttribute("harjoittelijaId") == null) {
-            return "index";
+            redirectAttributes.addAttribute("login_message", "Istunto vanhentunut");
+            return "redirect:/";
         }
         String message = harjoittelijaService.vaihdaSalasana(session, vanhaSalasana, uusiSalasana, uusiSalasana2);
         redirectAttributes.addFlashAttribute("message", message);
-        return "redirect:/harjoittelija/asetukset";
+        redirectAttributes.addFlashAttribute("page", 3);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @RequestMapping(value = "harjoittelija/asetukset/luo_avain", method = RequestMethod.POST)
-    public String luoAvain(HttpSession session, @RequestParam("nimi") String nimi, RedirectAttributes redirectAttributes) {
+    public String luoAvain(HttpSession session, @RequestParam("nimi") String nimi, Model model,
+            HttpServletRequest request) {
         if (session.getAttribute("harjoittelijaId") == null) {
-            return "index";
+            model.addAttribute("login_message", "Istunto vanhentunut");
+            return "redirect:/";
         }
+        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
         if (nimi.length() < 1) {
-            redirectAttributes.addFlashAttribute("avain_message", "Anna avaimen omistajan nimi");
-            return "redirect:/harjoittelija/asetukset";
+            model.addAttribute("avain_message", "Anna avaimen omistajan nimi");
+            return "asetukset";
         }
         Seurantaavain avain = new Seurantaavain();
         avain.setAvaimenOmistaja(nimi);
         avain.setAvain(UUID.randomUUID().toString());
         avain.setHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"));
         avainService.create(avain);
-        return "redirect:/harjoittelija/asetukset";
+        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+        return "asetukset";
     }
 
     @RequestMapping(value = "harjoittelija/asetukset/poista_avain", method = RequestMethod.POST)
-    public String poistaAvain(HttpSession session, @RequestParam("avainId") Long id) {
-        avainService.delete(id);
-        return "redirect:/harjoittelija/asetukset";
+    public String poistaAvain(Model model, HttpSession session, @RequestParam("avainId") Long id,
+            HttpServletRequest request) {
+        if (avainService.read(id) != null) {
+            avainService.delete(id);
+        }
+        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+        return "asetukset";
+    }
+
+    public void sivutus(Model model, Integer sivunumero, String jarjestys, HttpSession session) {
+        if (sivunumero == null) {
+            sivunumero = 1;
+        }else{
+            model.addAttribute("page",1);
+        }
+
+        model.addAttribute("jarjestys", jarjestys);
+        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, session);
+
+        boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
+        model.addAttribute("sivutus", sivutus);
+        model.addAttribute("sivuNumero", sivunumero);
+        model.addAttribute("sivumaara", harjoitukset.getTotalPages());
+        model.addAttribute("harjoitukset", harjoitukset.getContent());
     }
 }

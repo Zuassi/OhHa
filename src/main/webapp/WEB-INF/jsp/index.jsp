@@ -18,6 +18,7 @@
 
         <div id="tabit">
             <ul>
+                 <div id="valikko">HARJOITUSSEURANTA</div>
                 <li> <a href="#" onclick="displayArticle(0);" class="tab"> Kirjaudu</a></li>
                 <li> <a href="#" onclick="displayArticle(1);" class="tab"> Rekisteröidy</a></li>
 

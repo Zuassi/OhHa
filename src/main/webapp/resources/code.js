@@ -1,4 +1,36 @@
+$(document).ready(function() {
+    $(document).on('submit', '#harjoitus', function() {
+        $.post("harjoittelija/harjoitus", $("#harjoitus").serialize(),function(data){
+          
+            var content = $(data).find("#harjoitus_table");
+            $("#harjoitus_table").replaceWith(content);
 
+            var selaa = $(data).find("#selaa_table");
+            $("#selaa_table").replaceWith(selaa);
+        
+        });
+        return false;
+    });       
+    
+    $(document).on('submit', '#seuranta-avaimet', function() {
+         
+        $.post("harjoittelija/asetukset/poista_avain", $("#seuranta-avaimet").serialize(),function(data){
+            $("#seuranta-avaimet").replaceWith(data);
+            
+        });   
+        return false;
+    });
+    
+    $(document).on('submit', '#luoAvain', function() {
+        $.post("harjoittelija/asetukset/luo_avain", $("#luoAvain").serialize(),function(data){
+            console.log(data);
+            $("#seuranta-avaimet").replaceWith(data);
+        });
+        return false;
+    });
+ 
+        
+}); 
 
 
 function init(number) {

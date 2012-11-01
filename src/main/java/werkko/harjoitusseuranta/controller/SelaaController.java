@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +31,12 @@ public class SelaaController {
             @RequestParam(value = "jarjestys", required = false) String jarjestys,
             RedirectAttributes redirectAttributes, HttpSession session,
             HttpServletRequest request) {
+
         if (session.getAttribute("harjoittelijaId") == null) {
-            return "index";
+            redirectAttributes.addAttribute("login_message","Istunto vanhentunut");
+            return "redirect:/";
         }
+        System.out.println("Miten me tänne jouduttiin?");
         if (sivunumero == null) {
             sivunumero = 1;
         }

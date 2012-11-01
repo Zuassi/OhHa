@@ -36,7 +36,7 @@ public class EtusivuController {
     @RequestMapping(value = "/")
     public String etusivu(HttpSession session, @ModelAttribute("harjoittelija") Harjoittelija harjoittelija,
             Model model, @ModelAttribute("AikavaliForm") AikavaliForm aikavaliForm) {
-        try{
+
         //tarkastetaan että sessionissa oleva id on olemassa tietokannassa 
         //jos database on satuttu uusimaan, ongelma lähinnä softaa koodatessa kun database tyhjenee vähänväliä
         if (session.getAttribute("harjoittelijaId") != null && harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId")) == null) {
@@ -53,17 +53,15 @@ public class EtusivuController {
         if (session.getAttribute("avain") != null) {
             String seurantaAvain = (String) session.getAttribute("avain");
             HashMap<String, Integer> seurannatMapattuna = tilastoService.findTilastoByHarjoittelijaSeurantaAvain(seurantaAvain, session);
-            if(seurannatMapattuna==null){
+            if (seurannatMapattuna == null) {
                 return "logout";
             }
             model.addAttribute("tilasto", seurannatMapattuna);
             model.addAttribute("seurantaAsetettu", true);
-            
+
         }
         return "index";
-        }catch(Exception e){
-            return "index";
-        }
+
     }
 
     //tuhotaan sessioni
