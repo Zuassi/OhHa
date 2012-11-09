@@ -17,4 +17,7 @@ yhä poistaa niitä halutessaan.
 30.10.2012 noin 3h - Etusivusta sellanen että javascript antaa aina oikean välilehden eikä tarvi latailla sivua aina uudestaan
 30.10.2012 noin 2h - Ulkoasun parantelua, vähän väriä pintaan.
 31.10.2012 noin 4h - Täysin uusi ulkoasu
-1.10.2012 noin 3h - Javascriptiä/ajaxia sivulle ettei tarvi ladata aina kaikkea
+1.11.2012 noin 3h - Javascriptiä/ajaxia sivulle ettei tarvi ladata aina kaikkea
+3.11.2012 noin 2h - Lisää javascriptiä, entistä vähemmän latailua.
+4.11.2012 noin 1h - Lisää javascriptiä, vielä vähemmän latailua.
+9.11.2012 noin 1.5h - Kirjautuminen ja rekisteröityminen testit

@@ -16,6 +16,7 @@
         <script src="${pageContext.request.contextPath}/resources/code.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
+        <title>Harjoitusseuranta - Kirjautunut</title>
     </head>
     <body onload="init(${page});">
         <div id="tabit">
