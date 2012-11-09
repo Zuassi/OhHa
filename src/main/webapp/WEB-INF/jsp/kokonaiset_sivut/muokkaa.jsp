@@ -7,31 +7,9 @@
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF8">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css" type="text/css" /> 
-    </head>
-    <body>
-              <div id="tabit">
 
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/harjoittelija/lisaa-harjoitus" class ="tab">Lis‰‰ harjoitus</a></li>
-                <li><a href="${pageContext.request.contextPath}/harjoittelija/selaa" class="tab" >Selaa harjoituksia</a></li>
-                <li><a href="${pageContext.request.contextPath}/harjoittelija/tilasto" class="tab">Tilastot</a></li>
-                <li><a href="${pageContext.request.contextPath}/harjoittelija/asetukset" class="tab">Asetukset</a></li>                                                                                
-                <li><a href="${pageContext.request.contextPath}/logout" class ="vika_linkki" class="tab">Kirjaudu ulos</a></li>
-            </ul>
-        </div>
-        <div id ="sisalto_container">
-            <div id="logo">Harjoitusseuranta</div>
-
-              
-            <div id="sisalto_laatikko">
-
-                <table id="tilasto_table">
-
-                    <form:form commandName="harjoitus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
+                    <form:form commandName="harjoitus" class="muokkaus" action="${pageContext.request.contextPath}/harjoittelija/harjoitus" method="POST" >
+                        <table>
                         <tr>
                             <td>Alkamisaika (pv.kk.vvvv hh.mm):</td> <td><form:input path="alkamisaika" /></td><form:errors path="alkamisaika"/>
                         </tr><tr>
@@ -50,13 +28,4 @@
                     </table>
                     <form:hidden path="id"  value="${harjoitus.id}" />
                 </form:form>
-
-                <br/>
-
-                </table>
-            </div>
-
-        </div>
-    </body>
-
-</html>
+        

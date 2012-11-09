@@ -19,5 +19,7 @@ public interface HarjoitusRepository extends JpaRepository<Harjoitus,Long>{
     public List<Harjoitus> findByHarjoittelijaId(Long id);
 
     public Page<Harjoitus> findByHarjoittelijaId(Long harjoittelijaId, Pageable request);
+
+    public Harjoitus findById(Long id);
     
 }

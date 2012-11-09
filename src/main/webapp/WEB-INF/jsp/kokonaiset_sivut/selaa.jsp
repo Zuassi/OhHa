@@ -1,10 +1,11 @@
 <%-- 
     Document   : selaa
-    Created on : 19.10.2012, 15:32:16
+    Created on : 9.11.2012, 18:51:22
     Author     : Lalli
 --%>
 
-<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
@@ -17,7 +18,7 @@
             <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
             <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
             <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
-            <th>Sis‰ltˆ</th>
+            <th>Sis√§lt√∂</th>
             <th>Muokkaa</th>
             <th>Poista</th>
 
@@ -31,9 +32,9 @@
                 <td>${harjoitus.teho}</td>
                 <td>${harjoitus.paikka}</td>
                 <td>${harjoitus.tyyppi}</td>
-                  <td><a href="#" data-value="${pageContext.request.contextPath}/harjoittelija/harjoitus/${harjoitus.id}" class="nayta">N‰yt‰</a></td>
-                <td><a href="${pageContext.request.contextPath}/harjoittelija/harjoitus/muokkaa/${harjoitus.id}">Muokkaa</a></td>
-                <td><a href="${pageContext.request.contextPath}/harjoittelija/poista-harjoitus/${harjoitus.id}" class="poista">Poista</a></td>
+                <td><a href="#" data-value="${pageContext.request.contextPath}/harjoittelija/harjoitus/${harjoitus.id}" class="nayta">N√§yt√§</a></td>
+                <td><a href="#" data-value="${pageContext.request.contextPath}/harjoittelija/harjoitus/muokkaa/${harjoitus.id}" class="muokkaa">Muokkaa</a></td>
+                <td><a href="#" data-value="${pageContext.request.contextPath}/harjoittelija/poista-harjoitus/${harjoitus.id}" class="poista">Poista</a></td>
             </tr>
         </c:forEach>
         </tr>
@@ -46,4 +47,8 @@
                 <a href="${pageContext.request.contextPath}/home?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
             </c:forEach></p>
         </c:if>
+</div>
+<p id="treenisisalto" class="hidden"></p>  
+<div id="muokkaa">
+
 </div>

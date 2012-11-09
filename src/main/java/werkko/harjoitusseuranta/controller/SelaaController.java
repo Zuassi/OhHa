@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,27 +30,23 @@ public class SelaaController {
     @RequestMapping(value = "harjoittelija/selaa", method = RequestMethod.GET)
     public String selaa(@RequestParam(value = "sivuNumero", required = false) Integer sivunumero,
             @RequestParam(value = "jarjestys", required = false) String jarjestys,
-            RedirectAttributes redirectAttributes, HttpSession session,
-            HttpServletRequest request) {
+            Model model, HttpSession session) {
 
         if (session.getAttribute("harjoittelijaId") == null) {
-            redirectAttributes.addAttribute("login_message","Istunto vanhentunut");
+      
             return "redirect:/";
         }
-        System.out.println("Miten me tänne jouduttiin?");
-        if (sivunumero == null) {
-            sivunumero = 1;
-        }
+        
 
-        redirectAttributes.addFlashAttribute("jarjestys", jarjestys);
+        model.addAttribute("jarjestys", jarjestys);
         Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, session);
-
+        model.addAttribute("harjoitukset",harjoitukset);
         boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
-        redirectAttributes.addFlashAttribute("sivutus", sivutus);
-        redirectAttributes.addFlashAttribute("sivuNumero", sivunumero);
-        redirectAttributes.addFlashAttribute("sivumaara", harjoitukset.getTotalPages());
-        redirectAttributes.addFlashAttribute("harjoitukset", harjoitukset.getContent());
-        redirectAttributes.addFlashAttribute("page",1);
-        return "redirect:"+request.getHeader("Referer");
+        model.addAttribute("sivutus", sivutus);
+        model.addAttribute("sivuNumero", sivunumero);
+        model.addAttribute("sivumaara", harjoitukset.getTotalPages());
+        model.addAttribute("harjoitukset", harjoitukset.getContent());
+
+        return "kokonaiset_sivut/selaa";
     }
 }

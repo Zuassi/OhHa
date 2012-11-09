@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
-import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.HarjoitusService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
@@ -56,21 +54,8 @@ public class HarjoittelijaController {
     }
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String home(Model model, @RequestParam(value = "sivuNumero", required = false) Integer sivunumero,
-            @RequestParam(value = "jarjestys", required = false) String jarjestys, @ModelAttribute Harjoitus harjoitus,
-            @ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm, HttpSession session, RedirectAttributes redirectAttributes) {
-        if (!model.containsAttribute("page")) {
-            model.addAttribute("page", 0);
-        }
-        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
-        model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
-                harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
-        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
-        if (session.getAttribute("harjoittelijaId") == null) {
-            redirectAttributes.addAttribute("login_message", "Istunto vanhentunut");
-            return "redirect:/";
-        }
-        sivutus(model, sivunumero, jarjestys, session);
+    public String home() {
+
 
 
         return "home";
@@ -93,20 +78,26 @@ public class HarjoittelijaController {
 
     }
 
+    @RequestMapping(value = "harjoittelija/asetukset", method = RequestMethod.GET)
+    public String getAsetukset(Model model, HttpSession session) {
+        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+        return "kokonaiset_sivut/asetukset";
+    }
+
     @RequestMapping(value = "harjoittelija/asetukset/salasana", method = RequestMethod.POST)
     public String vaihdaSalasana(HttpSession session,
             @RequestParam("vanha_salasana") String vanhaSalasana,
             @RequestParam("uusi_salasana") String uusiSalasana,
             @RequestParam("uusi_salasana2") String uusiSalasana2,
-            RedirectAttributes redirectAttributes, HttpServletRequest request) {
+            RedirectAttributes redirectAttributes, Model model) {
         if (session.getAttribute("harjoittelijaId") == null) {
             redirectAttributes.addAttribute("login_message", "Istunto vanhentunut");
             return "redirect:/";
         }
         String message = harjoittelijaService.vaihdaSalasana(session, vanhaSalasana, uusiSalasana, uusiSalasana2);
-        redirectAttributes.addFlashAttribute("message", message);
-        redirectAttributes.addFlashAttribute("page", 3);
-        return "redirect:" + request.getHeader("Referer");
+        model.addAttribute("message", message);
+      
+         return "kokonaiset_sivut/asetukset";
     }
 
     @RequestMapping(value = "harjoittelija/asetukset/luo_avain", method = RequestMethod.POST)
@@ -143,8 +134,8 @@ public class HarjoittelijaController {
     public void sivutus(Model model, Integer sivunumero, String jarjestys, HttpSession session) {
         if (sivunumero == null) {
             sivunumero = 1;
-        }else{
-            model.addAttribute("page",1);
+        } else {
+            model.addAttribute("page", 1);
         }
 
         model.addAttribute("jarjestys", jarjestys);

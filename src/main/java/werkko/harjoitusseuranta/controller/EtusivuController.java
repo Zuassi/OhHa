@@ -46,20 +46,7 @@ public class EtusivuController {
         // harjoittelija id ei ole null = ollaan jo sisällä joten ohjataan omalle sivulle
         if (session.getAttribute("harjoittelijaId") != null) {
             return "redirect:home";
-        }
-        if (!model.containsAttribute("page")) {
-            model.addAttribute("page", 0);
-        }
-        if (session.getAttribute("avain") != null) {
-            String seurantaAvain = (String) session.getAttribute("avain");
-            HashMap<String, Integer> seurannatMapattuna = tilastoService.findTilastoByHarjoittelijaSeurantaAvain(seurantaAvain, session);
-            if (seurannatMapattuna == null) {
-                return "logout";
-            }
-            model.addAttribute("tilasto", seurannatMapattuna);
-            model.addAttribute("seurantaAsetettu", true);
-
-        }
+        }       
         return "index";
 
     }
@@ -84,7 +71,7 @@ public class EtusivuController {
             Harjoittelija harjoittelija = harjoittelijaService.findByNimi(nimi);
             if (harjoittelija.getSalasana().equals(md5salasana)) {
                 session.setAttribute("harjoittelijaId", harjoittelija.getId());
-                redirectAttributes.addAttribute("harjoittelijaId", harjoittelija.getId());
+                
                 return "redirect:/home";
             }
         }

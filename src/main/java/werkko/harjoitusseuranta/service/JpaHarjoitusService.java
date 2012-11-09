@@ -51,16 +51,23 @@ public class JpaHarjoitusService implements HarjoitusService {
     public Page<Harjoitus> listHarjoitukset(Integer sivuNumero, Integer sivuKoko, String jarjestys, HttpSession session) {
 
 
-        if (jarjestys == null || jarjestys.isEmpty()) {
+       
             jarjestys = "alkamisaika";
+       
+
+        if(sivuNumero==null){
+            sivuNumero=1;
         }
-
-
+        
 
         Pageable request = request = new PageRequest(sivuNumero - 1, sivuKoko, Sort.Direction.DESC, jarjestys);
         session.setAttribute("viimeisinSort", null);
 
 
         return harjoitusRepository.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"), request);
+    }
+
+    public Harjoitus findById(Long id) {
+        return harjoitusRepository.findById(id);
     }
 }

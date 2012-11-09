@@ -30,7 +30,22 @@ body{
     font-weight:100;
 }
 
+.treenisisalto{
+    text-shadow: 2px 1px #000000;
 
+    color:white;
+    margin-top: 20px;
+    padding: 15px;
+     
+}
+
+.treeni_lisatty{
+   background-color:rgba(152,237,130,0.4);
+   padding: 20px;
+   width: 120px;
+   border-radius: 10px;
+   
+}
 
 #page_container{
     min-width:1300px;
@@ -188,6 +203,10 @@ h2{
 }
 option{
     background-color:#F0F8F8;
+}
+
+.hidden{
+    display:none;
 }
 
 section.hidden{

@@ -26,4 +26,6 @@ public interface HarjoitusService {
     public List<Harjoitus> findByHarjoittelijaId(Long id);
 
     Page<Harjoitus> listHarjoitukset(Integer sivuNumero, Integer sivuKoko, String jarjestys, HttpSession session);
+
+    public Harjoitus findById(Long id);
 }

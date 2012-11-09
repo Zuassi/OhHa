@@ -21,6 +21,8 @@ import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.HarjoitusService;
+import werkko.harjoitusseuranta.service.SeurantaavainService;
+import werkko.harjoitusseuranta.service.TilastoService;
 
 /**
  *
@@ -33,6 +35,16 @@ public class HarjoitusController {
     private HarjoitusService harjoitusService;
     @Autowired
     private HarjoittelijaService harjoittelijaService;
+    @Autowired
+    private SeurantaavainService avainService;
+    @Autowired
+    private TilastoService tilastoService;
+    
+    @RequestMapping(value="harjoittelija/harjoitus", method = RequestMethod.GET)
+    public String getLisaaHarjoitus(@ModelAttribute Harjoitus harjoitus, Model model){
+        model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
+        return "kokonaiset_sivut/lisaa-harjoitus";
+    }
 
     @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
     public String lisaaHarjoitus(HttpSession session, Model model,
@@ -41,20 +53,31 @@ public class HarjoitusController {
 
         Long harjoittelijaId = (Long) session.getAttribute("harjoittelijaId");
         model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
-       
+
 
         if (bindingResult.hasErrors()) {
 
-      
-            model.addAttribute("harjoitus", harjoitus);
 
-            return "lisaa-harjoitus";
+            model.addAttribute("harjoitus", harjoitus);
+            model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+            model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+                    harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
+            model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
+            //kyseessä muokkaus
+                if(harjoitus.getId()!=null){
+                return "redirect:/harjoittelija/selaa";
+            }
+            return "kokonaiset_sivut/lisaa-harjoitus";
         } else {
+         
+          
 
             harjoitusService.create(harjoitus, harjoittelijaId);
-            redirectAttributes.addAttribute("lisatty","Harjoitus lisätty!");
-            
-            return "redirect:/home";
+               //kyseessä muokkaus
+              if(harjoitus.getId()!=null){
+                return "redirect:/harjoittelija/selaa";
+            }
+           return "kokonaiset_sivut/lisaa-harjoitus";
         }
     }
 
@@ -65,17 +88,28 @@ public class HarjoitusController {
         if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
             harjoitusService.delete(id);
         }
-        redirectAttributes.addAttribute("page", 1);
-        return "redirect:" + request.getHeader("Referer");
+       
+        return "redirect:/harjoittelija/selaa";
 
+    }
+    
+    @RequestMapping(value="harjoittelija/harjoitus/{id}", method = RequestMethod.GET)
+    public String naytaHarjoitus(Model model, @PathVariable("id")Long id, HttpSession session){
+        Harjoitus harjoitus = harjoitusService.findById(id);
+        if(harjoitus.getHarjoittelijaId() ==(Long)session.getAttribute("harjoittelijaId")){
+           model.addAttribute("harjoitus",harjoitus.getSisalto());
+        }
+         
+        return "harjoitus";
     }
 
     @RequestMapping(value = "harjoittelija/harjoitus/muokkaa/{id}", method = RequestMethod.GET)
-    public String muokkaaHarjoitusta(@PathVariable("id") Long id, RedirectAttributes redirectAttributes,
+    public String muokkaaHarjoitusta(@PathVariable("id") Long id, Model model,
             HttpServletRequest request) {
-        redirectAttributes.addFlashAttribute("id", id);
-        redirectAttributes.addFlashAttribute("harjoitus", harjoitusService.read(id));
-        redirectAttributes.addFlashAttribute("page", 5);
-        return "redirect: " + request.getHeader("Referer");
+        model.addAttribute("id", id);
+        model.addAttribute("harjoitus", harjoitusService.read(id));
+        model.addAttribute("page", 5);
+        model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
+        return "kokonaiset_sivut/muokkaa";
     }
 }

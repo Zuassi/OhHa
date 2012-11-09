@@ -36,28 +36,35 @@ public class TilastoController {
     private HarjoittelijaService harjoittelijaService;
     @Autowired
     private SeurantaavainService seurantaService;
-
- 
+    
+    
+    @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
+    public String getTilasto(@ModelAttribute("aikavali") AikavaliForm aikavali, HttpSession session, Model model) {
+      
+        model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+                harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
+        return "kokonaiset_sivut/tilasto";
+    }
 
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.POST)
-    public String setOmaAikavali(@Valid @ModelAttribute("AikavaliForm") AikavaliForm form, BindingResult bindingResult,
-            HttpSession session, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("seurantaAsetettu", true);
-        redirectAttributes.addFlashAttribute("page", 2);
+    public String setOmaAikavali(@Valid @ModelAttribute("aikavali") AikavaliForm form, BindingResult bindingResult,
+            HttpSession session, HttpServletRequest request, Model model) {
+        model.addAttribute("seurantaAsetettu", true);
+           model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+                harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
+  
         if (bindingResult.hasErrors()) {
-
-            redirectAttributes.addFlashAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
-
-            return "redirect:" + request.getHeader("Referer");
+            model.addAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
+            return "kokonaiset_sivut/tilasto";
         }
         session.setAttribute("alkamisaika", form.getAlkamisaika());
         session.setAttribute("loppumisaika", form.getLoppumisaika());
-
-        return "redirect:" + request.getHeader("Referer");
+       
+        return "kokonaiset_sivut/tilasto";
     }
 
     @RequestMapping(value = "seuranta", method = RequestMethod.POST)
-    public String etsiSeurattava(@ModelAttribute("AikavaliForm") AikavaliForm AikavaliForm,
+    public String etsiSeurattava(@ModelAttribute("aikavali") AikavaliForm AikavaliForm,
             HttpSession session, RedirectAttributes redirectAttributes,
             @RequestParam("avain") String seurantaAvain) {
         if (seurantaService.findByAvain(seurantaAvain) != null) {
