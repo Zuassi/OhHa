@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
+import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.HarjoitusService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
@@ -54,23 +55,28 @@ public class HarjoittelijaController {
     }
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String home() {
-
+    public String home(@ModelAttribute Harjoitus harjoitus, Model model) {
+        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
 
 
         return "home";
     }
 
+    @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
+    public String getRekisterointi(@ModelAttribute Harjoittelija harjoittelija) {
+        return "kokonaiset_sivut/rekisterointi";
+    }
+
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
-            BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpSession session) {
+            BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "rekisterointi";
+            return "index_rekisteroinnilla";
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
-            redirectAttributes.addFlashAttribute("register_message", "Nimi on jo käytössä");
-            redirectAttributes.addFlashAttribute("page", 1);
-            return "redirect:/";
+            model.addAttribute("register_message", "Nimi on jo käytössä");
+
+            return "index_rekisteroinnilla";
         }
         harjoittelijaService.create(harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());
@@ -96,8 +102,8 @@ public class HarjoittelijaController {
         }
         String message = harjoittelijaService.vaihdaSalasana(session, vanhaSalasana, uusiSalasana, uusiSalasana2);
         model.addAttribute("message", message);
-      
-         return "kokonaiset_sivut/asetukset";
+
+        return "asetukset_salasana";
     }
 
     @RequestMapping(value = "harjoittelija/asetukset/luo_avain", method = RequestMethod.POST)

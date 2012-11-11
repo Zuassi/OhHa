@@ -39,15 +39,18 @@
             <div id="sisalto_laatikko">
 
                 <div class="keskitettava">
-                    <h2 class="otsikko">Kirjaudu</h2>
-<p class="keskitettava_message">${login_message}</p>
+                    <h2 class="otsikko">Rekisteröidy</h2>
+                    <p class="keskitettava_message">${register_message}</p>
+
                     <table>
                         <tr>
-                        <form action="${pageContext.request.contextPath}/kirjaudu" method="POST">
-                            <td> Käyttäjänimi </td><td> <input type="text" name="nimi" id="nimi" class="input kirjaudu_nimi"/></td></tr> <br/>
-                            <tr><td>Salasana</td>  <td><input type="password" name ="salasana" class="input kirjaudu_salasana" id="nimi"></td></tr><br/>
-                            <td/><td><input type="submit" class="input_nappula kirjaudu_nappula" id="kirjaudu_nappula" value="Kirjaudu"/></td>
-                        </form></table>
+
+                            <form:form commandName="harjoittelija" action="${pageContext.request.contextPath}/rekisterointi" method="POST">
+                                <td> Käyttäjänimi </td><td> <form:input path="nimi" class="input rekisteroidy_nimi"/><form:errors path="nimi" /></td></tr> <br/>
+                            <tr><td>Salasana</td>  <td><form:password path="salasana" class="input rekisteroidy_salasana" /><form:errors path="salasana"/></td></tr><br/>
+                            <td/><td><input type="submit" class="input_nappula rekisteroidy_nappula" id="kirjaudu_nappula" value="Rekisteröidy"/></td></table>
+                            </form:form>
+
 
                 </div>
             </div>
@@ -57,7 +60,7 @@
 
 
 
-        <div/>
+
     </body>
 
 </html>

@@ -1,31 +1,59 @@
 $(document).ready(function() {
-    $.get("/OhHa/harjoittelija/harjoitus",function(data){
-        $("#sisalto_laatikko").html(data);
+    
+    
+//    $.get("/OhHa/harjoittelija/harjoitus",function(data){
+//        $("#sisalto_laatikko").html(data);
+//    });
+    
+      $(".tab_kirjaudu").click(function(event) {
+        
+        $.get("kirjaudu",function(data){
+            $(".keskitettava").html(data);
+        })
+    });
+    
+         $(".tab_rekisteroidy").click(function(event) {
+        
+        $.get("rekisterointi",function(data){
+            $(".keskitettava").html(data);
+        })
     });
         
         
     $(".tab_lisaa").click(function(event) {
-        $.get("/OhHa/harjoittelija/harjoitus",function(data){
+        $.get("harjoittelija/harjoitus",function(data){
             $("#sisalto_laatikko").html(data);
         })
     });
     
+            
+  
+    
+    
     $(".tab_selaa").click(function(event){
-        $.get("/OhHa/harjoittelija/selaa", function(data){
+        $.get("harjoittelija/selaa", function(data){
+            $("#sisalto_laatikko").html(data);
+        
+        })
+    });
+    
+    
+        $(".tab_selaa").click(function(event){
+        $.get("harjoittelija/selaa", function(data){
             $("#sisalto_laatikko").html(data);
         
         })
     });
     
     $(".tab_tilasto").click(function(event){
-        $.get("/OhHa/harjoittelija/tilasto", function(data){
+        $.get("harjoittelija/tilasto", function(data){
             $("#sisalto_laatikko").html(data);
         
         })
     });
     
     $(".tab_asetukset").click(function(event){
-        $.get("/OhHa/harjoittelija/asetukset", function(data){
+        $.get("harjoittelija/asetukset", function(data){
             $("#sisalto_laatikko").html(data);
         })
     });
@@ -49,28 +77,28 @@ $(document).ready(function() {
   
     
     
-     $(document).on("click",".poista",function(){
+    $(document).on("click",".poista",function(){
         
         $.get($(this).attr("data-value"),function(data){
-           $("#sisalto_laatikko").html(data);
+            $("#sisalto_laatikko").html(data);
         });
         
       
     } );
     
-         $(document).on("submit","#vaihda_salasana",function(){
-        
-        $.post("harjoittelija/asetukset/salasana",this,function(data){
-           $("sisalto_laatikko").html(data); 
+    $(document).on("click",".asetukset_salasana",function(e){
+    
+        $.post("harjoittelija/asetukset/salasana",$("#vaihda_salasana").serialize(),function(data){
+           $("#asetukset_salasana").html(data);
         });
         return false;
-    
     } );
+
 
 
   
 
-     $(document).on("click",".nayta",function(){
+    $(document).on("click",".nayta",function(){
    
         $.get($(this).attr("data-value"),function(data){   
             $("#treenisisalto").html(data);
@@ -78,7 +106,7 @@ $(document).ready(function() {
         });
     } );
     
-  $(document).on("click",".muokkaa",function(){
+    $(document).on("click",".muokkaa",function(){
       
         $.get($(this).attr("data-value"),function(data){  
             $("#muokkaa").addClass("hidden");
@@ -91,22 +119,22 @@ $(document).ready(function() {
     } );
     
     $(document).on("click",".aseta_submit",function(){
-       $.post("harjoittelija/tilasto", $(".tilasto"), function(data){
-          $("#sisalto_laatikko").html(data);
-       });
-       return false;
+        $.post("harjoittelija/tilasto", $(".tilasto"), function(data){
+            $("#sisalto_laatikko").html(data);
+        });
+        return false;
     });
     
     
     
-     $(document).on("submit",".muokkaus",function(){
-       $.post("harjoittelija/harjoitus",$(".muokkaus"),function(data){
-           $(".muokkaa").slideUp(1000);
-          $("#selaa").html(data); 
+    $(document).on("submit",".muokkaus",function(){
+        $.post("harjoittelija/harjoitus",$(".muokkaus"),function(data){
+            $(".muokkaa").slideUp(1000);
+            $("#selaa").html(data); 
           
          
-       }); 
-     });
+        }); 
+    });
 
 
 
@@ -121,7 +149,7 @@ $(document).ready(function() {
     
     $(document).on('submit', '#luoAvain', function() {
         $.post("harjoittelija/asetukset/luo_avain", $("#luoAvain").serialize(),function(data){
-            console.log(data);
+           
             $("#seuranta-avaimet").replaceWith(data);
         });
         return false;
@@ -153,5 +181,6 @@ function tarkastaArvo(){
     var splitattu = arvo[arvo.selectedIndex].innerHTML.split(" ")
     kentta.innerHTML=splitattu[2];
 }
+
 
 

@@ -50,8 +50,12 @@ public class EtusivuController {
         return "index";
 
     }
+    @RequestMapping(value="kirjaudu", method = RequestMethod.GET)
+    public String kirjaudu(){
+        return "kokonaiset_sivut/kirjaudu";
+    }
 
-    //tuhotaan sessioni
+
     @RequestMapping(value = "logout")
     public String logout(RedirectAttributes redirectAttributes, HttpSession session) {
 
