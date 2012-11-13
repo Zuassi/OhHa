@@ -1,4 +1,5 @@
 
+import java.util.UUID;
 import junit.framework.Assert;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -32,21 +33,27 @@ public class PerusTest {
     public void rekisteroityminenToimii() {
         driver.manage().deleteAllCookies();
         driver.get(baseUrl);
-        rekisteroidy(kayttajanimi, salasana);
+        rekisteroidy(UUID.randomUUID().toString(), salasana);
         System.out.println(driver.getPageSource());
         Assert.assertTrue(driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
     }
 
     @Test
-    public void rekisteroityminenKaytossaOlevallaNimellaEpaonnistuu() {
-        driver.manage().deleteAllCookies();
-        driver.get(baseUrl);
-        rekisteroidy(kayttajanimi, salasana);
+    public void rekisteroityminenSamallaNimellaEiToimi() {
+
+        String nimi = UUID.randomUUID().toString();
+        for (int i = 0; i < 2; i++) {
+            driver.manage().deleteAllCookies();
+            driver.get(baseUrl);
+            rekisteroidy(nimi, salasana);
+        }
         Assert.assertTrue(driver.getPageSource().contains("Nimi on jo käytössä"));
     }
 
+
     public void rekisteroidy(String nimi, String salasana) {
-        driver.findElement(By.linkText("Rekisteröidy")).click();
+        driver.navigate().to(baseUrl+"/"+"rekisterointi");
+        
         driver.findElement(By.className("rekisteroidy_nimi")).sendKeys(nimi);
         driver.findElement(By.className("rekisteroidy_salasana")).sendKeys(salasana);
         driver.findElement(By.className("rekisteroidy_nappula")).submit();
@@ -56,7 +63,7 @@ public class PerusTest {
     public void kirjautuminenToimii() {
         driver.manage().deleteAllCookies();
 
-        kirjaudu(kayttajanimi, salasana);
+        kirjaudu("asdasd", "asdasd");
         Assert.assertTrue(driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
     }
 
@@ -77,7 +84,7 @@ public class PerusTest {
     @Test
     public void kirjauduJaLisaaHarjoitusToimii() {
         driver.manage().deleteAllCookies();
-        kirjaudu(kayttajanimi, salasana);
+        kirjaudu("asdasd", "asdasd");
 
         driver.findElement(By.className("lisaa_alkamisaika")).sendKeys("10.10." + new DateTime().getYear() + " 10.00");
         driver.findElement(By.className("lisaa_kesto")).sendKeys("4");
@@ -85,18 +92,20 @@ public class PerusTest {
         driver.findElement(By.className("lisaa_paikka")).sendKeys("baari");
         driver.findElement(By.className("lisaa_sisalto")).sendKeys("rankkaa tanssimista ja kaljan kittausta");
         driver.findElement(By.className("lisaa_harjoitus")).submit();
-
-        Assert.assertTrue(driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäyhteensätänävuonna:</b>1<br/>"));
+        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
+        System.out.println(driver.getPageSource());
+        Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäyhteensätänävuonna:</b>0<br/>"));
     }
 
     @Test
     public void asetaAikavaliToimiiKunHarjoitusOnLisatty() {
 
         kirjaudu(kayttajanimi, salasana);
+        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
         driver.findElement(By.className("aseta_alkamisaika")).sendKeys("9.10." + new DateTime().getYear());
         driver.findElement(By.className("aseta_loppumisaika")).sendKeys("11.10." + new DateTime().getYear());
         driver.findElement(By.className("aseta_submit")).submit();
-        System.out.println(driver.getPageSource());
-        Assert.assertTrue(driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:</b>1<br/>"));
+        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
+        Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:</b>1<br/>"));
     }
 }
