@@ -13,9 +13,10 @@
         <tr><td/><td><input type="submit" class="aseta_submit input_nappula"></td></tr>
             </form:form>
 </table>
-<p>${seuranta_error}</p>
+
 </div>
 <table id="tilasto_table">
+    <p>${seuranta_error}</p>
     <tr>
         <td>
             <div class="tilasto_laatikko">

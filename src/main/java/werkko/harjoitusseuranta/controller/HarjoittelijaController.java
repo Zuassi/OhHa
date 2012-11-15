@@ -71,12 +71,12 @@ public class HarjoittelijaController {
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
             BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "index_rekisteroinnilla";
+            return "kokonaiset_sivut/rekisterointi";
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
             model.addAttribute("register_message", "Nimi on jo käytössä");
 
-            return "index_rekisteroinnilla";
+            return "kokonaiset_sivut/rekisterointi";
         }
         harjoittelijaService.create(harjoittelija);
         session.setAttribute("harjoittelijaId", harjoittelija.getId());

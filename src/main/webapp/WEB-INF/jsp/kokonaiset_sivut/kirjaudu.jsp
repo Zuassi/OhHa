@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+    <div class="keskitettava">
 <h2 class="otsikko">Kirjaudu</h2>
 <p class="keskitettava_message">${login_message}</p>
 <table>
@@ -15,4 +16,5 @@
         <td/><td><input type="submit" class="input_nappula kirjaudu_nappula" id="kirjaudu_nappula" value="Kirjaudu"/></td>
     </form></table>
 
+    </div>
 

@@ -35,7 +35,8 @@ public class TilastoService {
     @Autowired
     private SeurantaavainService avainRepo;
 
-    public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(String avain, HttpSession session) {
+    public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(HttpSession session) {
+        String avain = (String) session.getAttribute("avain");
         Seurantaavain seurantaavain = avainRepo.findByAvain(avain);
         Harjoittelija harjoittelija = harjoittelijaRepo.findOne(seurantaavain.getHarjoittelijaId());
 

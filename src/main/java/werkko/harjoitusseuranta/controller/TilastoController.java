@@ -4,7 +4,6 @@
  */
 package werkko.harjoitusseuranta.controller;
 
-import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.controller.form.AikavaliForm;
-import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
 import werkko.harjoitusseuranta.service.TilastoService;
@@ -36,11 +33,10 @@ public class TilastoController {
     private HarjoittelijaService harjoittelijaService;
     @Autowired
     private SeurantaavainService seurantaService;
-    
-    
+
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
     public String getTilasto(@ModelAttribute("aikavali") AikavaliForm aikavali, HttpSession session, Model model) {
-      
+
         model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
                 harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
         return "kokonaiset_sivut/tilasto";
@@ -50,30 +46,43 @@ public class TilastoController {
     public String setOmaAikavali(@Valid @ModelAttribute("aikavali") AikavaliForm form, BindingResult bindingResult,
             HttpSession session, HttpServletRequest request, Model model) {
         model.addAttribute("seurantaAsetettu", true);
-           model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
-                harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
-  
+        System.out.println(form.getAlkamisaika());
+        System.out.println(form.getLoppumisaika());
+        if (session.getAttribute("harjoittelijaId") != null) {
+            model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+                    harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
+        }else{
+            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(session));
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
             return "kokonaiset_sivut/tilasto";
         }
         session.setAttribute("alkamisaika", form.getAlkamisaika());
         session.setAttribute("loppumisaika", form.getLoppumisaika());
-       
-        return "kokonaiset_sivut/tilasto";
+
+        return "tilasto";
     }
 
     @RequestMapping(value = "seuranta", method = RequestMethod.POST)
     public String etsiSeurattava(@ModelAttribute("aikavali") AikavaliForm AikavaliForm,
-            HttpSession session, RedirectAttributes redirectAttributes,
+            HttpSession session, Model model,
             @RequestParam("avain") String seurantaAvain) {
         if (seurantaService.findByAvain(seurantaAvain) != null) {
             session.setAttribute("avain", seurantaAvain);
+            model.addAttribute("seurantaAsetettu", true);
+            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(session));
 
         } else {
-            redirectAttributes.addFlashAttribute("seuranta_message", "Tuntematon seurantakoodi");
+            model.addAttribute("seuranta_message", "Tuntematon seurantakoodi");
         }
-        redirectAttributes.addFlashAttribute("page", 2);
-        return "redirect:/";
+
+        return "seuranta";
+    }
+
+    @RequestMapping(value = "vierasseuranta", method = RequestMethod.GET)
+    public String vierasSeuranta(@ModelAttribute("aikavali") AikavaliForm AikavaliForm) {
+
+        return "seuranta";
     }
 }

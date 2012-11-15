@@ -71,6 +71,10 @@ body{
     padding-bottom: 20px;
 }
 
+#keskitettava-miinus{
+    padding-left:-230px;
+    padding-bottom:-20px;
+}
 
 
 #login_laatikko{

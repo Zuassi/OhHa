@@ -23,10 +23,10 @@
         <div id="tabit">
             <ul>
                 <div id="valikko">HARJOITUSSEURANTA</div>
-                <li> <a href="#" class="tab tab_kirjaudu"> Kirjaudu</a></li>
-                <li> <a href="#" class="tab_rekisteroidy" onclick="displayArticle(1);" class="tab"> Rekisteröidy</a></li>
+                <li> <a href="#" class="tab tab_kirjaudu" data-value="${pageContext.request.contextPath}/kirjaudu"> Kirjaudu</a></li>
+               <li> <a href="#" class="tab tab_rekisteroidy" data-value="${pageContext.request.contextPath}/rekisterointi"> Rekisteroidy</a></li>
+               <li> <a href="#" class="tab tab_seuranta" data-value="${pageContext.request.contextPath}/vierasseuranta"> Seuranta</a></li>
 
-                <li><a href="#" class="tab_seuranta" onclick="displayArticle(2);" class="tab"> Seuranta</a></li>
             </ul>
         </div>
 
