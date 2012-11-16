@@ -8,8 +8,8 @@
 <h2>Säädä oma tarkkailtava aikaväli</h2><br/>
 <table>
     <form:form commandName="aikavali" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
-        <tr><td>Alkamisaika (pv.kk.vvvv):</td><td><form:input class="aseta_alkamisaika" path="alkamisaika" /></td></tr>
-        <tr><td>Loppumisaika (pv.kk.vvvv):</td><td><form:input path="loppumisaika" class="aseta_loppumisaika"/></td></tr>
+        <tr><td>Alkamisaika (pv.kk.vvvv):</td><td><form:input class="aseta_alkamisaika" id="alkamisaika" path="alkamisaika" /></td></tr>
+        <tr><td>Loppumisaika (pv.kk.vvvv):</td><td><form:input path="loppumisaika" id="loppumisaika" class="aseta_loppumisaika"/></td></tr>
         <tr><td/><td><input type="submit" class="aseta_submit input_nappula"></td></tr>
             </form:form>
 </table>

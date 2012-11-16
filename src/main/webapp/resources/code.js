@@ -36,6 +36,7 @@ $(document).ready(function() {
     $(".tab_lisaa").click(function(event) {
         $.get("harjoittelija/harjoitus",function(data){
             $("#sisalto_laatikko").html(data);
+          
         })
     });
     
@@ -100,7 +101,7 @@ $(document).ready(function() {
             }
            
         });
-       return false;
+        return false;
     });
   
  
@@ -158,8 +159,8 @@ $(document).ready(function() {
     } );
     
     $(document).on("click",".aseta_submit",function(){
+        console.log($("#aikavali").serialize());
         $.post("harjoittelija/tilasto", $("#aikavali").serialize(), function(data){
-          
             $("#tilasto_table").html(data);
         });
         return false;
@@ -195,6 +196,18 @@ $(document).ready(function() {
         return false;
     });
  
+ 
+    $(document).on('click',".selaa",function(){
+        $.get($(this).attr("data-value"),function(data){ 
+          $("#selaa").html(data);
+        });
+   
+        return false;
+    })
+    
+
+
+
 } );
 
 
@@ -202,17 +215,7 @@ $(document).ready(function() {
 
 
 
-function displayArticle(index) {
-    var sections = document.getElementsByTagName("section");
 
-    for(var i = 0; i < sections.length; i++) {
-        if (index == i) {
-            sections[i].className='';
-        } else {
-            sections[i].className='hidden';
-        }
-    }
-}
 
 function tarkastaArvo(){
     var arvo = document.getElementById("avaimet");

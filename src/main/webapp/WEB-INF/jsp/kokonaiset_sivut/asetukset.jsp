@@ -28,7 +28,7 @@
                         <tr><td> Kenelle:</td> <td><input type="text" name="nimi"></td></tr>
 
 
-                        <tr><td/><td><input type="submit" class="input_nappula" value="Luo avain"></td></tr>
+                        <tr><td/><td><input type="submit" class="input_nappula luo_avain" value="Luo avain"></td></tr>
                         <p>${avain_message}</p>
                     </form>
                 </table>

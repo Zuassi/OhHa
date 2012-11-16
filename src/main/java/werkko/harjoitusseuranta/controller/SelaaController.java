@@ -37,7 +37,6 @@ public class SelaaController {
             return "redirect:/";
         }
         
-
         model.addAttribute("jarjestys", jarjestys);
         Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, session);
         model.addAttribute("harjoitukset",harjoitukset);

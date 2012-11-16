@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class PerusTest {
@@ -34,8 +35,15 @@ public class PerusTest {
         driver.manage().deleteAllCookies();
         driver.get(baseUrl);
         rekisteroidy(UUID.randomUUID().toString(), salasana);
-        System.out.println(driver.getPageSource());
+
         Assert.assertTrue(driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
+    }
+
+    @Test
+    public void rekisteroityminenLiianLyhyellaSalasanallaEiToimi() {
+        driver.manage().deleteAllCookies();
+        rekisteroidy(UUID.randomUUID().toString(), "abb");
+        Assert.assertTrue(!driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
     }
 
     @Test
@@ -50,10 +58,9 @@ public class PerusTest {
         Assert.assertTrue(driver.getPageSource().contains("Nimi on jo käytössä"));
     }
 
-
     public void rekisteroidy(String nimi, String salasana) {
-        driver.navigate().to(baseUrl+"/"+"rekisterointi");
-        
+        driver.navigate().to(baseUrl + "/" + "rekisterointi");
+
         driver.findElement(By.className("rekisteroidy_nimi")).sendKeys(nimi);
         driver.findElement(By.className("rekisteroidy_salasana")).sendKeys(salasana);
         driver.findElement(By.className("rekisteroidy_nappula")).submit();
@@ -92,20 +99,112 @@ public class PerusTest {
         driver.findElement(By.className("lisaa_paikka")).sendKeys("baari");
         driver.findElement(By.className("lisaa_sisalto")).sendKeys("rankkaa tanssimista ja kaljan kittausta");
         driver.findElement(By.className("lisaa_harjoitus")).submit();
-        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
-        System.out.println(driver.getPageSource());
+        driver.navigate().to(baseUrl + "/harjoittelija/tilasto");
+
         Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäyhteensätänävuonna:</b>0<br/>"));
     }
 
     @Test
     public void asetaAikavaliToimiiKunHarjoitusOnLisatty() {
+        kirjaudu("asdasd", "asdasd");
 
-        kirjaudu(kayttajanimi, salasana);
-        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
-        driver.findElement(By.className("aseta_alkamisaika")).sendKeys("9.10." + new DateTime().getYear());
-        driver.findElement(By.className("aseta_loppumisaika")).sendKeys("11.10." + new DateTime().getYear());
+        driver.navigate().to(baseUrl + "/harjoittelija/tilasto");
+
+        driver.findElement(By.name("alkamisaika")).sendKeys("9.10." + new DateTime().getYear());
+        driver.findElement(By.id("loppumisaika")).sendKeys("11.10." + new DateTime().getYear());
         driver.findElement(By.className("aseta_submit")).submit();
-        driver.navigate().to(baseUrl+"/harjoittelija/tilasto");
+        driver.navigate().to(baseUrl + "/harjoittelija/tilasto");
         Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:</b>1<br/>"));
+    }
+
+    @Test
+    public void kirjauduLuoAvainKirjauduUlosKokeileSeurantaa() {
+        kirjaudu("asdasd", "asdasd");
+        driver.navigate().to(baseUrl + "/harjoittelija/asetukset");
+        driver.findElement(By.name("nimi")).sendKeys("testi");
+        driver.findElement(By.className("luo_avain")).submit();
+        String key = driver.findElement(By.tagName("option")).getText();
+        String avain = key.split(" ")[2];
+        driver.manage().deleteAllCookies();
+        driver.navigate().to(baseUrl + "/vierasseuranta");
+        driver.findElement(By.name("avain")).sendKeys(avain);
+        driver.findElement(By.className("seuranta_nappula")).submit();
+        Assert.assertTrue(driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:"));
+
+    }
+
+    @Test
+    public void kirjauduLuoAvainPoistaAvainSeurantaEiToimi() {
+        String rekisteroitymisNimi = UUID.randomUUID().toString();
+        rekisteroidy(rekisteroitymisNimi, "abbaa");
+
+        driver.navigate().to(baseUrl + "/harjoittelija/asetukset");
+        String nimi = UUID.randomUUID().toString();
+        driver.findElement(By.name("nimi")).sendKeys(nimi);
+        driver.findElement(By.className("luo_avain")).submit();
+        WebElement avaimet = driver.findElement(By.tagName("option"));
+        avaimet.click();
+        String key = avaimet.getText();
+        String avain = key.split(" ")[2];
+        driver.findElement(By.className("input_nappula")).click();
+        driver.manage().deleteAllCookies();
+        driver.navigate().to(baseUrl + "/vierasseuranta");
+        driver.findElement(By.name("avain")).sendKeys(avain);
+        driver.findElement(By.className("seuranta_nappula")).submit();
+
+        Assert.assertTrue(driver.getPageSource().replaceAll("\\s", "").contains("Tuntematonseurantakoodi"));
+
+    }
+
+    @Test
+    public void seurantaEiToimiOlemattomallaAvaimella() {
+        driver.navigate().to(baseUrl + "/vierasseuranta");
+        driver.findElement(By.name("avain")).sendKeys("bedobear");
+        driver.findElement(By.className("seuranta_nappula")).submit();
+        Assert.assertTrue(driver.getPageSource().replaceAll("\\s", "").contains("Tuntematonseurantakoodi"));
+    }
+
+    public void vaihdaSalasana(String vanha, String uusi, String uusi2) {
+        driver.navigate().to(baseUrl + "/harjoittelija/asetukset");
+        driver.findElement(By.name("vanha_salasana")).sendKeys(vanha);
+        driver.findElement(By.name("uusi_salasana")).sendKeys(uusi);
+        driver.findElement(By.name("uusi_salasana2")).sendKeys(uusi);
+        driver.findElement(By.className("asetukset_salasana")).submit();
+    }
+
+    @Test
+    public void vaihdaSalasana() {
+        String nimi = UUID.randomUUID().toString();
+        rekisteroidy(nimi, "asdasd");
+
+        vaihdaSalasana("asdasd", "dsadsa", "dsadsa");
+        driver.manage().deleteAllCookies();
+        kirjaudu(nimi, "dsadsa");
+
+        Assert.assertTrue(driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
+    }
+
+    @Test
+    public void salasananVaihtoEriSalasanoillaEpaonnistuu() {
+        String nimi = UUID.randomUUID().toString();
+        rekisteroidy(nimi, "asdasd");
+
+        vaihdaSalasana("asdasd", "dsads", "dsadsa");
+        driver.manage().deleteAllCookies();
+        kirjaudu(nimi, "dsadsa");
+
+        Assert.assertTrue(!driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
+    }
+
+    @Test
+    public void salasananVaihtoLiianLyhyellaSalasanallaEpaonnistuu() {
+        String nimi = UUID.randomUUID().toString();
+        rekisteroidy(nimi, "asdasd");
+
+        vaihdaSalasana("asdasd", "dsa", "dsa");
+        driver.manage().deleteAllCookies();
+        kirjaudu(nimi, "dsa");
+
+        Assert.assertTrue(!driver.getPageSource().contains("Harjoitusseuranta - Kirjautunut"));
     }
 }

@@ -51,9 +51,9 @@ public class JpaHarjoitusService implements HarjoitusService {
     public Page<Harjoitus> listHarjoitukset(Integer sivuNumero, Integer sivuKoko, String jarjestys, HttpSession session) {
 
 
-       
+       if(jarjestys==null || jarjestys.isEmpty()){
             jarjestys = "alkamisaika";
-       
+       }
 
         if(sivuNumero==null){
             sivuNumero=1;

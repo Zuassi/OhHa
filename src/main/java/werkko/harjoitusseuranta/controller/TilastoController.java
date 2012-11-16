@@ -48,18 +48,19 @@ public class TilastoController {
         model.addAttribute("seurantaAsetettu", true);
         System.out.println(form.getAlkamisaika());
         System.out.println(form.getLoppumisaika());
+        session.setAttribute("alkamisaika", form.getAlkamisaika());
+        session.setAttribute("loppumisaika", form.getLoppumisaika());
         if (session.getAttribute("harjoittelijaId") != null) {
             model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
                     harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
-        }else{
+        } else {
             model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(session));
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
-            return "kokonaiset_sivut/tilasto";
+            return "tilasto";
         }
-        session.setAttribute("alkamisaika", form.getAlkamisaika());
-        session.setAttribute("loppumisaika", form.getLoppumisaika());
+
 
         return "tilasto";
     }

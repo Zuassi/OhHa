@@ -13,11 +13,11 @@
 
     <table id="selaa_table">
         <tr class="varitettava"">
-            <th><a href="${pageContext.request.contextPath}/home?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
-            <th><a href="${pageContext.request.contextPath}/home?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
-            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
-            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
-            <th><a href="${pageContext.request.contextPath}/home?selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
+            <th><a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=alkamisaika&sivuNumero=${sivuNumero}">Alkamisaika</a></th>
+            <th><a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=kesto&sivuNumero=${sivuNumero}">Kesto</a></th>
+            <th><a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=teho&sivuNumero=${sivuNumero}">Teho</a></th>
+            <th><a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=paikka&sivuNumero=${sivuNumero}">Treenipaikka</a></th>
+            <th><a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=tyyppi&sivuNumero=${sivuNumero}">Tyyppi</a></th>
             <th>Sisältö</th>
             <th>Muokkaa</th>
             <th>Poista</th>
@@ -44,7 +44,7 @@
 
     <c:if test="${sivutus}">
         <p>Sivut:  <c:forEach var="i" begin="0" end="${sivumaara-1}">
-                <a href="${pageContext.request.contextPath}/home?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
+                <a href="#" class="selaa" data-value="harjoittelija/selaa?jarjestys=${jarjestys}&sivuNumero=${i+1}">${i+1}</a>     
             </c:forEach></p>
         </c:if>
 </div>
