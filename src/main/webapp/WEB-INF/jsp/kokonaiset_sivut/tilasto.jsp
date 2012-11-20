@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 
 <div id="aikavali_saato"</div>
+<center>
 <h2>Säädä oma tarkkailtava aikaväli</h2><br/>
 <table>
     <form:form commandName="aikavali" action="${pageContext.request.contextPath}/harjoittelija/tilasto" method="POST" >
@@ -15,6 +16,7 @@
 </table>
 
 </div>
+
 <table id="tilasto_table">
     <p>${seuranta_error}</p>
     <tr>
@@ -99,4 +101,5 @@
 
 
 </table>
+</center>
 <br/>

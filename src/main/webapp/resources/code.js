@@ -1,4 +1,8 @@
 $(document).ready(function() {
+   
+
+ 
+    
     
     
     //    $.get("/OhHa/harjoittelija/harjoitus",function(data){
@@ -10,6 +14,7 @@ $(document).ready(function() {
         $.get($(".tab_kirjaudu").attr("data-value"),function(data){
           
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         })
     });
     
@@ -18,6 +23,7 @@ $(document).ready(function() {
         $.get($(".tab_rekisteroidy").attr("data-value"),function(data){
          
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         })
     });
     
@@ -26,6 +32,7 @@ $(document).ready(function() {
         $.get($(".tab_seuranta").attr("data-value"),function(data){
          
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         })
     });
         
@@ -36,7 +43,7 @@ $(document).ready(function() {
     $(".tab_lisaa").click(function(event) {
         $.get("harjoittelija/harjoitus",function(data){
             $("#sisalto_laatikko").html(data);
-          
+            uusiTabiHeight();
         })
     });
     
@@ -47,6 +54,7 @@ $(document).ready(function() {
     $(".tab_selaa").click(function(event){
         $.get("harjoittelija/selaa", function(data){
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         
         })
     });
@@ -55,6 +63,7 @@ $(document).ready(function() {
     $(".tab_selaa").click(function(event){
         $.get("harjoittelija/selaa", function(data){
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         
         })
     });
@@ -62,13 +71,14 @@ $(document).ready(function() {
     $(".tab_tilasto").click(function(event){
         $.get("harjoittelija/tilasto", function(data){
             $("#sisalto_laatikko").html(data);
-        
+            uusiTabiHeight();
         })
     });
     
     $(".tab_asetukset").click(function(event){
         $.get("harjoittelija/asetukset", function(data){
             $("#sisalto_laatikko").html(data);
+            uusiTabiHeight();
         })
     });
 
@@ -199,13 +209,17 @@ $(document).ready(function() {
  
     $(document).on('click',".selaa",function(){
         $.get($(this).attr("data-value"),function(data){ 
-          $("#selaa").html(data);
+            $("#selaa").html(data);
         });
    
         return false;
     })
     
-
+    function uusiTabiHeight(){
+        $("#tabit").css("height","0");
+        var size = ($(window).height() > $(document).height()) ? $(window).height() : $(document).height();
+        $("#tabit").css("height",size);
+    }
 
 
 } );

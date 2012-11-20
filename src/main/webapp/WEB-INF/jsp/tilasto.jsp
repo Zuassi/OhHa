@@ -1,5 +1,4 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
 <table id="tilasto_table">
     <p>${seuranta_error}</p>
     <tr>
