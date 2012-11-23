@@ -55,7 +55,7 @@ public class PerusTest {
             driver.get(baseUrl);
             rekisteroidy(nimi, salasana);
         }
-        Assert.assertTrue(driver.getPageSource().contains("Nimi on jo käytössä"));
+        Assert.assertTrue(driver.getPageSource().contains("Käyttäjänimi on jo käytössä"));
     }
 
     public void rekisteroidy(String nimi, String salasana) {
