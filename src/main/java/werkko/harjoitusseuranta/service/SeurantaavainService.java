@@ -21,5 +21,6 @@ public interface SeurantaavainService {
 
     public Seurantaavain findByAvain(String avain);
 
-   public List<Seurantaavain> findByHarjoittelijaId(Long id);
+
+    public List<Seurantaavain> findByHarjoittelijaId(Long id);
 }

@@ -4,18 +4,14 @@
  */
 package werkko.harjoitusseuranta.controller;
 
-import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import werkko.harjoitusseuranta.controller.form.AikavaliForm;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
 import werkko.harjoitusseuranta.service.TilastoService;
@@ -33,9 +29,17 @@ public class EtusivuController {
     private HarjoittelijaService harjoittelijaService;
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
 
+    /**
+     *Ottaa vastaan juureen tulevat pyynnöt ja ohjaa ne oikeaan paikkaan.
+     * Mikäli käyttäjällä on virheellinen harjoittelijaId sessionissa niin
+     * ohjaa logouttiin, mikäli harjoittelija on jo kirjautunut ohjaa home 
+     * sivulle, muuten näyttää etusivun.
+     * 
+     * @param session Sessionista tarkastetaan käyttäjän harjoittelijaId
+     * @return indexsivu tai uudelleenohjaus
+     */
     @RequestMapping(value = "/")
-    public String etusivu(HttpSession session, @ModelAttribute("harjoittelija") Harjoittelija harjoittelija,
-            Model model, @ModelAttribute("AikavaliForm") AikavaliForm aikavaliForm) {
+    public String etusivu(HttpSession session) {
 
         //tarkastetaan että sessionissa oleva id on olemassa tietokannassa 
         //jos database on satuttu uusimaan, ongelma lähinnä softaa koodatessa kun database tyhjenee vähänväliä
@@ -50,20 +54,40 @@ public class EtusivuController {
         return "index";
 
     }
+    
+    
+    /**
+     *Palauttaa kirjaudu sivun sisältöosuuden
+     * @return kirjaudu sivun sisältöosuus
+     */
     @RequestMapping(value="kirjaudu", method = RequestMethod.GET)
     public String kirjaudu(){
         return "kokonaiset_sivut/kirjaudu";
     }
 
 
+    /**
+     * Tuhoaa sessionin eli unohtaa että käyttäjä on kirjautunut.
+     * @param redirectAttributes Talletetaan uloskirjautumis viesti
+     * @param session tyhjennettävä session
+     * @return ohjataan juureen
+     */
     @RequestMapping(value = "logout")
     public String logout(RedirectAttributes redirectAttributes, HttpSession session) {
-
         session.invalidate();
         redirectAttributes.addFlashAttribute("login_message", "Kirjauduit ulos onnistuneesti");
         return "redirect:/";
     }
 
+    /**
+     *Metodin avulla kirjaudutaan järjestelmään, kirjautuessa salasana muunnetaan
+     * md5 muotoon.
+     * @param nimi Käyttäjänimi
+     * @param salasana Salasana
+     * @param session session johon tallennetaan käyttäjäId
+     * @param redirectAttributes epäoonistuessa talletetaan viesti
+     * @return uudelleenohjaus homeen tai takaisin indexiin.
+     */
     @RequestMapping(value = "kirjaudu", method = RequestMethod.POST)
     public String kirjaudu(@RequestParam("nimi") String nimi, @RequestParam("salasana") String salasana, HttpSession session,
             RedirectAttributes redirectAttributes) {

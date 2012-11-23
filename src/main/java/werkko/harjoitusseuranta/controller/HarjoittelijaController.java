@@ -4,9 +4,9 @@
  */
 package werkko.harjoitusseuranta.controller;
 
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +46,30 @@ public class HarjoittelijaController {
     @Autowired
     private HarjoitusService harjoitusService;
 
+    /**
+     * Luo tunnuksen nimellä asdasd ja salasanalla asdasd testaamista varten
+     *
+     */
     @PostConstruct
     private void init() {
         Harjoittelija harjoittelija = new Harjoittelija();
         harjoittelija.setNimi("asdasd");
         harjoittelija.setSalasana("asdasd");
-        harjoittelijaService.create(harjoittelija);
+        if (harjoittelijaService.findByNimi("asdasd") == null) {
+            harjoittelijaService.create(harjoittelija);
+        }
     }
 
+    /**
+     * Palauttaa homen ensimmäisen sivun eli "lisää harjoitus" sivun ja
+     * tallettaa modeliin SallitutTyypit listan joka sisältää erilaiset
+     * harjoitustyypit
+     *
+     * @param harjoitus Harjoitusformin validointiin ja luomiseen käytettävä
+     * olio
+     * @param model
+     * @return lisää harjoitussivu sisältö ja home
+     */
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String home(@ModelAttribute Harjoitus harjoitus, Model model) {
         model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
@@ -62,11 +78,30 @@ public class HarjoittelijaController {
         return "home";
     }
 
+    /**
+     * Palauttaa rekisteörintisivun
+     *
+     * @param harjoittelija harjoittelija Rekistöiryessä validointia ja formin
+     * luomista auttava olio
+     * @return rekisteröitymissivu
+     */
     @RequestMapping(value = "rekisterointi", method = RequestMethod.GET)
     public String getRekisterointi(@ModelAttribute Harjoittelija harjoittelija) {
         return "kokonaiset_sivut/rekisterointi";
     }
 
+    /**
+     * Metodi ottaa vastaan rekisteröitymisiä, tarkastaa että ne on kunnossa ja
+     * palauttaa takasin rekisteröintisivulle, tai asettaa sessioniin uuden
+     * harjoittelijaId:n ja päästää home sivulle
+     *
+     * @param harjoittelija harjoittelija olio jonka käyttäjä on lähettänyt,
+     * tarkistaa onko kyseessä oikeanlainen olioi.
+     * @param bindingResult tarkastetaan sisältääkö virheitä
+     *
+     * @param session talletetaan uusi harjoittelijaId
+     * @return palautetaan joko rekisteröintisivu tai home
+     */
     @RequestMapping(value = "rekisterointi", method = RequestMethod.POST)
     public String rekisterointi(@Valid @ModelAttribute Harjoittelija harjoittelija,
             BindingResult bindingResult, Model model, HttpSession session) {
@@ -74,8 +109,7 @@ public class HarjoittelijaController {
             return "kokonaiset_sivut/rekisterointi";
         }
         if (harjoittelijaService.findByNimi(harjoittelija.getNimi()) != null) {
-            model.addAttribute("register_message", "Nimi on jo käytössä");
-
+            model.addAttribute("register_message","Käyttäjänimi on jo käytössä");
             return "kokonaiset_sivut/rekisterointi";
         }
         harjoittelijaService.create(harjoittelija);
@@ -84,12 +118,37 @@ public class HarjoittelijaController {
 
     }
 
+    /**
+     * Metodi palauttaa asetukset sivu mikäli käyttäjä on kirjautunut ja
+     * tallettaa modeliin käyttäjän luomat seuranta-avaimet
+     *
+     * @param model modeliin talletetaan seuranta-avaimet
+     * @param session sessionista tarkastetaan kirjautuminen
+     * @return palauttaa asetukset sivun jos käyttäjä on kirjautunut
+     */
     @RequestMapping(value = "harjoittelija/asetukset", method = RequestMethod.GET)
     public String getAsetukset(Model model, HttpSession session) {
+        if (session.getAttribute("harjoittelijaId") == null) {
+            return "redirect:/";
+        }
         model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
         return "kokonaiset_sivut/asetukset";
     }
 
+    /**
+     * Metodi tarkastaa että käyttäjä on kirjautunut sisään, sitten salasanaan
+     * liittyvät tiedot lähetetään servicelle. Service palauttaa onnistuiko
+     * salasanan vaihto vai ei, jonka jälkeen palautetaan asetukset sivun
+     * salasana divi.
+     *
+     * @param session sessionista tarkastetaan onko käyttjä kirjautunut
+     * @param vanhaSalasana käyttäjän kirjoittama entinen salasana
+     * @param uusiSalasana käyttäjän kirjoittama uusi salasana
+     * @param uusiSalasana2 käyttäjän kirjoittama uusi salasana uudestaan
+     * @param redirectAttributes tallennetaan
+     * @param model talletaan harjoittelijaservicen palauttama message
+     * @return palauttaa asetukset_salasana sivunpalan
+     */
     @RequestMapping(value = "harjoittelija/asetukset/salasana", method = RequestMethod.POST)
     public String vaihdaSalasana(HttpSession session,
             @RequestParam("vanha_salasana") String vanhaSalasana,
@@ -97,7 +156,6 @@ public class HarjoittelijaController {
             @RequestParam("uusi_salasana2") String uusiSalasana2,
             RedirectAttributes redirectAttributes, Model model) {
         if (session.getAttribute("harjoittelijaId") == null) {
-            redirectAttributes.addAttribute("login_message", "Istunto vanhentunut");
             return "redirect:/";
         }
         String message = harjoittelijaService.vaihdaSalasana(session, vanhaSalasana, uusiSalasana, uusiSalasana2);
@@ -106,11 +164,17 @@ public class HarjoittelijaController {
         return "asetukset_salasana";
     }
 
+    /**
+     * Metodin avulla luodaan uusi seuranta-avain halutulla nimellä
+     *
+     * @param session tarkastetaan onko käyttäjä kirjautunut
+     * @param nimi käyttäjän antama avaimen nimi
+     * @param model talletetaan uudet avaimet
+     * @return palauttaa asetukset sivun
+     */
     @RequestMapping(value = "harjoittelija/asetukset/luo_avain", method = RequestMethod.POST)
-    public String luoAvain(HttpSession session, @RequestParam("nimi") String nimi, Model model,
-            HttpServletRequest request) {
+    public String luoAvain(HttpSession session, @RequestParam("nimi") String nimi, Model model) {
         if (session.getAttribute("harjoittelijaId") == null) {
-            model.addAttribute("login_message", "Istunto vanhentunut");
             return "redirect:/";
         }
         model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
@@ -127,30 +191,35 @@ public class HarjoittelijaController {
         return "asetukset";
     }
 
+    /**
+     * Metodi poistaa halutun avaimen mikäli se kuuluu käyttäjälle ja sen jälkeen
+     * tallettaa modeliin jäljelle jääneet avaimet ja palauttaa 
+     *
+     * @param model 
+     * @param session
+     * @param id poistettavan avaimen id
+     * @return palauttaa asetukset sivun sisällön
+     */
     @RequestMapping(value = "harjoittelija/asetukset/poista_avain", method = RequestMethod.POST)
-    public String poistaAvain(Model model, HttpSession session, @RequestParam("avainId") Long id,
-            HttpServletRequest request) {
-        if (avainService.read(id) != null) {
+    public String poistaAvain(Model model, HttpSession session, @RequestParam("avainId") Long id) {
+        if (kayttajaOmistaaAvaimen(session, id)) {
             avainService.delete(id);
         }
         model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
         return "asetukset";
     }
 
-    public void sivutus(Model model, Integer sivunumero, String jarjestys, HttpSession session) {
-        if (sivunumero == null) {
-            sivunumero = 1;
-        } else {
-            model.addAttribute("page", 1);
-        }
-
-        model.addAttribute("jarjestys", jarjestys);
-        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, session);
-
-        boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
-        model.addAttribute("sivutus", sivutus);
-        model.addAttribute("sivuNumero", sivunumero);
-        model.addAttribute("sivumaara", harjoitukset.getTotalPages());
-        model.addAttribute("harjoitukset", harjoitukset.getContent());
+ /**
+  * Metodi tarkastaa omistaako käyttäjä avaimen
+  * @param session käyttäjän sessioni josta tarkastetaan harjoittelijaId
+  * @param id halutun seuranta-avaimen id
+  * @return kuuluuko avain käyttäjälle
+  */
+    
+    private boolean kayttajaOmistaaAvaimen(HttpSession session, Long id) {
+        Harjoittelija harjoittelija = harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"));
+        Seurantaavain avain = avainService.read(id);
+        Long avaimenOmistaja = avain.getHarjoittelijaId();
+        return avaimenOmistaja.equals(harjoittelija.getId());
     }
 }

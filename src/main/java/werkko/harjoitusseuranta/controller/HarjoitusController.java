@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
@@ -39,77 +39,98 @@ public class HarjoitusController {
     private SeurantaavainService avainService;
     @Autowired
     private TilastoService tilastoService;
-    
-    @RequestMapping(value="harjoittelija/harjoitus", method = RequestMethod.GET)
-    public String getLisaaHarjoitus(@ModelAttribute Harjoitus harjoitus, Model model){
-        model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
+
+    /**
+     * Palauttaa lisää harjoitus sivun
+     *
+     * @param harjoitus Harjoitusformin luomista ja tarkastamista auttava olio
+     * @param model talletetaan sallituttyypit
+     * @return lisaa-harjoitus sivun osa
+     */
+    @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.GET)
+    public String getLisaaHarjoitus(@ModelAttribute Harjoitus harjoitus, Model model) {
+        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
         return "kokonaiset_sivut/lisaa-harjoitus";
     }
 
+    /**
+     * Metodi ottaa vastaan harjoitusten lisäämiset ja muokkaukset. Jos 
+     * lähetetyllä harjoituksella on jo id, on kyseessä muokkaus. Muuten 
+     * luodaan uusi harjoitus. 
+     * @param session tarkastetaan harjoittelijaId
+     * @param model 
+     * @param harjoitus sisältää lähetetyn harjoitusolion
+     * @param bindingResult tarkastetaan sisältääkö lähetetty harjoitus virheitä
+     * @return 
+     */
     @RequestMapping(value = "harjoittelija/harjoitus", method = RequestMethod.POST)
     public String lisaaHarjoitus(HttpSession session, Model model,
-            @Valid @ModelAttribute Harjoitus harjoitus, BindingResult bindingResult, RedirectAttributes redirectAttributes,
-            HttpServletRequest request) {
-
+            @Valid @ModelAttribute Harjoitus harjoitus, BindingResult bindingResult) {
         Long harjoittelijaId = (Long) session.getAttribute("harjoittelijaId");
         model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
-
-
         if (bindingResult.hasErrors()) {
-
-
             model.addAttribute("harjoitus", harjoitus);
-            model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
-            model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
-                    harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
-            model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
+      
             //kyseessä muokkaus
-                if(harjoitus.getId()!=null){
+            if (harjoitus.getId() != null) {
                 return "redirect:/harjoittelija/selaa";
             }
             return "kokonaiset_sivut/lisaa-harjoitus";
         } else {
-         
-          
-
             harjoitusService.create(harjoitus, harjoittelijaId);
-               //kyseessä muokkaus
-              if(harjoitus.getId()!=null){
+            //kyseessä muokkaus
+            if (harjoitus.getId() != null) {
                 return "redirect:/harjoittelija/selaa";
             }
-           return "kokonaiset_sivut/lisaa-harjoitus";
+            return "kokonaiset_sivut/lisaa-harjoitus";
         }
     }
 
+    /**
+     * Metodi poistaa halutun harjoituksen
+     * @param id Poistettavan harjoituksen id
+     * @param session tarkastetaan kuuluuko harjoitus harjoittelijalle
+     * @return palauttaa selaa sivun
+     */
     @RequestMapping(value = "harjoittelija/poista-harjoitus/{id}", method = RequestMethod.GET)
-    public String poistaHarjoitus(@PathVariable("id") Long id, HttpSession session, HttpServletRequest request,
-            RedirectAttributes redirectAttributes) {
+    public String poistaHarjoitus(@PathVariable("id") Long id, HttpSession session) {
         Harjoitus harjoitus = harjoitusService.read(id);
         if (harjoitus.getHarjoittelijaId() == session.getAttribute("harjoittelijaId")) {
             harjoitusService.delete(id);
         }
-       
+
         return "redirect:/harjoittelija/selaa";
 
     }
-    
-    @RequestMapping(value="harjoittelija/harjoitus/{id}", method = RequestMethod.GET)
-    public String naytaHarjoitus(Model model, @PathVariable("id")Long id, HttpSession session){
-        Harjoitus harjoitus = harjoitusService.findById(id);
-        if(harjoitus.getHarjoittelijaId() ==(Long)session.getAttribute("harjoittelijaId")){
-           model.addAttribute("harjoitus",harjoitus.getSisalto());
+
+    /**
+     * Näyttää halutun harjoituksen sisällön
+     * @param model Tallettaa modeliin sisällön
+     * @param id etsittävän harjoituksen id
+     * @param session sessionin avulla tarkastetaan että harjoitus kuuluu harjoittelijalle
+     * @return haluttu harjoitus
+     */
+    @RequestMapping(value = "harjoittelija/harjoitus/{id}", method = RequestMethod.GET)
+    public String naytaHarjoitus(Model model, @PathVariable("id") Long id, HttpSession session) {
+        Harjoitus harjoitus = harjoitusService.read(id);
+        if (harjoitus.getHarjoittelijaId() == (Long) session.getAttribute("harjoittelijaId")) {
+            model.addAttribute("harjoitus", harjoitus.getSisalto());
         }
-         
+
         return "harjoitus";
     }
 
+    /**
+     * Metodin avulla palautetaan muokkausnäkymä
+     * @param id harjoituksen id
+     * @param model
+     * @return muokkaa sivu
+     */
     @RequestMapping(value = "harjoittelija/harjoitus/muokkaa/{id}", method = RequestMethod.GET)
-    public String muokkaaHarjoitusta(@PathVariable("id") Long id, Model model,
-            HttpServletRequest request) {
+    public String muokkaaHarjoitusta(@PathVariable("id") Long id, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("harjoitus", harjoitusService.read(id));
-        model.addAttribute("page", 5);
-        model.addAttribute("sallitutTyypit",SallitutTyypit.sallitutTyypit);
+        model.addAttribute("sallitutTyypit", SallitutTyypit.sallitutTyypit);
         return "kokonaiset_sivut/muokkaa";
     }
 }

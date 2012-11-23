@@ -21,4 +21,6 @@ public interface SeurantaavainRepository extends JpaRepository<Seurantaavain, Lo
     public Seurantaavain findByAvain(String avain);
 
     public List<Seurantaavain> findByHarjoittelijaId(Long id);
+
+    public Seurantaavain findById(Long id);
 }

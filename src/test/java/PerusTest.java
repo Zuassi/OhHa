@@ -114,7 +114,7 @@ public class PerusTest {
         driver.findElement(By.id("loppumisaika")).sendKeys("11.10." + new DateTime().getYear());
         driver.findElement(By.className("aseta_submit")).submit();
         driver.navigate().to(baseUrl + "/harjoittelija/tilasto");
-        Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:</b>1<br/>"));
+        Assert.assertTrue(!driver.getPageSource().replaceAll("\\s", "").contains("<b>Treenejäasetetullaaikavälillä:</b>0<br/>"));
     }
 
     @Test

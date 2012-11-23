@@ -19,7 +19,6 @@ import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 import werkko.harjoitusseuranta.repository.HarjoitusRepository;
-import werkko.harjoitusseuranta.repository.SeurantaavainRepository;
 
 /**
  *
@@ -35,6 +34,12 @@ public class TilastoService {
     @Autowired
     private SeurantaavainService avainRepo;
 
+    
+    /** Etsii tilastot harjoittelijan tilastot tietokannasta seuranta-avaimen perusteella
+     *
+     * @param session sis‰lt‰‰ halutun avaimen
+     * @return tilastot
+     */
     public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(HttpSession session) {
         String avain = (String) session.getAttribute("avain");
         Seurantaavain seurantaavain = avainRepo.findByAvain(avain);
@@ -44,6 +49,12 @@ public class TilastoService {
 
     }
 
+    /** Analysoi harjoitukset ja tekee niist‰ hashmapin
+     *
+     * @param session sis‰lt‰‰ avaimen
+     * @param harjoittelija sis‰lt‰‰ halutun harjoittelijan
+     * @return harjoitukset mapattuna 
+     */
     public HashMap<String, Integer> keraaTilastot(HttpSession session, Harjoittelija harjoittelija) {
 
 
@@ -54,6 +65,14 @@ public class TilastoService {
         return harjoituksetMapattuna;
     }
 
+    
+    /**
+     * Lajittelee harjoitukset hashmappiin p‰iviin, viikkoihin, kuukausiin, vuosiin ja haluttuun aikav‰liin
+     * @param harjoituksetMapattuna Tyhj‰ hashmappi joka tulee j‰rjest‰‰
+     * @param harjoitukset kaikki harjoitukset listassa
+     * @param session sessioni joka sis‰lt‰‰ halutun oman alkamisajan
+     * @return harjoitukset j‰rjestettyn‰
+     */
     private HashMap<String, Integer> lajitteleHarjoitukset(HashMap<String, Integer> harjoituksetMapattuna,
             List<Harjoitus> harjoitukset, HttpSession session) {
 
@@ -111,6 +130,11 @@ public class TilastoService {
         return harjoituksetMapattuna;
     }
 
+    /**
+     * Alustaa mappiin tarvittavat aikav‰lit
+     * @param harjoituksetMapattuna
+     * @return alustettu mappi
+     */
     private HashMap<String, Integer> alustaMappi(HashMap<String, Integer> harjoituksetMapattuna) {
         harjoituksetMapattuna.put("paiva", 0);
         harjoituksetMapattuna.put("viikko", 0);

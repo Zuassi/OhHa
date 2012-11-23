@@ -34,20 +34,33 @@ public class TilastoController {
     @Autowired
     private SeurantaavainService seurantaService;
 
+    /**
+     * Palauttaa k‰ytt‰j‰n harjoittelutilastot sivun
+     * @param aikavali k‰ytt‰j‰n itseasettama aikav‰li jota halutaan tarkkailla
+     * @param session sis‰lt‰‰ harjoittelijaId:n 
+     * @param model
+     * @return tilastosivu
+     */
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
     public String getTilasto(@ModelAttribute("aikavali") AikavaliForm aikavali, HttpSession session, Model model) {
-
+        
         model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
                 harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
         return "kokonaiset_sivut/tilasto";
     }
 
+    /**
+     *Metodi asettaa ja hakee harjoitustilastot halutulta aikav‰lilt‰
+     * @param form aikav‰lin formin validointiin ja luomiseen k‰yttett‰v‰ olio
+     * @param bindingResult sis‰lt‰‰ mahdolliset virheet aikav‰lin asetukseen liittyen
+     * @param session sis‰lt‰‰ harjoittelijaIdn
+     * @param model
+     * @return tilastosivu
+     */
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.POST)
     public String setOmaAikavali(@Valid @ModelAttribute("aikavali") AikavaliForm form, BindingResult bindingResult,
-            HttpSession session, HttpServletRequest request, Model model) {
+            HttpSession session, Model model) {
         model.addAttribute("seurantaAsetettu", true);
-        System.out.println(form.getAlkamisaika());
-        System.out.println(form.getLoppumisaika());
         session.setAttribute("alkamisaika", form.getAlkamisaika());
         session.setAttribute("loppumisaika", form.getLoppumisaika());
         if (session.getAttribute("harjoittelijaId") != null) {
@@ -65,6 +78,14 @@ public class TilastoController {
         return "tilasto";
     }
 
+    /**
+     *Tarkastaa lˆytyykˆ seuranta-avainta ja sitten l‰hett‰‰ siihen liittyv‰t tiedot
+     * @param AikavaliForm aikav‰lin formin validointiin ja luomiseen k‰yttett‰v‰ olio
+     * @param session sis‰lt‰‰ harjoittelijaIdn
+     * @param model
+     * @param seurantaAvain k‰ytt‰j‰n l‰hett‰m‰ seurattava harjoittelija id
+     * @return seuranta
+     */
     @RequestMapping(value = "seuranta", method = RequestMethod.POST)
     public String etsiSeurattava(@ModelAttribute("aikavali") AikavaliForm AikavaliForm,
             HttpSession session, Model model,
