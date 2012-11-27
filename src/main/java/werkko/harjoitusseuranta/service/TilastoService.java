@@ -17,7 +17,6 @@ import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
-import werkko.harjoitusseuranta.repository.HarjoittelijaRepository;
 import werkko.harjoitusseuranta.repository.HarjoitusRepository;
 
 /**
@@ -30,9 +29,9 @@ public class TilastoService {
     @Autowired
     private HarjoitusRepository repo;
     @Autowired
-    private HarjoittelijaRepository harjoittelijaRepo;
+    private HarjoittelijaService harjoittelijaService;
     @Autowired
-    private SeurantaavainService avainRepo;
+    private SeurantaavainService avainService;
 
     /**
      * Etsii tilastot harjoittelijan tilastot tietokannasta seuranta-avaimen
@@ -44,8 +43,8 @@ public class TilastoService {
      */
     public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(String avain, Date alkamisaika, Date loppumisaika) {
 
-        Seurantaavain seurantaavain = avainRepo.findByAvain(avain);
-        Harjoittelija harjoittelija = harjoittelijaRepo.findOne(seurantaavain.getHarjoittelijaId());
+        Seurantaavain seurantaavain = avainService.findByAvain(avain);
+        Harjoittelija harjoittelija = harjoittelijaService.read(seurantaavain.getHarjoittelijaId());
 
         return keraaTilastot(alkamisaika, loppumisaika, harjoittelija);
 

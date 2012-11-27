@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,6 +47,7 @@ public class Harjoitus implements Serializable {
     private Integer teho;
     @NotBlank
     @Column(name = "paikka")
+    @Length(max = 25)
     private String paikka;
     @Column(name = "tyyppi")
     @NotBlank
@@ -53,7 +55,7 @@ public class Harjoitus implements Serializable {
     @Column(name = "sisalto")
     @NotBlank
     private String sisalto;
-    @Column(name="harjoittelijaId")
+    @Column(name = "harjoittelijaId")
     private Long harjoittelijaId;
 
     public Long getId() {
@@ -71,8 +73,6 @@ public class Harjoitus implements Serializable {
     public void setHarjoittelijaId(Long harjoittelijaId) {
         this.harjoittelijaId = harjoittelijaId;
     }
-
-
 
     public void setKesto(Integer kesto) {
         this.kesto = kesto;

@@ -1,0 +1,4 @@
+Kun k‰ytt‰j‰ haluaa tietyn seuranta-avaimen tai omat tilastonsa, k‰ytt‰j‰n pit‰‰ UI:n kautta k‰ytt‰‰ TilastoControlleria.
+Tilasto Controller hakee avaimen tiedot SeurantaavainService‰ k‰ytt‰en ja tarkastaa avaimen olemassaolon. 
+TilastoService etsii HarjoitusServicest‰ haluttuun id:hen liittyv‰t harjoitukset ja kokoaa sitten tilastot jotka lopulta palautetaaan
+controllerille ja sielt‰ k‰ytt‰j‰lle.

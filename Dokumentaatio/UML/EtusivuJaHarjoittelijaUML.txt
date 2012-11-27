@@ -1,0 +1,4 @@
+Controlloreita k‰ytet‰‰n UI:n kautta. EtusivuControlleri pyyt‰‰ k‰ytt‰j‰n tunnistautumiseen tarvittavat tiedot 
+HarjoittelijaServicelt‰, joka taaspyyt‰‰ tarvittavat tiedot tietokannasta. K‰ytt‰j‰ voi luoda uusia harjottelija olioita
+tai uusia Seuranta-avaimia HarjoittelijaControllerin kautta. Luodut Seuranta-avaimet liitet‰‰n tiettyyn tietokannassa 
+olevaan harjoittelijaan. HarjoittelijaController v‰litt‰‰ tiedot k‰sitelt‰v‰ksi Servicelle ja service tallettaa tiedot tietokantaan.

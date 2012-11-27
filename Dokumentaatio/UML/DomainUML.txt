@@ -1,0 +1,3 @@
+Kaavio kuvaa domainolioiden välisiä suhteita. Harjoittelija oliolla on harjoituksia ja seuranta-avaimia.
+Kullakin seuranta-avaimella ja harjoituksella voi olla vain yksi omistaja, mutta harjoittelijalla voi olla miten
+monta tahansa harjoitusta tai seuranta-avainta.
