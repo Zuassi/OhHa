@@ -23,3 +23,5 @@ yhä poistaa niitä halutessaan.
 9.11.2012 noin 1.5h - Kirjautuminen ja rekisteröityminen testit
 15.11.2012 noin 1h - bugien korjailua
 16.11.2102 noin 3h - Selaamisen ja sivutuksen korjaus ja paljon lisää testejä.
+23.11.2012 noin 2h - Javadocien kirjottelut ja linkkitabin korjaus javascriptillä
+27.11.2012 noin 30min - Sessioneita ei enää anneta serviceille ja metodia lajitteleHarjoitukset selkeytetty.

@@ -5,8 +5,6 @@
 package werkko.harjoitusseuranta.service;
 
 import java.util.List;
-import javax.servlet.http.HttpSession;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -89,9 +87,9 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
      * @param uusiSalasana2 k‰ytt‰j‰n l‰hett‰m‰ uusi salansa uudestaan
      * @return viesti liittyen onnistumiseen/ep‰onnistumiseen
      */
-    public String vaihdaSalasana(HttpSession session, String vanhaSalasana, String uusiSalasana, String uusiSalasana2) {
+    public String vaihdaSalasana(Long harjoittelijaId, String vanhaSalasana, String uusiSalasana, String uusiSalasana2) {
         String kryptattuVanhaSalasana = md5.encodePassword(vanhaSalasana, null);
-        Harjoittelija harjoittelija = this.read((Long) session.getAttribute("harjoittelijaId"));
+        Harjoittelija harjoittelija = this.read(harjoittelijaId);
         if (!harjoittelija.getSalasana().equals(kryptattuVanhaSalasana)) {
             return "V‰‰r‰ vanha salasana";
         } else if (!uusiSalasana.equals(uusiSalasana2)) {

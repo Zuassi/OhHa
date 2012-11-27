@@ -1,4 +1,0 @@
-TilastoService:
-
-Loin listan jossa oli harjoituksia eri p‰iv‰m‰‰r‰ll‰, ja sitten kokeilin ett‰ mapissa olevat listat
-(esim. harjoituksia p‰iv‰ss‰) olivat oikean kokoisia.

@@ -34,123 +34,119 @@ public class TilastoService {
     @Autowired
     private SeurantaavainService avainRepo;
 
-    
-    /** Etsii tilastot harjoittelijan tilastot tietokannasta seuranta-avaimen perusteella
+    /**
+     * Etsii tilastot harjoittelijan tilastot tietokannasta seuranta-avaimen
      *
-     * @param session sis‰lt‰‰ halutun avaimen
-     * @return tilastot
+     * @param avain Harjoittelijan seuranta-avain
+     * @param alkamisaika Halutun seurantav‰lin alkamisaika
+     * @param loppumisaika Halutun seurantav‰lin p‰‰ttymisaika
+     * @return Sortatut tilastot
      */
-    public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(HttpSession session) {
-        String avain = (String) session.getAttribute("avain");
+    public HashMap<String, Integer> findTilastoByHarjoittelijaSeurantaAvain(String avain, Date alkamisaika, Date loppumisaika) {
+
         Seurantaavain seurantaavain = avainRepo.findByAvain(avain);
         Harjoittelija harjoittelija = harjoittelijaRepo.findOne(seurantaavain.getHarjoittelijaId());
 
-        return keraaTilastot(session, harjoittelija);
+        return keraaTilastot(alkamisaika, loppumisaika, harjoittelija);
 
     }
 
-    /** Analysoi harjoitukset ja tekee niist‰ hashmapin
+    /**
+     * Analysoi harjoitukset ja tekee niist‰ hashmapin
      *
-     * @param session sis‰lt‰‰ avaimen
-     * @param harjoittelija sis‰lt‰‰ halutun harjoittelijan
-     * @return harjoitukset mapattuna 
+     * @param alkamisaika Halutun seurantav‰lin alkamisaika
+     * @param loppumisaika Halutun seurantav‰lin p‰‰ttymisaika
+     * @param harjoittelija Haluttu harjoittelija
+     * @return
      */
-    public HashMap<String, Integer> keraaTilastot(HttpSession session, Harjoittelija harjoittelija) {
+    public HashMap<String, Integer> keraaTilastot(Date alkamisaika, Date loppumisaika, Harjoittelija harjoittelija) {
 
 
         List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId(harjoittelija.getId());
         HashMap<String, Integer> harjoituksetMapattuna = new HashMap<String, Integer>();
         alustaMappi(harjoituksetMapattuna);
-        lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, session);
+        lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, alkamisaika, loppumisaika);
         return harjoituksetMapattuna;
     }
 
-    
     /**
-     * Lajittelee harjoitukset hashmappiin p‰iviin, viikkoihin, kuukausiin, vuosiin ja haluttuun aikav‰liin
+     * Lajittelee harjoitukset hashmappiin p‰iviin, viikkoihin, kuukausiin,
+     * vuosiin ja haluttuun aikav‰liin
+     *
      * @param harjoituksetMapattuna Tyhj‰ hashmappi joka tulee j‰rjest‰‰
      * @param harjoitukset kaikki harjoitukset listassa
-     * @param session sessioni joka sis‰lt‰‰ halutun oman alkamisajan
+     *
      * @return harjoitukset j‰rjestettyn‰
      */
     private HashMap<String, Integer> lajitteleHarjoitukset(HashMap<String, Integer> harjoituksetMapattuna,
-            List<Harjoitus> harjoitukset, HttpSession session) {
+            List<Harjoitus> harjoitukset, Date alkamisaika, Date loppumisaika) {
 
-        boolean oma = (session.getAttribute("alkamisaika") != null);
+        boolean oma = (alkamisaika != null && loppumisaika != null);
         DateTime tanaan = new DateTime();
         tanaan.withMillis(new Date().getTime());
 
         DateTime harjoitusAika = new DateTime();
         for (Harjoitus harjoitus : harjoitukset) {
             boolean kova = (harjoitus.getTeho() > 3);
-            harjoitusAika = harjoitusAika.withMillis(harjoitus.getAlkamisaika().getTime());  // muutetaan harjoitusaika datesta DateTimeksi helpottaaksemme vertailua
+            harjoitusAika = harjoitusAika.withMillis(harjoitus.getAlkamisaika().getTime());
             if (harjoitusAika.getDayOfYear() == tanaan.getDayOfYear()) {
-                harjoituksetMapattuna.put("paiva", harjoituksetMapattuna.get("paiva") + 1);
-                harjoituksetMapattuna.put("paiva" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("paiva" + harjoitus.getTyyppi()) + 1);
-                if (kova) {
-                    harjoituksetMapattuna.put("paivaKovat", harjoituksetMapattuna.get("paivaKovat") + 1);
-                }
-
+                lisaaHarjoitusMappiin("paiva", harjoitus, harjoituksetMapattuna, kova);
             }
             if (harjoitusAika.getWeekOfWeekyear() == tanaan.getWeekOfWeekyear()) {
-                harjoituksetMapattuna.put("viikko", harjoituksetMapattuna.get("viikko") + 1);
-                harjoituksetMapattuna.put("viikko" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("viikko" + harjoitus.getTyyppi()) + 1);
-                if (kova) {
-                    harjoituksetMapattuna.put("viikkoKovat", harjoituksetMapattuna.get("viikkoKovat") + 1);
-                }
+                lisaaHarjoitusMappiin("viikko", harjoitus, harjoituksetMapattuna, kova);
             }
             if (harjoitusAika.getMonthOfYear() == tanaan.getMonthOfYear()) {
-                harjoituksetMapattuna.put("kuukausi", harjoituksetMapattuna.get("kuukausi") + 1);
-                harjoituksetMapattuna.put("kuukausi" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("kuukausi" + harjoitus.getTyyppi()) + 1);
-                if (kova) {
-                    harjoituksetMapattuna.put("kuukausiKovat", harjoituksetMapattuna.get("kuukausiKovat") + 1);
-                }
+                lisaaHarjoitusMappiin("kuukausi", harjoitus, harjoituksetMapattuna, kova);
 
             }
             if (harjoitusAika.getYear() == tanaan.getYear()) {
-                harjoituksetMapattuna.put("vuosi", harjoituksetMapattuna.get("vuosi") + 1);
-                harjoituksetMapattuna.put("vuosi" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("vuosi" + harjoitus.getTyyppi()) + 1);
-                if (kova) {
-                    harjoituksetMapattuna.put("vuosiKovat", harjoituksetMapattuna.get("vuosiKovat") + 1);
-                }
+                lisaaHarjoitusMappiin("vuosi", harjoitus, harjoituksetMapattuna, kova);
             }
             if (oma) {
-                if (harjoitus.getAlkamisaika().after((Date) session.getAttribute("alkamisaika"))
-                        && harjoitus.getAlkamisaika().before((Date) session.getAttribute("loppumisaika"))) {
-                    harjoituksetMapattuna.put("oma", harjoituksetMapattuna.get("oma") + 1);
-                    harjoituksetMapattuna.put("oma" + harjoitus.getTyyppi(), harjoituksetMapattuna.get("oma" + harjoitus.getTyyppi()) + 1);
-                    if (kova) {
-                        harjoituksetMapattuna.put("omaKovat", harjoituksetMapattuna.get("omaKovat") + 1);
-                    }
+                if (harjoitus.getAlkamisaika().after(alkamisaika)
+                        && harjoitus.getAlkamisaika().before(loppumisaika)) {
+                    lisaaHarjoitusMappiin("oma", harjoitus, harjoituksetMapattuna, kova);
                 }
             }
-
-
         }
         return harjoituksetMapattuna;
     }
 
     /**
      * Alustaa mappiin tarvittavat aikav‰lit
+     *
      * @param harjoituksetMapattuna
      * @return alustettu mappi
      */
     private HashMap<String, Integer> alustaMappi(HashMap<String, Integer> harjoituksetMapattuna) {
-        harjoituksetMapattuna.put("paiva", 0);
-        harjoituksetMapattuna.put("viikko", 0);
-        harjoituksetMapattuna.put("kuukausi", 0);
-        harjoituksetMapattuna.put("vuosi", 0);
-        harjoituksetMapattuna.put("oma", 0);
+        String aikavalit[] = {"paiva", "viikko", "kuukausi", "vuosi", "oma"};
+        for (String aikavali : aikavalit) {
+            harjoituksetMapattuna.put(aikavali, 0);
+        }
 
         ArrayList<String> tyypit = new ArrayList(Arrays.asList(SallitutTyypit.sallitutTyypit));
         tyypit.add("Kovat");
         for (String tyyppi : tyypit) {
-            harjoituksetMapattuna.put("paiva" + tyyppi, 0);
-            harjoituksetMapattuna.put("viikko" + tyyppi, 0);
-            harjoituksetMapattuna.put("kuukausi" + tyyppi, 0);
-            harjoituksetMapattuna.put("vuosi" + tyyppi, 0);
-            harjoituksetMapattuna.put("oma" + tyyppi, 0);
+            for (String aikavali : aikavalit) {
+                harjoituksetMapattuna.put(aikavali + tyyppi, 0);
+            }
         }
         return harjoituksetMapattuna;
+    }
+
+    /**
+     * Lis‰‰ annetun harjoituksen hashmappiin
+     *
+     * @param aika paiva/viikko/kuukausi/vuosi
+     * @param harjoitus haluttu harjoitus
+     * @param harjoituksetMapattuna mappi johon lis‰t‰‰n
+     * @param kova oliko kova harjoitus
+     */
+    private void lisaaHarjoitusMappiin(String aika, Harjoitus harjoitus, HashMap<String, Integer> harjoituksetMapattuna, boolean kova) {
+        harjoituksetMapattuna.put(aika, harjoituksetMapattuna.get(aika) + 1);
+        harjoituksetMapattuna.put(aika + harjoitus.getTyyppi(), harjoituksetMapattuna.get(aika + harjoitus.getTyyppi()) + 1);
+        if (kova) {
+            harjoituksetMapattuna.put(aika + "Kovat", harjoituksetMapattuna.get(aika + "Kovat") + 1);
+        }
     }
 }

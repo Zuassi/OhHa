@@ -22,7 +22,7 @@ import werkko.harjoitusseuranta.repository.HarjoitusRepository;
 @Service
 public class JpaHarjoitusService implements HarjoitusService {
 
-    @Autowired
+    @Autowired 
     private HarjoitusRepository harjoitusRepository;
 
     /**
@@ -82,10 +82,9 @@ public class JpaHarjoitusService implements HarjoitusService {
      * @param sivuNumero Sivunumero jonka k‰ytt‰j‰ haluaa
      * @param sivuKoko viestej‰ per sivu
      * @param jarjestys haluttu j‰rjestys
-     * @param session sis‰lt‰‰ harjoittelijaIdn
      * @return haluttu sivu
      */
-    public Page<Harjoitus> listHarjoitukset(Integer sivuNumero, Integer sivuKoko, String jarjestys, HttpSession session) {
+    public Page<Harjoitus> listHarjoitukset(Integer sivuNumero, Integer sivuKoko, String jarjestys, Long harjoittelijaId) {
 
         if (jarjestys == null || jarjestys.isEmpty()) {
             jarjestys = "alkamisaika";
@@ -97,10 +96,10 @@ public class JpaHarjoitusService implements HarjoitusService {
 
 
         Pageable request = request = new PageRequest(sivuNumero - 1, sivuKoko, Sort.Direction.DESC, jarjestys);
-        session.setAttribute("viimeisinSort", null);
+       
 
 
-        return harjoitusRepository.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"), request);
+        return harjoitusRepository.findByHarjoittelijaId(harjoittelijaId, request);
     }
 
 

@@ -44,7 +44,7 @@ public class SelaaController {
         }
         
         model.addAttribute("jarjestys", jarjestys);
-        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, session);
+        Page<Harjoitus> harjoitukset = harjoitusService.listHarjoitukset(sivunumero, 6, jarjestys, (Long)session.getAttribute("harjoittelijaId"));
         model.addAttribute("harjoitukset",harjoitukset);
         boolean sivutus = (harjoitukset.getTotalPages() != 0) ? true : false;
         model.addAttribute("sivutus", sivutus);

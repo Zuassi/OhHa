@@ -73,7 +73,7 @@
                 <b>Muita tällä viikolla:</b>${tilasto.viikkoMuu}<br/>
                 <b>Muita tässä kuussa:</b>${tilasto.kuukausiMuu}<br/>
                 <b>Muita tänä vuonna:</b>${tilasto.vuosiMuu}<br/>
-                <b>Muita asetetulla aikavälillä: </b>${tilasto.omaKilpailu}<br/>
+                <b>Muita asetetulla aikavälillä: </b>${tilasto.omaMuu}<br/>
             </div>
 
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
-import werkko.harjoitusseuranta.service.TilastoService;
+
 
 /**
  *
@@ -23,8 +23,7 @@ import werkko.harjoitusseuranta.service.TilastoService;
 @Controller
 public class EtusivuController {
 
-    @Autowired
-    private TilastoService tilastoService;
+
     @Autowired
     private HarjoittelijaService harjoittelijaService;
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();

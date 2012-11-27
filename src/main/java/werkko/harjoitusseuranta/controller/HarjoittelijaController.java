@@ -4,13 +4,11 @@
  */
 package werkko.harjoitusseuranta.controller;
 
-import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +23,7 @@ import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
 import werkko.harjoitusseuranta.service.HarjoittelijaService;
-import werkko.harjoitusseuranta.service.HarjoitusService;
 import werkko.harjoitusseuranta.service.SeurantaavainService;
-import werkko.harjoitusseuranta.service.TilastoService;
 
 /**
  *
@@ -41,10 +37,8 @@ public class HarjoittelijaController {
     private Md5PasswordEncoder md5 = new Md5PasswordEncoder();
     @Autowired
     private SeurantaavainService avainService;
-    @Autowired
-    private TilastoService tilastoService;
-    @Autowired
-    private HarjoitusService harjoitusService;
+
+
 
     /**
      * Luo tunnuksen nimellä asdasd ja salasanalla asdasd testaamista varten
@@ -158,7 +152,7 @@ public class HarjoittelijaController {
         if (session.getAttribute("harjoittelijaId") == null) {
             return "redirect:/";
         }
-        String message = harjoittelijaService.vaihdaSalasana(session, vanhaSalasana, uusiSalasana, uusiSalasana2);
+        String message = harjoittelijaService.vaihdaSalasana((Long)session.getAttribute("harjoittelijaId"), vanhaSalasana, uusiSalasana, uusiSalasana2);
         model.addAttribute("message", message);
 
         return "asetukset_salasana";

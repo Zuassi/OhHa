@@ -4,6 +4,7 @@
  */
 package werkko.harjoitusseuranta.controller;
 
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -36,23 +37,27 @@ public class TilastoController {
 
     /**
      * Palauttaa k‰ytt‰j‰n harjoittelutilastot sivun
+     *
      * @param aikavali k‰ytt‰j‰n itseasettama aikav‰li jota halutaan tarkkailla
-     * @param session sis‰lt‰‰ harjoittelijaId:n 
+     * @param session sis‰lt‰‰ harjoittelijaId:n
      * @param model
      * @return tilastosivu
      */
     @RequestMapping(value = "harjoittelija/tilasto", method = RequestMethod.GET)
     public String getTilasto(@ModelAttribute("aikavali") AikavaliForm aikavali, HttpSession session, Model model) {
-        
-        model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+        Date alkamisaika = (Date) session.getAttribute("alkamisaika");
+        Date loppumisaika = (Date) session.getAttribute("loppumisaika");
+        model.addAttribute("tilasto", tilastoService.keraaTilastot(alkamisaika, loppumisaika,
                 harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
         return "kokonaiset_sivut/tilasto";
     }
 
     /**
-     *Metodi asettaa ja hakee harjoitustilastot halutulta aikav‰lilt‰
+     * Metodi asettaa ja hakee harjoitustilastot halutulta aikav‰lilt‰
+     *
      * @param form aikav‰lin formin validointiin ja luomiseen k‰yttett‰v‰ olio
-     * @param bindingResult sis‰lt‰‰ mahdolliset virheet aikav‰lin asetukseen liittyen
+     * @param bindingResult sis‰lt‰‰ mahdolliset virheet aikav‰lin asetukseen
+     * liittyen
      * @param session sis‰lt‰‰ harjoittelijaIdn
      * @param model
      * @return tilastosivu
@@ -64,10 +69,12 @@ public class TilastoController {
         session.setAttribute("alkamisaika", form.getAlkamisaika());
         session.setAttribute("loppumisaika", form.getLoppumisaika());
         if (session.getAttribute("harjoittelijaId") != null) {
-            model.addAttribute("tilasto", tilastoService.keraaTilastot(session,
+            model.addAttribute("tilasto", tilastoService.keraaTilastot(form.getAlkamisaika(), form.getLoppumisaika(),
                     harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"))));
         } else {
-            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(session));
+            String avain = (String) session.getAttribute("avain");
+
+            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(avain, form.getAlkamisaika(), form.getLoppumisaika()));
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("seuranta_error", "Anna p‰iv‰m‰‰r‰ oikeassa muodossa");
@@ -79,8 +86,11 @@ public class TilastoController {
     }
 
     /**
-     *Tarkastaa lˆytyykˆ seuranta-avainta ja sitten l‰hett‰‰ siihen liittyv‰t tiedot
-     * @param AikavaliForm aikav‰lin formin validointiin ja luomiseen k‰yttett‰v‰ olio
+     * Tarkastaa lˆytyykˆ seuranta-avainta ja sitten l‰hett‰‰ siihen liittyv‰t
+     * tiedot
+     *
+     * @param AikavaliForm aikav‰lin formin validointiin ja luomiseen
+     * k‰yttett‰v‰ olio
      * @param session sis‰lt‰‰ harjoittelijaIdn
      * @param model
      * @param seurantaAvain k‰ytt‰j‰n l‰hett‰m‰ seurattava harjoittelija id
@@ -93,7 +103,10 @@ public class TilastoController {
         if (seurantaService.findByAvain(seurantaAvain) != null) {
             session.setAttribute("avain", seurantaAvain);
             model.addAttribute("seurantaAsetettu", true);
-            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(session));
+            String avain = (String) session.getAttribute("avain");
+            Date alkamisaika = (Date) session.getAttribute("alkamisaika");
+            Date loppumisaika = (Date) session.getAttribute("loppumisaika");
+            model.addAttribute("tilasto", tilastoService.findTilastoByHarjoittelijaSeurantaAvain(avain, alkamisaika,loppumisaika));
 
         } else {
             model.addAttribute("seuranta_message", "Tuntematon seurantakoodi");
