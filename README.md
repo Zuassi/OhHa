@@ -1,1 +1,1 @@
-Jos haluat lis‰t‰ treenityypin lis‰‰ se harjoittelija metodiin + getteri ja setteri, ja SallitutTyypit luokassa olevaan arrayhyn
+Valmis sovellus: http://harjoitusseuranta.herokuapp.com
