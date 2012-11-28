@@ -41,6 +41,9 @@ public class JpaHarjoittelijaService implements HarjoittelijaService {
      * @return harjoittelijaolio
      */
     public Harjoittelija read(Long id) {
+        if(id==null){
+            return null;
+        }
         return harjoittelijaRepository.findOne(id);
     }
 

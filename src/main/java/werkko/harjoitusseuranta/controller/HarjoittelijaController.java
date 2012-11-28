@@ -171,7 +171,7 @@ public class HarjoittelijaController {
         if (session.getAttribute("harjoittelijaId") == null) {
             return "redirect:/";
         }
-        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+       
         if (nimi.length() < 1) {
             model.addAttribute("avain_message", "Anna avaimen omistajan nimi");
             return "asetukset";
@@ -181,8 +181,19 @@ public class HarjoittelijaController {
         avain.setAvain(UUID.randomUUID().toString());
         avain.setHarjoittelijaId((Long) session.getAttribute("harjoittelijaId"));
         avainService.create(avain);
-        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
-        return "asetukset";
+        return "redirect:/harjoittelija/avaimet";
+    }
+    
+    /**Palauttaa halutun käyttäjän avaimet
+     *
+     * @param model
+     * @param session
+     * @return halutun käyttäjän avaimet sisältä sivu
+     */
+    @RequestMapping(value="harjoittelija/avaimet")
+    public String getAvaimet(Model model,HttpSession session){
+         model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
+         return "asetukset";
     }
 
     /**
@@ -199,8 +210,7 @@ public class HarjoittelijaController {
         if (kayttajaOmistaaAvaimen(session, id)) {
             avainService.delete(id);
         }
-        model.addAttribute("avaimet", avainService.findByHarjoittelijaId((Long) session.getAttribute("harjoittelijaId")));
-        return "asetukset";
+        return "redirect:/harjoittelija/avaimet";
     }
 
  /**
@@ -211,9 +221,9 @@ public class HarjoittelijaController {
   */
     
     private boolean kayttajaOmistaaAvaimen(HttpSession session, Long id) {
-        Harjoittelija harjoittelija = harjoittelijaService.read((Long) session.getAttribute("harjoittelijaId"));
+       
         Seurantaavain avain = avainService.read(id);
         Long avaimenOmistaja = avain.getHarjoittelijaId();
-        return avaimenOmistaja.equals(harjoittelija.getId());
+        return avaimenOmistaja.equals((Long)session.getAttribute("harjoittelijaId"));
     }
 }

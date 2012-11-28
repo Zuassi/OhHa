@@ -89,9 +89,6 @@ $(document).ready(function() {
             if(data.indexOf("null")==-1){
                 $("#harjoitus").clearForm();
                
-               
-                $("#harjoitus_lisatty").html("Harjoitus lisätty!");
-                $("#harjoitus_lisatty").addClass("treeni_lisatty").show().fadeOut(3000);
                 
             }
         });

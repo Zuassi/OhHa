@@ -25,3 +25,4 @@ yh‰ poistaa niit‰ halutessaan.
 16.11.2102 noin 3h - Selaamisen ja sivutuksen korjaus ja paljon lis‰‰ testej‰.
 23.11.2012 noin 2h - Javadocien kirjottelut ja linkkitabin korjaus javascriptill‰
 27.11.2012 noin 30min - Sessioneita ei en‰‰ anneta serviceille ja metodia lajitteleHarjoitukset selkeytetty.
+28.11.2012 noin 1h - Sekvenssikaavioiden piirtely

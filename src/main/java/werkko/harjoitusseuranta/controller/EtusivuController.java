@@ -93,9 +93,9 @@ public class EtusivuController {
 
         //jos servicestä löytyy kyseinen nimi tarkastetaan että md5 kryptatut
         //passut on samat ja sen jälkeen asetetaan sessioniin id
-        if (harjoittelijaService.findByNimi(nimi) != null) {
+        Harjoittelija harjoittelija = harjoittelijaService.findByNimi(nimi);
+        if (harjoittelija != null) {
             String md5salasana = md5.encodePassword(salasana, null);
-            Harjoittelija harjoittelija = harjoittelijaService.findByNimi(nimi);
             if (harjoittelija.getSalasana().equals(md5salasana)) {
                 session.setAttribute("harjoittelijaId", harjoittelija.getId());
                 

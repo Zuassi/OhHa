@@ -1,0 +1,16 @@
+title Rekisteröityminen
+
+UI->EtusivuController: etusivu(session)
+EtusivuController->HarjoittelijaService: harjoittelijaService:read(null)
+HarjoittelijaService-->EtusivuController:null
+EtusivuController-->UI: palauttaa etusivun
+UI->HarjoittelijaController: getRekisteröinti()
+HarjoittelijaController-->UI: palauttaa rekisteröintisivun
+UI->HarjoittelijaController:rekisterointi(harjoittelija,bindingResult,model,session)
+HarjoittelijaController->HarjoittelijaService:findByNimi(harjoittelija.getNimi())
+HarjoittelijaService-->HarjoittelijaController:null
+HarjoittelijaController->HarjoittelijaService:create(harjoittelija)
+HarjoittelijaService->HarjoittelijaRepository:save(harjoittelija)
+HarjoittelijaRepository-->HarjoittelijaService:harjoittelija
+HarjoittelijaService-->HarjoittelijaController: harjoittelija
+HarjoittelijaController-->UI: palauttaa home sivun

@@ -25,7 +25,7 @@
                 <div id="valikko">HARJOITUSSEURANTA</div>
 
                 <li><a href="#" data-value="harjoittelija/harjoitus" class ="tab tab_lisaa">Lis‰‰ harjoitus</a></li>
-                <li><a href="#" class="tab tab_selaa" >Selaa harjoituksia</a></li>
+                <li><a href="#" class="tab tab_selaa" >Selaa</a></li>
                 <li><a href="#" class="tab tab_tilasto">Tilastot</a></li>
                 <li><a href="#" class="tab tab_asetukset">Asetukset</a></li>                                                                                
                 <li><a href="${pageContext.request.contextPath}/logout" onclick="displayArticle(4);" class ="vika_linkki" class="tab">Kirjaudu ulos</a></li>

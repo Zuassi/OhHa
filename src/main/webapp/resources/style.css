@@ -110,7 +110,7 @@ h2{
     padding-top: 25px;
     border: 1px solid;
     border-radius:10px;
-    margin-left: 440px;
+    margin-left: 340px;
     height: auto;
 
 
@@ -137,10 +137,8 @@ h2{
 
 #tabit{
 
-
-    margin-right: 50px;
     float:left;
-    width: 300px;
+    width: 250px;
     height:100%;
 
 

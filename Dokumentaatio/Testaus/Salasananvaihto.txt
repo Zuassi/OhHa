@@ -1,0 +1,9 @@
+Salasanan vaihto 5 kirjaimisella salasanalla (minimipituus) kun uudet salasanat on samat ja vanha salasana oikein:
+Onnistuu eli toimii
+
+Salasananvaihto liian lyhyeen salasanaan 
+Ei onnistu eli toimii
+
+Salansananvaihto kun uudet salasanat on kirjotettu eritavalla
+Ei onnistu eli toimii
+

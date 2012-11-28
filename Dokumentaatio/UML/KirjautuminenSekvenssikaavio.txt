@@ -1,0 +1,11 @@
+title Kirjautuminen
+
+UI->EtusivuController: etusivu(session)
+EtusivuController->HarjoittelijaService: harjoittelijaService:read(null)
+EtusivuController --> UI: palauttaa etusivun
+UI->EtusivuController: kirjaudu(nimi,salasana,session,redirectAttributes)
+EtusivuController->HarjoittelijaService:findByNimi(nimi)
+HarjoittelijaService -> HarjoittelijaRepository: findByNimi(nimi)
+HarjoittelijaRepository-->HarjoittelijaService:harjoittelija
+HarjoittelijaService-->EtusivuController:harjoittelija
+EtusivuController-->UI: palauttaa home sivun

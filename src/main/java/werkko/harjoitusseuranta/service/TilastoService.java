@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import werkko.harjoitusseuranta.domain.Harjoittelija;
 import werkko.harjoitusseuranta.domain.Harjoitus;
 import werkko.harjoitusseuranta.domain.Seurantaavain;
 import werkko.harjoitusseuranta.helper.SallitutTyypit;
-import werkko.harjoitusseuranta.repository.HarjoitusRepository;
+
 
 /**
  *
@@ -27,7 +26,7 @@ import werkko.harjoitusseuranta.repository.HarjoitusRepository;
 public class TilastoService {
 
     @Autowired
-    private HarjoitusRepository repo;
+    private HarjoitusService harjoitusService;
     @Autowired
     private HarjoittelijaService harjoittelijaService;
     @Autowired
@@ -61,7 +60,7 @@ public class TilastoService {
     public HashMap<String, Integer> keraaTilastot(Date alkamisaika, Date loppumisaika, Harjoittelija harjoittelija) {
 
 
-        List<Harjoitus> harjoitukset = repo.findByHarjoittelijaId(harjoittelija.getId());
+        List<Harjoitus> harjoitukset = harjoitusService.findByHarjoittelijaId(harjoittelija.getId());
         HashMap<String, Integer> harjoituksetMapattuna = new HashMap<String, Integer>();
         alustaMappi(harjoituksetMapattuna);
         lajitteleHarjoitukset(harjoituksetMapattuna, harjoitukset, alkamisaika, loppumisaika);

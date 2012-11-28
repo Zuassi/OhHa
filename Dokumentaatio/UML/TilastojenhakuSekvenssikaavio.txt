@@ -1,0 +1,10 @@
+title Tilastojen haku
+UI -> TilastoController: getTilasto(aikavali,session,model)
+TilastoController->TilastoService:keraaTilastot(alkamisaika,loppumisaika,harjoittelija)
+TilastoService->HarjoitusService: findByHarjoittelijaId(id)
+HarjoitusService->HarjoitusRepository: findByHarjoittelijaId(id)
+HarjoitusRepository-->HarjoitusService: harjoitukset
+HarjoitusService-->TilastoService: harjoitukset
+TilastoService->TilastoService: lajitteleHarjoitukset(harjoituksetMapattuna,harjoitukset,alkamisaika,loppumisaika)
+TilastoService-->TilastoController:tilastot
+TilastoController->UI: tilastosivu

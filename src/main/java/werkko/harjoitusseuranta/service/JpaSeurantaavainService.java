@@ -22,15 +22,21 @@ public class JpaSeurantaavainService implements SeurantaavainService {
 
     /**
      * Tallettaa halutun avaimen tietokantaan
+     *
      * @param avain haluttu avain
      * @return avain
      */
     public Seurantaavain create(Seurantaavain avain) {
-        return repo.save(avain);
+        if (avain.getHarjoittelijaId() != null) {
+            return repo.save(avain);
+        } else {
+            return null;
+        }
 
     }
 
-    /** Palauttaa seuranta-avaimen tietokannasta id perusteella
+    /**
+     * Palauttaa seuranta-avaimen tietokannasta id perusteella
      *
      * @param id halutun seuranta-avaimen id
      * @return seuranta-avain
@@ -39,7 +45,8 @@ public class JpaSeurantaavainService implements SeurantaavainService {
         return repo.findOne(id);
     }
 
-    /** Poistaa halutun seuranta-avaimen tietokannasta
+    /**
+     * Poistaa halutun seuranta-avaimen tietokannasta
      *
      * @param id
      */
@@ -48,7 +55,8 @@ public class JpaSeurantaavainService implements SeurantaavainService {
 
     }
 
-    /** Etsii seuranta-avaimen tietkokannasta avaimen perusteella
+    /**
+     * Etsii seuranta-avaimen tietkokannasta avaimen perusteella
      *
      * @param avain
      * @return haluttu avain
@@ -57,10 +65,8 @@ public class JpaSeurantaavainService implements SeurantaavainService {
         return repo.findByAvain(avain);
     }
 
-     public List<Seurantaavain> findByHarjoittelijaId(Long id) {
-       
+    public List<Seurantaavain> findByHarjoittelijaId(Long id) {
+
         return repo.findByHarjoittelijaId(id);
     }
-
-
 }

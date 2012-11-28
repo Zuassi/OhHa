@@ -1,0 +1,21 @@
+Luon harjoitukset:
+1.1.1990 10.00 Lajiharjoitus teho 4 
+1.1.2012 12.50 Puntti teho 5
+2.1.2012 12.55 Puntti teho 2
+28.11.2012 12.00 (p‰iv‰ jona testattu) Muu teho 3
+
+1. Tilastossa pit‰isi n‰ky‰ t‰lle p‰iv‰lle yhteens‰ yksi harjoitus joka on kategoriassa Muu
+N‰kyy eli toimii
+
+2. T‰n‰ vuonna pit‰isi olla 3 harjotusta, t‰ss‰ kuussa 1 ja t‰ll‰ viikolla 1
+N‰kyy eli toimii
+
+3. Asetan aikav‰lin 1.1.1980-1.1.2020, pit‰isi n‰ky‰ 4 harjoitusta yhteens‰ joista 2 puntteja, 1 lajiharjoitus 
+ja yksi muu harjoitus sek‰ 2 kovaksi luokiteltua harjoitusta.
+N‰kyy eli toimii
+
+4. Asetan aikav‰lin 1.1.2020 - 2.1.2020, ei pit‰isi n‰ky‰ yht‰‰n harjoitusta asetetulla aikav‰lill‰
+Ei n‰y eli toimii
+
+5. Asetan aikav‰lin 1.1.2012 - 2.1.2012 pit‰isi n‰ky‰ 1 harjoitus joka on puntti ja kova harjoitus
+N‰kyy eli toimii

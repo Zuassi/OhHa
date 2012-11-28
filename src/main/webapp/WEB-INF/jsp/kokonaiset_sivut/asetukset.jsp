@@ -21,6 +21,9 @@
             </article>
             <article>
                 <h2>Luo uusi avain:</h2><br/>
+                <p> Seuranta-avaimen avulla vieras voi seurata harjoittelujesi tilastoja.
+Luo jokaiselle seuraajallesi henkilökohtainen avain jotta voit hallinnoita niitä helposti myöhemmin.</p>
+                <br/>
 
                 <table>
 

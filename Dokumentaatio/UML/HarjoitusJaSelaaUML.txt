@@ -1,5 +1,5 @@
 UI k‰ytt‰‰ Harjoitus- ja SelaaControllereita. HarjoitusControllerin avulla voi ludoa uusia harjoituksia tai hallita
-vanhoja jotka sitten liitet‰‰n tiettyyn harjoittelijaan.Controlleri l‰hett‰‰ uuden harjoituksen servicelle, joka taas 
+vanhoja jotka sitten liitet‰‰n tiettyyn harjoittelijaan. Controlleri l‰hett‰‰ uuden harjoituksen servicelle, joka taas 
 l‰hett‰‰ sen repositorylle talletettavaksi tietokantaan. SelaaControllerin avulla n‰ytet‰‰n harjoitukset tablessa,
 jossa on sarakkeissa kuhunkin harjoitukseen liittyv‰t tiedot. SelaaController pyyt‰‰ HarjotusServicelt‰ halutun 
 sivum‰‰r‰n ja sivunumeron harjoitukset. Service l‰hett‰‰ pyynnˆn repositorylle joka taas hakee tiedot

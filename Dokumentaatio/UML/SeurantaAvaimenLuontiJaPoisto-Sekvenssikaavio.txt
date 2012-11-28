@@ -1,0 +1,30 @@
+title Seuranta-avaimen luonti ja poisto
+UI->HarjoittelijaController: getAsetukset(model,session)
+HarjoittelijaController->AvainService: findByHarjoittleijaId(id)
+AvainService->AvainRepository:findByHarjoittelijaId
+AvainRepository-->AvainService: avaimet
+AvainService --> HarjoittelijaController: avaimet
+HarjoittelijaController-->UI: asetukset sivu avaimineen
+UI->HarjoittelijaController: luoAvain(session,nimi,model)
+HarjoittelijaController->HarjoittelijaController:getAvaimet()
+
+HarjoittelijaController->AvainService: findByHarjoittelijaId(id)
+AvainService->AvainRepository:findByHarjoittelijaId(id)
+AvainRepository-->AvainService:avaimet
+AvainService-->HarjoittelijaController:avaimet
+HarjoittelijaController -->UI: Uudet avaimet
+UI->HarjoittelijaController:poistaAvain(model,session,avainId)
+HarjoittelijaController->HarjoittelijaController:kayttajaOmistaaAvaimen(session,id)
+HarjoittelijaController->AvainService:read(id)
+AvainService->AvainRepository: read(id)
+AvainRepository-->AvainService: avain
+AvainService-->HarjoittelijaController: avain
+HarjoittelijaController-->HarjoittelijaController: true
+HarjoittelijaController->AvainService: delete(id)
+AvainService->AvainRepository: delete(id)
+HarjoittelijaController->HarjoittelijaController:getAvaimet()
+HarjoittelijaController->AvainService: findByHarjoittelijaId(id)
+AvainService->AvainRepository:findByHarjoittelijaId(id)
+AvainRepository-->AvainService:avaimet
+AvainService-->HarjoittelijaController:avaimet
+HarjoittelijaController-->UI: Jäljellejääneet avaimet
