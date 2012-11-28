@@ -1,2 +1,3 @@
 Admin account
 account poisto
+Controllerit palauttamaan JSONia html pätkien sijaan
