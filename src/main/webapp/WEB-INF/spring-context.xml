@@ -56,7 +56,7 @@
     
     <beans profile="production">
         <bean class="java.net.URI" id="dbUrl">
-            <constructor-arg value="postgres://crriueicncojiy:Kra7tFATAoq4SXo2jtxO58g71m@ec2-107-20-199-119.compute-1.amazonaws.com:5432/de8kasimp71i4t"/>
+            <constructor-arg value="postgres://gxnnxjywlbbztk:sNxE58JOJsQJjSSt8vCBXaTOTi@ec2-107-20-195-105.compute-1.amazonaws.com:5432/d9nh1e3sinuaov"/>
         </bean>
         <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
             <property name="driverClassName" value="org.postgresql.Driver"/>
