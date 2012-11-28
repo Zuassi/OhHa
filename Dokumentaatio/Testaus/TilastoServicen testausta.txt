@@ -19,3 +19,6 @@ Ei näy eli toimii
 
 5. Asetan aikavälin 1.1.2012 - 2.1.2012 pitäisi näkyä 1 harjoitus joka on puntti ja kova harjoitus
 Näkyy eli toimii
+
+6. Kokeilen antaako samat tulokset kun käytän seuranta-avainta enkä käyttäjän omaa profiilia
+Antaa eli toimii.

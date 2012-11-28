@@ -116,11 +116,11 @@ $(document).ready(function() {
         
         $.post("seuranta", $("#seuranta_avain").serialize(),function(data){
             $("#sisalto_laatikko").html(data);
-          
+              uusiTabiHeight();
             
             return false;
         });
-        
+       
         return false;
     } );
    
@@ -213,6 +213,7 @@ $(document).ready(function() {
     })
     
     function uusiTabiHeight(){
+
         $("#tabit").css("height","0");
         var size = ($(window).height() > $(document).height()) ? $(window).height() : $(document).height();
         $("#tabit").css("height",size);
